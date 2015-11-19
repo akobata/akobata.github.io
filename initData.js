@@ -100,8 +100,10 @@ function constructCalendarData(academicYear, startDate, conditions){
 	*	For getting the count of days in a month
 	*/
 	function getDaysInMonth(year, month){
-		if(month == 1 && year % 4 == 0)
+		if((month == 1) && (year % 4 == 0)){
 			return DayLimits[month] + 1;
+
+		}
 		return DayLimits[month];
 	}
 	
@@ -159,7 +161,6 @@ function constructCalendarData(academicYear, startDate, conditions){
 			var weekCounter = 0;
 			var dayOfMonth = 1;
 			var dayLimit = getDaysInMonth(yearCounter, monthCounter);
-			
 			//WEEKS**/
 			while(weekCounter < 6){ //six to fill the calendar data space
 			
@@ -167,15 +168,15 @@ function constructCalendarData(academicYear, startDate, conditions){
 				var weekDayCounter = 0;
 				
 				//fill days in beginning of month
-				while(weekDayCounter < startDay && dayOfMonth <= dayLimit){
+
+				while((weekDayCounter < startDay) && (dayOfMonth <= dayLimit)){
 					var day = new Day(0, weekDayCounter, 7, 4);
 					weekDayCounter++;
 					week.daySet.push(day);
 				}//stop filling
-				
 				//DAYS**/
 				//here is where the true days are added to the calendar
-				while(weekDayCounter < 7 && dayOfMonth <= dayLimit){
+				while(weekDayCounter < 7 && (dayOfMonth <= dayLimit)){
 				
 					var day = new Day(dayOfMonth, weekDayCounter, 8, 4);
 					dayOfMonth++;
@@ -188,7 +189,6 @@ function constructCalendarData(academicYear, startDate, conditions){
 						day.type = "WKND";
 					data.candidateEntryData.push(day);
 				}//stop adding days
-				
 				//fill days at end of month
 				while(dayOfMonth > dayLimit && weekDayCounter < 7){
 					var day = new Day(0, weekDayCounter, 7, 4);
@@ -1476,6 +1476,7 @@ function customEvening(error){
 			break;
 	}
 }
+
 function overlayStrategy(strategy1, strategy2){
 	for(var i = 0; i < 8; i++){
 		switch(strategy1[i]){
