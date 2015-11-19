@@ -13,6 +13,10 @@
         vm.showIdRadio = false;
         vm.year = new Date().getFullYear();
         vm.gui = null;
+
+        // temp
+        vm.count = 0;
+
         vm.selections = {
             rules: []
         };
@@ -48,7 +52,7 @@
         vm.constructCalendar = function(year) {
             vm.year = year;
             console.log('CONSTRUCT CALENDAR WITH: '+vm.year);
-            vm.gui = dataService.constructCalendarData(year);
+//            vm.gui = dataService.constructCalendarData(year);
             console.log('GUI TREE:');
             console.log(vm.gui);
         };
