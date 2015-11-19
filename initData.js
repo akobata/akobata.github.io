@@ -458,9 +458,7 @@ function SetHolidays(candidateEntry){
 	SetHoliday(candidateEntry, candidateEntry.monthMarkers["NOVEMBER"] + 10, "VETERANS");
 	SetDayHoliday(candidateEntry, candidateEntry.monthMarkers["NOVEMBER"], "THU",4, "THANKSGIVING", null);
 	SetHoliday(candidateEntry, candidateEntry.holidayMarkers["THANKSGIVING"] + 1, null);
-	else{
-		SetDayHoliday(candidateEntry, candidateEntry.monthMarkers["NOVEMBER"], "FRI", 4);
-	}
+
 	//DECEMBER
 	for(var i = 0; i < 7; i++)
 		SetHoliday(candidateEntry, candidateEntry.monthMarkers["DECEMBER"] + 24 + i);
