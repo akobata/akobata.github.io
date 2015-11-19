@@ -58,10 +58,10 @@
     <div>
         <!--<div ng-show="cal.showSelections">-->
         <!-- COMMENT THIS LABEL + DIV OUT -->
-        <label>Selections made:</label>
-        <div ng-repeat="selection in cal.selections.rules">
-            {{selection}}
-        </div><br/><br/>
+        <!--<label>Selections made:</label>-->
+        <!--<div ng-repeat="selection in cal.selections.rules">-->
+            <!--{{selection}}-->
+        <!--</div><br/><br/>-->
 
 
 
@@ -121,20 +121,21 @@
 
         <!-- This Calendar section uses data-structure-controller.js -->
         <div ng-controller="dataCtrl as data">
-            <table cellpadding="1" cellspacing="1" border="1" width="100">
-                <thead>
-            <th><strong>Color Legend</strong></th>
-            </thead>
-                <tbody>
-                <tr ng-repeat="type in data.typesOfDays">
-                    <td ng-class="type">{{type}}</td>
-                </tr>
-                </tbody>
-            </table><br/><br/>
 
             <button type="button" class="btn btn-default" ng-click="cal.finished();data.getCalendar(cal.year)">Create Calendar</button><br/><br/>
 
             <div ng-show="data.gui != null">
+                <table cellpadding="1" cellspacing="1" border="1" width="100">
+                    <thead>
+                    <th><strong>Color Legend</strong></th>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="type in data.typesOfDays">
+                        <td ng-class="type">{{type}}</td>
+                    </tr>
+                    </tbody>
+                </table><br/><br/>
+
                 <!--<div ng-repeat="month in data.gui.guiTree">-->
                     <!--1 - {{month}}-->
                     <!--<div ng-repeat="week in month.weekSet">-->
@@ -145,166 +146,202 @@
                     <!--</div>-->
                     <!--<br/><br/><br/>-->
                 <!--</div>-->
-                <div ng-repeat="month in data.gui.guiTree">
-                    <!--<table class="table table-bordered">-->
-                    <table cellpadding="1" cellspacing="1" border="1" width="300">
-                        <thead>
-                        <th colspan="7">{{month.monthName}} {{data.year}}</th>
-                        <!--{{month.weekSet.daySet.year}}-->
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th>Sun</th>
-                            <th>Mon</th>
-                            <th>Tue</th>
-                            <th>Wed</th>
-                            <th>Thu</th>
-                            <th>Fri</th>
-                            <th>Sat</th>
-                        </tr>
-                        <tr ng-repeat="week in month.weekSet">
-                            <td ng-repeat="day in week.daySet" ng-class="day.type"><label ng-show="day.dayNumber != 0">{{day.dayNumber}}</label></td>
-                        </tr>
-                        </tbody>
-                        <tfooter></tfooter>
-                    </table><br/><br/>
+
+                <div class="row" ng-repeat="row in data.totalCalSplit">
+                    <div class="col-sm-3" ng-repeat="month in row">
+                        <table cellpadding="1" cellspacing="1" border="1" width="250">
+                            <thead>
+                            <th colspan="7">{{month.monthName}} {{data.year}}</th>
+                            <!--{{month.weekSet.daySet.year}}-->
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th>Sun</th>
+                                <th>Mon</th>
+                                <th>Tue</th>
+                                <th>Wed</th>
+                                <th>Thu</th>
+                                <th>Fri</th>
+                                <th>Sat</th>
+                            </tr>
+                            <tr ng-repeat="week in month.weekSet">
+                                <td ng-repeat="day in week.daySet" ng-class="day.type"><label ng-show="day.dayNumber != 0">{{day.dayNumber}}</label></td>
+                            </tr>
+                            </tbody>
+                            <tfooter></tfooter>
+                        </table><br/><br/>
+                    </div>
                 </div>
 
-                <table cellpadding="1" cellspacing="1" border="1" width="400">
-                    <thead>
-                    <th colspan="6">Count by month</th>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th>Fall</th>
-                        <th>AWD</th>
-                        <th>ID</th>
-                        <th>Spring</th>
-                        <th>AWD</th>
-                        <th>ID</th>
-                    </tr>
-                    <tr>
-                        <td>Aug</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_AUG}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_AUG}}</td>
-                        <td>Jan</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_JAN}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_JAN}}</td>
-                    </tr>
-                    <tr>
-                        <td>Sep</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SEP}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_SEP}}</td>
-                        <td>Feb</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FEB}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_FEB}}</td>
-                    </tr>
-                    <tr>
-                        <td>Oct</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_OCT}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_OCT}}</td>
-                        <td>Mar</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_MAR}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_MAR}}</td>
-                    </tr>
-                    <tr>
-                        <td>Nov</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_NOV}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_NOV}}</td>
-                        <td>Apr</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_APR}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_APR}}</td>
-                    </tr>
-                    <tr>
-                        <td>Dec</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_DEC}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_DEC}}</td>
-                        <td>May</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_MAY}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_MAY}}</td>
-                    </tr>
-                    <tr>
-                        <td>Total</td> <!-- ACAD_FALL, INST_SPRING -->
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_AUG}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_AUG}}</td>
-                        <td>Total</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_AUG}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_AUG}}</td>
-                    </tr>
-                    </tbody>
-                </table><br/><br/>
+                <br/><br/>
 
-                <table cellpadding="1" cellspacing="1" border="1" width="400">
-                    <thead>
-                    <th colspan="6">Count by day</th>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th>Fall</th>
-                        <th>AWD</th>
-                        <th>ID</th>
-                        <th>Spring</th>
-                        <th>AWD</th>
-                        <th>ID</th>
-                    </tr>
-                    <tr>
-                        <td>M</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_MON}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_MON}}</td>
-                        <td>M</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_MON}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_MON}}</td>
-                    </tr>
-                    <tr>
-                        <td>T</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_TUE}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_TUE}}</td>
-                        <td>T</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_TUE}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_TUE}}</td>
-                    </tr>
-                    <tr>
-                        <td>W</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_WED}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_WED}}</td>
-                        <td>W</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_WED}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_WED}}</td>
-                    </tr>
-                    <tr>
-                        <td>R</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_THU}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_THU}}</td>
-                        <td>R</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_THU}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_THU}}</td>
-                    </tr>
-                    <tr>
-                        <td>F</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_FRI}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_FRI}}</td>
-                        <td>F</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_FRI}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_FRI}}</td>
-                    </tr>
-                    <tr>
-                        <td>Sa</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_SAT}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_SAT}}</td>
-                        <td>Sa</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_SAT}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_SAT}}</td>
-                    </tr>
-                    <tr>
-                        <td>Total</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_AUG}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_AUG}}</td>
-                        <td>Total</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_AUG}}</td>
-                        <td>{{data.gui.candidateEntryData.reportCounts.INST_AUG}}</td>
-                    </tr>
-                    </tbody>
-                </table><br/><br/>
+
+                <!--<div ng-repeat="month in data.gui.guiTree">-->
+                    <!--&lt;!&ndash;<table class="table table-bordered">&ndash;&gt;-->
+                    <!--<table cellpadding="1" cellspacing="1" border="1" width="300">-->
+                        <!--<thead>-->
+                        <!--<th colspan="7">{{month.monthName}} {{data.year}}</th>-->
+                        <!--&lt;!&ndash;{{month.weekSet.daySet.year}}&ndash;&gt;-->
+                        <!--</thead>-->
+                        <!--<tbody>-->
+                        <!--<tr>-->
+                            <!--<th>Sun</th>-->
+                            <!--<th>Mon</th>-->
+                            <!--<th>Tue</th>-->
+                            <!--<th>Wed</th>-->
+                            <!--<th>Thu</th>-->
+                            <!--<th>Fri</th>-->
+                            <!--<th>Sat</th>-->
+                        <!--</tr>-->
+                        <!--<tr ng-repeat="week in month.weekSet">-->
+                            <!--<td ng-repeat="day in week.daySet" ng-class="day.type"><label ng-show="day.dayNumber != 0">{{day.dayNumber}}</label></td>-->
+                        <!--</tr>-->
+                        <!--</tbody>-->
+                        <!--<tfooter></tfooter>-->
+                    <!--</table><br/><br/>-->
+                <!--</div>-->
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <table cellpadding="1" cellspacing="1" border="1" width="400">
+                            <thead>
+                            <th colspan="6">Count by month</th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th>Fall</th>
+                                <th>AWD</th>
+                                <th>ID</th>
+                                <th>Spring</th>
+                                <th>AWD</th>
+                                <th>ID</th>
+                            </tr>
+                            <tr>
+                                <td>Aug</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_AUG}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_AUG}}</td>
+                                <td>Jan</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_JAN}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_JAN}}</td>
+                            </tr>
+                            <tr>
+                                <td>Sep</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SEP}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_SEP}}</td>
+                                <td>Feb</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FEB}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_FEB}}</td>
+                            </tr>
+                            <tr>
+                                <td>Oct</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_OCT}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_OCT}}</td>
+                                <td>Mar</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_MAR}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_MAR}}</td>
+                            </tr>
+                            <tr>
+                                <td>Nov</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_NOV}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_NOV}}</td>
+                                <td>Apr</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_APR}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_APR}}</td>
+                            </tr>
+                            <tr>
+                                <td>Dec</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_DEC}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_DEC}}</td>
+                                <td>May</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_MAY}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_MAY}}</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td> <!-- ACAD_FALL, INST_SPRING -->
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_AUG}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_AUG}}</td>
+                                <td>Total</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_AUG}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_AUG}}</td>
+                            </tr>
+                            </tbody>
+                        </table><br/><br/>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <table cellpadding="1" cellspacing="1" border="1" width="400">
+                            <thead>
+                            <th colspan="6">Count by day</th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th>Fall</th>
+                                <th>AWD</th>
+                                <th>ID</th>
+                                <th>Spring</th>
+                                <th>AWD</th>
+                                <th>ID</th>
+                            </tr>
+                            <tr>
+                                <td>M</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_MON}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_MON}}</td>
+                                <td>M</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_MON}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_MON}}</td>
+                            </tr>
+                            <tr>
+                                <td>T</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_TUE}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_TUE}}</td>
+                                <td>T</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_TUE}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_TUE}}</td>
+                            </tr>
+                            <tr>
+                                <td>W</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_WED}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_WED}}</td>
+                                <td>W</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_WED}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_WED}}</td>
+                            </tr>
+                            <tr>
+                                <td>R</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_THU}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_THU}}</td>
+                                <td>R</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_THU}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_THU}}</td>
+                            </tr>
+                            <tr>
+                                <td>F</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_FRI}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_FRI}}</td>
+                                <td>F</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_FRI}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_FRI}}</td>
+                            </tr>
+                            <tr>
+                                <td>Sa</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_SAT}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_SAT}}</td>
+                                <td>Sa</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_SAT}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_SAT}}</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_AUG}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_AUG}}</td>
+                                <td>Total</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_AUG}}</td>
+                                <td>{{data.gui.candidateEntryData.reportCounts.INST_AUG}}</td>
+                            </tr>
+                            </tbody>
+                        </table><br/><br/>
+                    </div>
+                </div>
 
                 <table cellpadding="1" cellspacing="1" border="1" width="500">
                     <thead>

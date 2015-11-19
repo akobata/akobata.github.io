@@ -8,6 +8,8 @@
         var vm = this;
 
         vm.gui = null;
+        vm.calRowSplit = [];
+        vm.totalCalSplit = [];
         vm.year = null;
         vm.typesOfDays = ["ACAD", "INST", "CONV", "COMM", "FINL", "HOLI", "WKND", "FILL", "OPEN", "UNK"];
 
@@ -15,6 +17,21 @@
             vm.year = year;
             vm.gui = constructCalendarData(year);
             console.log(vm.gui);
+            var counter = 0;
+            vm.calRowSplit = [];
+            vm.totalCalSplit = [];
+            for(var month in vm.gui.guiTree){
+//            	console.log(vm.gui.guiTree[month]);
+            	if(++counter % 5 != 0){
+            		vm.calRowSplit.push(vm.gui.guiTree[month]);
+            	} else {
+            		console.log(vm.calRowSplit);
+            		vm.totalCalSplit.push(vm.calRowSplit);
+            		vm.calRowSplit = [];
+            	}
+            }
+            console.log('Done with splitting:');
+            console.log(vm.totalCalSplit);
         };
 
 //        var fallStart = vm.gui.candidateEntryData.previousYearEnd;
