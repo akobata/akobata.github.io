@@ -23,12 +23,15 @@
 
         vm.softRules = {
             weekdayIdNum: 'Even distribution of one day per week classes (14-15)',
-            fallStartMon: 'Fall semester starts on a Monday',
-            summerToFallMoreThanWeek: 'Difference between the end of Summer and start of Fall semester is more than 7 calendar days',
             convocationFriBeforeFirstID: 'Convocation is a Friday before the first Instructional Day (ID) of Fall semester',
+            fallStartMon: 'Fall semester starts on a Monday',
             extendedFallBreak: 'Extended Fall break (take off Monday-Wednesday before Thanksgiving)',
+            fallFinalsMonday: 'Fall semester finals start on a Monday - NEW',
+            summerToFallMoreThanWeek: 'Difference between the end of Summer and start of Fall semester is more than 7 calendar days',
+            CesarChavezInSpringBreak: 'Attempt to put Cesar Chavez Day in Spring Break',
+            springFinalsMonday: 'Spring semester finals start on a Monday - NEW',
             commencementTueFri: 'Commencement is Tuesday - Friday',
-            CesarChavezInSpringBreak: 'Attempt to put Cesar Chavez Day in Spring Break'
+            commencementBeforeMemorial: 'Commencement is before Memorial Day - NEW'
         };
 
         vm.rulesContainCtrlId = function() {

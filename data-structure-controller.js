@@ -12,6 +12,18 @@
         vm.totalCalSplit = [];
         vm.year = null;
         vm.typesOfDays = ["ACAD", "INST", "CONV", "COMM", "FINL", "HOLI", "WKND", "FILL", "OPEN", "UNK"];
+		vm.dayTypes = {
+			ACAD: 'Academic Work Day',
+			INST: 'Instructional Day',
+			CONV: 'Convocation',
+			COMM: 'Commencement',
+			FINL: 'Finals',
+			HOLI: 'Holiday',
+			WKND: 'Weekend',
+			FILL: 'Fill',
+			OPEN: 'Open',
+			UNK: 'Unknown'
+		};
 
         vm.getCalendar = function(year){
             vm.year = year;
@@ -26,14 +38,19 @@
             vm.totalCalSplit = [];
             for(var month in vm.gui.guiTree){
 //            	console.log(vm.gui.guiTree[month]);
-            	if(++counter % 5 != 0){
+				console.log(month);
+				counter++;
+            	if(counter <= 4){
             		vm.calRowSplit.push(vm.gui.guiTree[month]);
             	} else {
+            		counter = 1;
             		console.log(vm.calRowSplit);
             		vm.totalCalSplit.push(vm.calRowSplit);
             		vm.calRowSplit = [];
+            		vm.calRowSplit.push(vm.gui.guiTree[month]);
             	}
             }
+            vm.totalCalSplit.push(vm.calRowSplit);
             console.log('Done with splitting:');
             console.log(vm.totalCalSplit);
         };

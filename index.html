@@ -28,10 +28,15 @@
 
     <h1>Create an Academic Calendar</h1>
     <div>
+        <!-- do I need to have the form? -->
         <form class="form-horizontal">
-            <div class="form-group">
-                <label></label>
-            </div>
+            <!--<div class="form-group">-->
+                <!--<label>Guaranteed hard rules:</label>-->
+                <!--<ul>-->
+                    <!--<li>[Input list of hard rules here]</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+            <br/>
             <label>Select the calendar year to create a calendar in:</label>
             <select ng-model="cal.year">
                 <!--<option value="">Select year</option>-->
@@ -42,10 +47,10 @@
                 <option value="2019">2019-2020</option>
                 <option value="2020">2020-2021</option>
             </select><br/><br/>
-            <div class="form-group">
-
-            </div>
-            <br/>
+            <label>Guaranteed hard rules:</label>
+            <ul>
+                <li>[Input list of hard rules here]</li>
+            </ul><br/>
             <label>Select the checkboxes of the soft rules to guarantee:</label>
             <label class="checkbox-list" ng-repeat="(key,value) in cal.softRules">
                 <input type="checkbox" checklist-model="cal.selections.rules" checklist-value="key" ng-click="cal.rulesContainCtrlId()"> {{value}}
@@ -125,16 +130,16 @@
             <button type="button" class="btn btn-default" ng-click="cal.finished();data.getCalendar(cal.year)">Create Calendar</button><br/><br/>
 
             <div ng-show="data.gui != null">
-                <table cellpadding="1" cellspacing="1" border="1" width="100">
+                <table cellpadding="1" cellspacing="1" border="1" width="100%">
                     <thead>
-                    <th><strong>Color Legend</strong></th>
+                    <th colspan="2"><strong>Color Legend</strong></th>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="type in data.typesOfDays">
-                        <td ng-class="type">{{type}}</td>
+                    <tr>
+                        <td ng-repeat="(key,value) in data.dayTypes" ng-class="key">{{value}}</td>
                     </tr>
                     </tbody>
-                </table><br/><br/>
+                </table><br/>
 
                 <!--<div ng-repeat="month in data.gui.guiTree">-->
                     <!--1 - {{month}}-->
@@ -169,11 +174,11 @@
                             </tr>
                             </tbody>
                             <tfooter></tfooter>
-                        </table><br/><br/>
+                        </table><br/>
                     </div>
                 </div>
 
-                <br/><br/>
+                <!--<br/><br/>-->
 
 
                 <!--<div ng-repeat="month in data.gui.guiTree">-->
