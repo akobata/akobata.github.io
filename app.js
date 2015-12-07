@@ -1,7 +1,4 @@
 (function(){
     'use strict';
-
-    angular.module('calendar',['checklist-model']);
-
-    console.log('Hello');
+    angular.module('calendar',['ui.bootstrap','checklist-model']);
 }());

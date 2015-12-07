@@ -10,9 +10,8 @@
         vm.gui = null;
         vm.calRowSplit = [];
         vm.totalCalSplit = [];
-        vm.twoCalendarsArr = [];
-        vm.year = null;
-        vm.typesOfDays = ["ACAD", "INST", "CONV", "COMM", "FINL", "HOLI", "WKND", "FILL", "OPEN", "UNK"];
+        vm.totalCalendarsArr = [];
+        vm.year = new Date().getFullYear();
 		vm.dayTypes = {
 			ACAD: 'Academic Work Day',
 			INST: 'Instructional Day',
@@ -26,40 +25,98 @@
 			UNK: 'Unknown'
 		};
 
-        vm.getCalendar = function(year){
-            vm.year = year;
+		vm.hardRules = [
+			"Fall semester is at least 15 weeks long",
+			"Spring semester is at least 15 weeks long",
+			"Between 145 and 149 Instructional Days",
+			"Between 170 and 180 Academic Work Days",
+			"Fall and Spring semesters do not start on a Friday",
+			"Fall and Spring finals are a full week, not including Sunday",
+			"Fall semester must start between Aug 17 and Sep 1",
+			"Spring semester must start before Jan 15",
+			"Summer session must start between May 31 and Aug 31",
+			"2-5 days between Convocation and the beginning of Fall semester",
+			"12-15 Winter Instructional Days",
+			"Summer is at least 12 weeks",
+			"4 days reserved for Commencement",
+			"Fall and Spring Breaks are a calendar week"
+		];
+
+		vm.selections = {
+			rules: []
+		};
+
+		vm.softRules = {
+			weekdayIdNum: 'Even distribution of one day per week classes (14-15)',
+			convocationFriBeforeFirstID: 'Convocation is a Friday before the first Instructional Day (ID) of Fall semester',
+			fallStartMon: 'Fall semester starts on a Monday',
+			extendedFallBreak: 'Extended Fall break (take off Monday-Wednesday before Thanksgiving)',
+			fallFinalsMonday: 'Fall semester finals start on a Monday - NEW',
+			summerToFallMoreThanWeek: 'Difference between the end of Summer and start of Fall semester is more than 7 calendar days',
+			CesarChavezInSpringBreak: 'Attempt to put Cesar Chavez Day in Spring Break',
+			springFinalsMonday: 'Spring semester finals start on a Monday - NEW',
+			commencementTueFri: 'Commencement is Tuesday - Friday',
+			commencementBeforeMemorial: 'Commencement is before Memorial Day - NEW'
+		};
+
+        vm.getCalendar = function(){
+			console.log('SEND INFORMATION FOR BACKEND : '+vm.year);
+			console.log(vm.selections.rules);
+            //setting the initials for the constructCalendarData
             var startDate = {};
 			startDate.month = "AUG";
 			startDate.day = 22;
-			var conditions = [1,1,1,1,1,1,1];
-            vm.gui = constructCalendarData(year, startDate, conditions);
+			var conditions = [1,1,1,1,1,1,1]; // ?????
+            vm.gui = constructCalendarData(parseInt(vm.year), startDate, conditions);
+
             console.log(vm.gui);
+//            console.log(vm.gui.candidateEntryData);
+
+            // splitting the calendar for display
+            vm.totalCalSplit = splitCalendar(vm.gui.guiTree);
+
+			// create a second "option" for display (the next year)
+			var secondYear = constructCalendarData(parseInt(vm.year)+1,startDate,conditions);
+			var secondSplit = splitCalendar(secondYear.guiTree);
+
+            vm.totalCalendarsArr = [];
+
+            // !!!!!!
+            // will somehow need to push each of the calendar sets onto the array
+            vm.totalCalendarsArr.push({
+            	'calendar': vm.totalCalSplit,
+            	'candidateEntryData': vm.gui.candidateEntryData
+            });
+            vm.totalCalendarsArr.push({
+            	'calendar': secondSplit,
+            	'candidateEntryData': secondYear.candidateEntryData
+            });
+            console.log('Putting the arrays in a list for the drop-downs:');
+            console.log(vm.totalCalendarsArr);
+        };
+
+		// splitting the calendar for display
+        function splitCalendar(calendar){
             var counter = 0;
-            vm.calRowSplit = [];
-            vm.totalCalSplit = [];
-            vm.twoCalendarsArr = [];
-            for(var month in vm.gui.guiTree){
-//            	console.log(vm.gui.guiTree[month]);
-				console.log(month);
+            var calRowSplit = [];
+            var totalCalSplit = [];
+            for(var month in calendar){
 				counter++;
             	if(counter <= 4){
-            		vm.calRowSplit.push(vm.gui.guiTree[month]);
+            		calRowSplit.push(calendar[month]);
             	} else {
             		counter = 1;
-            		console.log(vm.calRowSplit);
-            		vm.totalCalSplit.push(vm.calRowSplit);
-            		vm.calRowSplit = [];
-            		vm.calRowSplit.push(vm.gui.guiTree[month]);
+//            		console.log(calRowSplit);
+            		totalCalSplit.push(calRowSplit);
+            		calRowSplit = [];
+            		calRowSplit.push(calendar[month]);
             	}
             }
-            vm.totalCalSplit.push(vm.calRowSplit);
+            totalCalSplit.push(calRowSplit);
             console.log('Done with splitting:');
-            console.log(vm.totalCalSplit);
-            vm.twoCalendarsArr.push(vm.totalCalSplit);
-            vm.twoCalendarsArr.push(vm.totalCalSplit);
-            console.log('Added the two arrays:');
-            console.log(vm.twoCalendarsArr);
-        };
+            console.log(totalCalSplit);
+            return totalCalSplit;
+        }
 
 //        var fallStart = vm.gui.candidateEntryData.previousYearEnd;
 //        fallStart.month;
