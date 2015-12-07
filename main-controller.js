@@ -34,6 +34,23 @@
             commencementBeforeMemorial: 'Commencement is before Memorial Day - NEW'
         };
 
+        vm.hardRules = [
+            "Fall semester is at least 15 weeks long",
+            "Spring semester is at least 15 weeks long",
+            "Between 145 and 149 Instructional Days",
+            "Between 170 and 180 Academic Work Days",
+            "Fall and Spring semesters do not start on a Friday",
+            "Fall and Spring finals are a full week, not including Sunday",
+            "Fall semester must start between Aug 17 and Sep 1",
+            "Spring semester must start before Jan 15",
+            "Summer session must start between May 31 and Aug 31",
+            "2-5 days between Convocation and the beginning of Fall semester",
+            "12-15 Winter Instructional Days",
+            "Summer is at least 12 weeks",
+            "4 days reserved for Commencement",
+            "Fall and Spring Breaks are a calendar week"
+        ];
+
         vm.rulesContainCtrlId = function() {
             for(var i in vm.selections.rules){
                 //console.log(vm.selections.rules[i]);

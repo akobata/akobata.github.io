@@ -10,6 +10,7 @@
         vm.gui = null;
         vm.calRowSplit = [];
         vm.totalCalSplit = [];
+        vm.twoCalendarsArr = [];
         vm.year = null;
         vm.typesOfDays = ["ACAD", "INST", "CONV", "COMM", "FINL", "HOLI", "WKND", "FILL", "OPEN", "UNK"];
 		vm.dayTypes = {
@@ -36,6 +37,7 @@
             var counter = 0;
             vm.calRowSplit = [];
             vm.totalCalSplit = [];
+            vm.twoCalendarsArr = [];
             for(var month in vm.gui.guiTree){
 //            	console.log(vm.gui.guiTree[month]);
 				console.log(month);
@@ -53,6 +55,10 @@
             vm.totalCalSplit.push(vm.calRowSplit);
             console.log('Done with splitting:');
             console.log(vm.totalCalSplit);
+            vm.twoCalendarsArr.push(vm.totalCalSplit);
+            vm.twoCalendarsArr.push(vm.totalCalSplit);
+            console.log('Added the two arrays:');
+            console.log(vm.twoCalendarsArr);
         };
 
 //        var fallStart = vm.gui.candidateEntryData.previousYearEnd;

@@ -10,6 +10,7 @@
     <script src='libs/checklist-model.js'></script>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css"/>
     <link rel="stylesheet" href="style.css"/>
+    <!--<script src='libs/ui-bootstrap-0.14.3.min.js'></script>-->
     <script src="app.js"></script>
     <!--The following two scripts are supposed to be equivalent to the initData.js-->
     <!--Currently, data-structure-controller makes initData into an angular controller-->
@@ -30,12 +31,6 @@
     <div>
         <!-- do I need to have the form? -->
         <form class="form-horizontal">
-            <!--<div class="form-group">-->
-                <!--<label>Guaranteed hard rules:</label>-->
-                <!--<ul>-->
-                    <!--<li>[Input list of hard rules here]</li>-->
-                <!--</ul>-->
-            <!--</div>-->
             <br/>
             <label>Select the calendar year to create a calendar in:</label>
             <select ng-model="cal.year">
@@ -49,7 +44,7 @@
             </select><br/><br/>
             <label>Guaranteed hard rules:</label>
             <ul>
-                <li>[Input list of hard rules here]</li>
+                <li ng-repeat="rule in cal.hardRules">{{rule}}</li>
             </ul><br/>
             <label>Select the checkboxes of the soft rules to guarantee:</label>
             <label class="checkbox-list" ng-repeat="(key,value) in cal.softRules">
@@ -61,16 +56,6 @@
     <!--<button type="button" class="btn btn-default" ng-click="cal.finished()">Create Calendar</button><br/><br/>-->
 
     <div>
-        <!--<div ng-show="cal.showSelections">-->
-        <!-- COMMENT THIS LABEL + DIV OUT -->
-        <!--<label>Selections made:</label>-->
-        <!--<div ng-repeat="selection in cal.selections.rules">-->
-            <!--{{selection}}-->
-        <!--</div><br/><br/>-->
-
-
-
-
         <!-- This section attempts to use the dataService -->
         <!--<div>-->
             <!--<select ng-model="cal.year" ng-change="cal.constructCalendar(cal.year)">-->
@@ -120,10 +105,6 @@
         <!--</div>-->
 
 
-
-
-
-
         <!-- This Calendar section uses data-structure-controller.js -->
         <div ng-controller="dataCtrl as data">
 
@@ -141,6 +122,7 @@
                     </tbody>
                 </table><br/>
 
+                <!-- The following is to display what the ng-repeats will be getting -->
                 <!--<div ng-repeat="month in data.gui.guiTree">-->
                     <!--1 - {{month}}-->
                     <!--<div ng-repeat="week in month.weekSet">-->
@@ -156,7 +138,7 @@
                     <div class="col-sm-3" ng-repeat="month in row">
                         <table cellpadding="1" cellspacing="1" border="1" width="250">
                             <thead>
-                            <th colspan="7">{{month.monthName}} {{data.year}}</th>
+                            <th colspan="7">{{month.monthName}} {{month.yearNumber}}</th>
                             <!--{{month.weekSet.daySet.year}}-->
                             </thead>
                             <tbody>
@@ -178,9 +160,57 @@
                     </div>
                 </div>
 
-                <!--<br/><br/>-->
+
+                <!-- The following is to get the collapsible panels working -->
+                <!--<script type="text/ng-template" id="accordion.html">-->
+                    <!--<div class="panel {{panelClass || 'panel-default'}}">-->
+                        <!--<div class="panel-heading">-->
+                            <!--<h4 class="panel-title" style="color:#fa39c3">-->
+                                <!--<a href tabindex="0" class="accordion-toggle" ng-click="toggleOpen()" uib-accordion-transclude="heading"><span-->
+                                        <!--ng-class="{'text-muted': isDisabled}">{{heading}}</span></a>-->
+                            <!--</h4>-->
+                        <!--</div>-->
+                        <!--<div class="panel-collapse collapse" uib-collapse="!isOpen">-->
+                            <!--<div class="panel-body" style="text-align: right" ng-transclude></div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</script>-->
+
+                <!--<accordion>-->
+
+                    <!--<accordion-group ng-repeat="option in data.twoCalendarsArr">-->
+                        <!--<accordion-heading>Option</accordion-heading>-->
+                        <!--<div class="row" ng-repeat="row in data.totalCalSplit">-->
+                            <!--<div class="col-sm-3" ng-repeat="month in row">-->
+                                <!--<table cellpadding="1" cellspacing="1" border="1" width="250">-->
+                                    <!--<thead>-->
+                                    <!--<th colspan="7">{{month.monthName}} {{month.yearNumber}}</th>-->
+                                    <!--&lt;!&ndash;{{month.weekSet.daySet.year}}&ndash;&gt;-->
+                                    <!--</thead>-->
+                                    <!--<tbody>-->
+                                    <!--<tr>-->
+                                        <!--<th>Sun</th>-->
+                                        <!--<th>Mon</th>-->
+                                        <!--<th>Tue</th>-->
+                                        <!--<th>Wed</th>-->
+                                        <!--<th>Thu</th>-->
+                                        <!--<th>Fri</th>-->
+                                        <!--<th>Sat</th>-->
+                                    <!--</tr>-->
+                                    <!--<tr ng-repeat="week in month.weekSet">-->
+                                        <!--<td ng-repeat="day in week.daySet" ng-class="day.type"><label ng-show="day.dayNumber != 0">{{day.dayNumber}}</label></td>-->
+                                    <!--</tr>-->
+                                    <!--</tbody>-->
+                                    <!--<tfooter></tfooter>-->
+                                <!--</table><br/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</accordion-group>-->
+
+                <!--</accordion>-->
 
 
+                <!-- The following is to display all months in order vertically -->
                 <!--<div ng-repeat="month in data.gui.guiTree">-->
                     <!--&lt;!&ndash;<table class="table table-bordered">&ndash;&gt;-->
                     <!--<table cellpadding="1" cellspacing="1" border="1" width="300">-->
