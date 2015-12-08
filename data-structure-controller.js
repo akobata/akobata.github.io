@@ -21,10 +21,10 @@
 			COMM: 'Commencement',
 			FINL: 'Finals',
 			HOLI: 'Holiday',
-			WKND: 'Weekend',
-			FILL: 'Fill',
-			OPEN: 'Open',
-			UNK: 'Unknown'
+			WKND: 'Weekend'
+//			FILL: 'Fill',
+//			OPEN: 'Open',
+//			UNK: 'Unknown'
 		};
 
 		vm.hardRules = [
@@ -33,15 +33,18 @@
 			"Between 145 and 149 Instructional Days",
 			"Between 170 and 180 Academic Work Days",
 			"Fall and Spring semesters do not start on a Friday",
-			"Fall and Spring finals are a full week, not including Sunday",
+			"Fall and Spring finals are 5 weekdays and one Saturday (either before, in the middle, or after)",
 			"Fall semester must start between Aug 17 and Sep 1",
-			"Spring semester must start before Jan 15",
-			"Summer session must start between May 31 and Aug 31",
+			"Spring semester must start on or after Jan 15 (or Jan 16, if it is a leap year)",
+			"Spring semester must end on or before May 31",
+			"Summer session must start after May 31 and end before Aug 31",
 			"2-5 days between Convocation and the beginning of Fall semester",
-			"12-15 Winter Instructional Days",
-			"Summer is at least 12 weeks",
-			"4 days reserved for Commencement",
-			"Fall and Spring Breaks are a calendar week"
+			"12-15 Winter session Instructional Days",
+			"Summer session is at least 12 calendar weeks",
+			"4 days between the end of Spring finals and before Summer start date are reserved for Commencement",
+			"Spring Break is a calendar week",
+			"Fall Break is the Wednesday before Thanksgiving, Thursday, and Friday"
+
 		];
 
 		vm.selections = {
