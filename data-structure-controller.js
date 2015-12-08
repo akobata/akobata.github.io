@@ -68,7 +68,6 @@
             var startDate = {};
 			startDate.month = "AUG";
 			startDate.dayNumber = 21;
-			var conditions = [1,1,1,1,1,1,1]; // ?????
             vm.gui = constructCalendarData(parseInt(vm.year), startDate, vm.selections.rules, false);
 
             console.log(vm.gui);
@@ -127,8 +126,8 @@
             	}
             }
             totalCalSplit.push(calRowSplit);
-            console.log('Done with splitting:');
-            console.log(totalCalSplit);
+//            console.log('Done with splitting:');
+//            console.log(totalCalSplit);
             return totalCalSplit;
         }
 
