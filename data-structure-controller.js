@@ -76,21 +76,32 @@
             vm.totalCalSplit = splitCalendar(vm.gui[0][0].guiTree);
 
 			// create a second "option" for display (the next year)
-			var secondYear = vm.gui[0][1];
-			var secondSplit = splitCalendar(secondYear.guiTree);
+			//var secondYear = vm.gui[0][1];
+			//var secondSplit = splitCalendar(secondYear.guiTree);
 
             vm.totalCalendarsArr = [];
 
             // !!!!!!
             // will somehow need to push each of the calendar sets onto the array
-            vm.totalCalendarsArr.push({
-            	'calendar': vm.totalCalSplit,
-            	'candidateEntryData': vm.gui.candidateEntryData
-            });
-            vm.totalCalendarsArr.push({
-            	'calendar': secondSplit,
-            	'candidateEntryData': secondYear.candidateEntryData
-            });
+			if(vm.gui[0].length > 0){
+				vm.totalCalendarsArr.push({
+					'calendar': vm.totalCalSplit,
+					'candidateEntryData': vm.gui[0][0].candidateEntryData
+				});
+				
+				for(var i = 1; i < vm.gui[0].length; i++){
+						vm.totalCalendarsArr.push({
+						'calendar': splitCalendar(vm.gui[0][1].guiTree),
+						'candidateEntryData': vm.gui[0][1].candidateEntryData
+					});
+					
+				}
+
+			}
+			else{
+				console.log("no calendars due to the following conflicts:");
+				console.log(vm.gui[1]);
+			}
             console.log('Putting the arrays in a list for the drop-downs:');
             console.log(vm.totalCalendarsArr);
         };
