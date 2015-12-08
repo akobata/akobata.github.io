@@ -65,7 +65,7 @@
             //setting the initials for the constructCalendarData
             var startDate = {};
 			startDate.month = "AUG";
-			startDate.dayNumber = 22;
+			startDate.dayNumber = 21;
 			var conditions = [1,1,1,1,1,1,1]; // ?????
             vm.gui = constructCalendarData(parseInt(vm.year), startDate, vm.selections.rules, false);
 
@@ -390,8 +390,6 @@ function constructCalendarData(academicYear, startDate, conditions, innerCall){
 	}
 	console.log("BEST CALENDAR");
 	console.log(bestCalendar);
-	if((typeof bestCalendar) != "undefined")
-		console.log(checkRules(bestCalendar.candidateEntryData));
 	console.log(data);
 	return data;
 	
@@ -929,8 +927,8 @@ function isType(day, searchValues){
 function updateData(data){
 	data.reportCounts["ACAD_FALL"] = filter(data, data.previousYearEnd, data.holidayMarkers["CHRISTMAS"], isDay, ["MON", "TUE", "WED", "THU", "FRI"]).length -
 		filter(data, data.previousYearEnd, data.holidayMarkers["CHRISTMAS"], isType, ["HOLI"]).length;
-	data.reportCounts["ACAD_SPRING"] = filter(data, data.boundaries["WINTER_START"], data.boundaries["SUMMER_START"], isDay, ["MON", "TUE", "WED", "THU", "FRI"]).length -
-		filter(data, data.boundaries["WINTER_START"], data.boundaries["SUMMER_START"], isType, ["HOLI"]).length;
+	data.reportCounts["ACAD_SPRING"] = filter(data, data.boundaries["WINTER_END"], data.boundaries["SUMMER_START"], isDay, ["MON", "TUE", "WED", "THU", "FRI"]).length -
+		filter(data, data.boundaries["WINTER_END"], data.boundaries["SUMMER_START"], isType, ["HOLI"]).length;
 	data.reportCounts["INST_FALL"] = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["INST"]).length;
 	data.reportCounts["INST_SPRING"] = filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, ["INST"]).length;
 	
@@ -1095,11 +1093,11 @@ function checkRules(data){
 		}
 	}
 	if(softRules[5] == 1){
-		var start = data.boundaries["SUMMER_START"];
+		var start = data.boundaries["SPRING_END"];
 		
 		
 		while(data[start].type != "COMM"){
-			start--;
+			start++;
 		}
 		var chain = 1;
 		var commCount = 0;
@@ -1109,9 +1107,9 @@ function checkRules(data){
 				commCount++;
 			}
 			chain++;
-			start--;
+			start++;
 		}
-		if(data[start].dayOfWeek == "MON" && chain == 4){
+		if(!(data[start].dayOfWeek == "SAT" && chain == 4)){
 			errors.push("COMMENCEMENT NOT TUES TIL FRI");
 		}
 	}
@@ -1270,12 +1268,12 @@ function getPossibilities(data){
 	var summerStarts = []; // summer end = summer start + (12 * 7)
 	
 	//FALL_START
-	for(var i = data.previousYearEnd; i < GetDayIndex(data, data[data.monthMarkers["SEPTEMBER"] + 2]); i++){
+	for(var i = data.previousYearEnd; i < GetDayIndex(data, data[data.monthMarkers["SEPTEMBER"] + 1]); i++){
 		while(data[i].dayOfWeek == "FRI" || data[i].dayOfWeek == "SAT" || data[i].dayOfWeek == "SUN" ||
 			data[i].type == "HOLI" || i < GetDayIndex(data, data[data.monthMarkers["AUGUST"] + 16])){
 			i++;
 		}
-		if(i < GetDayIndex(data, data[data.monthMarkers["SEPTEMBER"] + 2]))
+		if(i < GetDayIndex(data, data[data.monthMarkers["SEPTEMBER"] + 1]))
 			fallStarts.push(0 + i);
 		//*not friday
 		//*not weekend
