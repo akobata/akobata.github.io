@@ -1,215 +1,4 @@
-(function(){
-    'use strict';
-
-    angular.module('calendar')
-        .controller('dataCtrl',dataCtrl);
-
-    function dataCtrl (){
-        var vm = this;
-
-        vm.gui = null;
-        vm.calRowSplit = [];
-        vm.totalCalSplit = [];
-        vm.totalCalendarsArr = [];
-        vm.year = new Date().getFullYear();
-		vm.dayTypes = {
-			ACAD: 'Academic Work Day',
-			INST: 'Instructional Day',
-			CONV: 'Convocation',
-			COMM: 'Commencement',
-			FINL: 'Finals',
-			HOLI: 'Holiday',
-			WKND: 'Weekend',
-			FILL: 'Fill',
-			OPEN: 'Open',
-			UNK: 'Unknown'
-		};
-
-		vm.hardRules = [
-//			"Fall semester is at least 15 weeks long",
-//			"Spring semester is at least 15 weeks long",
-			"Between 145 and 149 Instructional Days",
-			"Between 170 and 180 Academic Work Days",
-			"Fall and Spring semesters do not start on a Friday",
-			"Fall and Spring finals are 5 weekdays and one Saturday (either before, in the middle, or after)",
-			"Fall semester must start between Aug 17 and Sep 1",
-			"Spring semester must start on or before Jan 15 (or Jan 16, if it is a leap year)",
-			"Spring semester must end on or before May 31",
-			"Summer session must start after May 31 and end before Aug 31",
-			"2-5 days between Convocation and the beginning of Fall semester",
-			"12-15 Winter session Instructional Days",
-			"Summer session is at least 12 calendar weeks",
-			"4 days reserved for Commencement, after Spring finals and before the start of Summer session",
-			"Spring Break is a calendar week",
-			"Fall Break is the Wednesday before Thanksgiving, Thursday, and Friday"
-		];
-
-		vm.selections = {
-			rules: []
-		};
-
-		vm.softRules = {
-			weekdayIdNum: 'Even distribution of one day per week classes (14-15)',
-			convocationFriBeforeFirstID: 'Convocation is a Friday before the first Instructional Day (ID) of Fall semester',
-			fallStartMon: 'Fall semester starts on a Monday',
-			extendedFallBreak: 'Extended Fall break (take off Monday-Wednesday before Thanksgiving)',
-			fallFinalsMonday: 'Fall semester finals start on a Monday - NEW',
-			summerToFallMoreThanWeek: 'Difference between the end of Summer and start of Fall semester is more than 7 calendar days',
-			CesarChavezInSpringBreak: 'Attempt to put Cesar Chavez Day in Spring Break',
-			springFinalsMonday: 'Spring semester finals start on a Monday - NEW',
-			commencementTueFri: 'Commencement is Tuesday - Friday',
-			commencementBeforeMemorial: 'Commencement is before Memorial Day - NEW'
-		};
-
-        vm.getCalendar = function(){
-			console.log('SEND INFORMATION FOR BACKEND : '+vm.year);
-			console.log(vm.selections.rules);
-            //setting the initials for the constructCalendarData
-            var startDate = {};
-			startDate.month = "AUG";
-<<<<<<< HEAD
-			startDate.day = 22;
-
-
-
-			/*
-				THE FOLLOWING IS TEMPORARY TO DISPLAY A SINGLE DISPLAY
-				COMMENT FROM HERE
-			*/
-
-//			var conditions = [1,1,1,1,1,1,1]; // ?????
-//            vm.gui = constructCalendarData(parseInt(vm.year), startDate, conditions);
-//
-//            console.log(vm.gui);
-//
-//            // splitting the calendar for display
-//            vm.totalCalSplit = splitCalendar(vm.gui.guiTree);
-//
-//			// create a second "option" for display (the next year)
-//			var secondYear = constructCalendarData(parseInt(vm.year)+1,startDate,conditions);
-//			var secondSplit = splitCalendar(secondYear.guiTree);
-//
-//            vm.totalCalendarsArr = [];
-//
-//            // will somehow need to push each of the calendar sets onto the array
-//            vm.totalCalendarsArr.push({
-//            	'calendar': vm.totalCalSplit,
-//            	'candidateEntryData': vm.gui.candidateEntryData
-//            });
-//            vm.totalCalendarsArr.push({
-//            	'calendar': secondSplit,
-//            	'candidateEntryData': secondYear.candidateEntryData
-//            });
-            // TO HERE, until have the [[data],[errors]] with data containing multiple calendars
-
-
-
-			/*
-            	UNCOMMENT FROM HERE
-          	*/
-            var retData = constructCalendarData(parseInt(vm.year),startDate,vm.selections.rules,false);
-//            console.log(retData);
-
-            vm.gui = retData[0];
-            vm.errorList = retData[1];
-
-//            console.log(vm.gui);
-//            console.log('List of "errors": '+vm.errorList);
-
-			if(vm.gui.length > 0){
-				for(var calendar in vm.gui){
-//	            	console.log(vm.gui[calendar]);
-					var split = splitCalendar(vm.gui[calendar].guiTree);
-					vm.totalCalendarsArr.push({
-						'calendar': split,
-						'candidateEntryData': vm.gui[calendar].candidateEntryData
-					});
-				}
-            } else {
-            	console.log('No calendars due to these conflicts: '+vm.errorList);
-            }
-
-
-            // TO HERE, when have the [[data],[errors]]
-
-
-
-=======
-			startDate.dayNumber = 21;
-			var conditions = [1,1,1,1,1,1,1]; // ?????
-            vm.gui = constructCalendarData(parseInt(vm.year), startDate, vm.selections.rules, false);
-
-            console.log(vm.gui);
-//            console.log(vm.gui.candidateEntryData);
-
-            // splitting the calendar for display
-            vm.totalCalSplit = splitCalendar(vm.gui[0][0].guiTree);
-
-			// create a second "option" for display (the next year)
-			//var secondYear = vm.gui[0][1];
-			//var secondSplit = splitCalendar(secondYear.guiTree);
-
-            vm.totalCalendarsArr = [];
-
-            // !!!!!!
-            // will somehow need to push each of the calendar sets onto the array
-			if(vm.gui[0].length > 0){
-				vm.totalCalendarsArr.push({
-					'calendar': vm.totalCalSplit,
-					'candidateEntryData': vm.gui[0][0].candidateEntryData
-				});
-				
-				for(var i = 1; i < vm.gui[0].length; i++){
-						vm.totalCalendarsArr.push({
-						'calendar': splitCalendar(vm.gui[0][1].guiTree),
-						'candidateEntryData': vm.gui[0][1].candidateEntryData
-					});
-					
-				}
-
-			}
-			else{
-				console.log("no calendars due to the following conflicts:");
-				console.log(vm.gui[1]);
-			}
->>>>>>> origin/master
-            console.log('Putting the arrays in a list for the drop-downs:');
-            console.log(vm.totalCalendarsArr);
-        };
-
-		// splitting the calendar for display
-        function splitCalendar(calendar){
-            var counter = 0;
-            var calRowSplit = [];
-            var totalCalSplit = [];
-            for(var month in calendar){
-				counter++;
-            	if(counter <= 4){
-            		calRowSplit.push(calendar[month]);
-            	} else {
-            		counter = 1;
-//            		console.log(calRowSplit);
-            		totalCalSplit.push(calRowSplit);
-            		calRowSplit = [];
-            		calRowSplit.push(calendar[month]);
-            	}
-            }
-            totalCalSplit.push(calRowSplit);
-//            console.log('Done with splitting:');
-//            console.log(totalCalSplit);
-            return totalCalSplit;
-        }
-
-//        var fallStart = vm.gui.candidateEntryData.previousYearEnd;
-//        fallStart.month;
-//        fallStart.dayNumber;
-//        var springStart = vm.gui.candidateEntryData[vm.gui.candidateEntryData.boundaries["SPRING_START"]];
-//        springStart.month;
-//        springStart.dayNumber;
-
-
-
-		/*
+/*
 *	Constructs data for the gui and analyzer
 *
 *	@param academicYear The starting year to be worked on
@@ -335,7 +124,7 @@ function constructCalendarData(academicYear, startDate, conditions, innerCall){
 	}
 	
 	function TranslateConditions(strings){
-		var booleans = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+		var booleans = [0, 0, 0, 0, 0, 0, 0];
 		booleans[0] = (strings.indexOf("weekdayIdNum") < 0)?0:1;
 		booleans[1] = (strings.indexOf("fallStartMon") < 0)?0:1;
 		booleans[2] = (strings.indexOf("summerToFallMoreThanWeek") < 0)?0:1;
@@ -451,44 +240,31 @@ function constructCalendarData(academicYear, startDate, conditions, innerCall){
 		
 		var success = applyPossibilities(data.candidateEntryData, testPoss);
 		console.log(success);
-		/*
-		if (success[0].length > 0){
-			var bestCalendar = [];
-			bestCalendar = success[0][0];
-			bestCalendar.candidateEntryData.conditions = [1,1,1,1,1,1,1,1,1,1];
-			bestCalendar.errors = checkRules(bestCalendar.candidateEntryData);
-
-			
-			
-			for(var b = 0; b < success[0].length; b++){
-				var testCalendar = success[0][b];
-					testCalendar.candidateEntryData.conditions = [1,1,1,1,1,1,1,1,1,1];
-					testCalendar.errors = checkRules(bestCalendar.candidateEntryData);
-					
-				if(testCalendar.errors.length < bestCalendar.errors.length){
-					console.log(bestCalendar);
-					console.log(bestCalendar.errors);
-					bestCalendar = testCalendar;
-					bestCalendar.errors
-				}
-			}
-
-
-			console.log("BEST CALENDAR");
-			console.log(bestCalendar);
-			console.log(bestCalendar.errors);
-			console.log(data);
-			return bestCalendar;
-			*/
-		return success;
 		
+		var bestCalendar = [];
 	}
 	else{
 				
 		return data;
 
 	}
-	
+	var bestCalendar = [];
+	bestCalendar = success[0][0];
+	for(var b = 0; b < success[0].length; b++){
+		bestCalendar = (bestCalendar.candidateEntryData.boundaries["FALL_START"] > success[0][b].candidateEntryData.boundaries["FALL_START"])?success[0][b]:bestCalendar;
+		console.log(bestCalendar);
+	}
+	for(var b = 0; b < success[0].length; b++){
+		if(bestCalendar.candidateEntryData.boundaries["FALL_START"] == success[0][b].candidateEntryData.boundaries["FALL_START"]){
+		}
+		bestCalendar = (bestCalendar.candidateEntryData.boundaries["SUMMER_START"] > success[0][b].candidateEntryData.boundaries["SUMMER_START"])?success[0][b]:bestCalendar;
+		console.log(bestCalendar);
+	}
+	console.log("BEST CALENDAR");
+	console.log(bestCalendar);
+	console.log(checkRules(bestCalendar.candidateEntryData));
+	console.log(data);
+	return data;
 	
 	// data = constructCalendarData(startYear + yay, earliestStart, ["weekdayIdNum", "fallStartMon", "summerToFallMoreThanWeek", 
 		// "convocationFriBeforeFirstID", "extendedFallBreak", "commencementTueFri", "CesarChavezInSpringBreak", "fallFinalsMonday", 
@@ -517,8 +293,7 @@ function SetDataCounts(candidateEntry){
 }
 
 function updateData(data){
-	
-	var acad = 
+
 	data.reportCounts["ACAD_FALL"] = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
 	data.reportCounts["ACAD_SPRING"] = filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
 	data.reportCounts["INST_FALL"] = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["INST"]).length;
@@ -906,7 +681,7 @@ function SetTypes(data){
 	end = data.boundaries["SUMMER_END"];
 	assignID(data, index, end);
 	
-	index = data.boundaries["SUMMER_START"] - 1;	
+	index = data.boundaries["SUMMER_START"] - 1;
 	assignCOMM(data, index);
 	
 	assignCONV(data);
@@ -1023,15 +798,14 @@ function isType(day, searchValues){
 }
 
 function updateData(data){
-	data.reportCounts["ACAD_FALL"] = filter(data, data.previousYearEnd, data.holidayMarkers["CHRISTMAS"], isDay, ["MON", "TUE", "WED", "THU", "FRI"]).length -
-		filter(data, data.previousYearEnd, data.holidayMarkers["CHRISTMAS"], isType, ["HOLI"]).length;
-	data.reportCounts["ACAD_SPRING"] = filter(data, data.boundaries["WINTER_START"], data.boundaries["SUMMER_START"], isDay, ["MON", "TUE", "WED", "THU", "FRI"]).length -
-		filter(data, data.boundaries["WINTER_START"], data.boundaries["SUMMER_START"], isType, ["HOLI"]).length;
+	data.reportCounts["ACAD_FALL"] = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
+	data.reportCounts["ACAD_SPRING"] = filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
 	data.reportCounts["INST_FALL"] = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["INST"]).length;
 	data.reportCounts["INST_SPRING"] = filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, ["INST"]).length;
 	
 	data.reportCounts["ACAD_FALL_AND_SPRING"] = 
-		data.reportCounts["ACAD_FALL"] + data.reportCounts["ACAD_SPRING"];
+		filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length + 
+		filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
 	data.reportCounts["ID_FALL_AND_SPRING"] = 
 		filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["INST"]).length + 
 		filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, ["INST"]).length;;
@@ -1119,31 +893,29 @@ function updateData(data){
 function checkRules(data){
 	var errors = [];
 	var softRules = data.conditions;
-	
-	var idDaysFall = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, "INST");
-	var idDaysSpring = filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, "INST");
-	
 	if(softRules[0] == 1){
-		if(((filter(idDaysFall, 0, idDaysFall.length, isDay, "MON").length != 14)&&
-			(filter(idDaysFall, 0, idDaysFall.length, isDay, "MON").length != 15))||
-			((filter(idDaysFall, 0, idDaysFall.length, isDay, "TUE").length != 14)&&
-			(filter(idDaysFall, 0, idDaysFall.length, isDay, "TUE").length != 15))||
-			((filter(idDaysFall, 0, idDaysFall.length, isDay, "WED").length != 14)&&
-			(filter(idDaysFall, 0, idDaysFall.length, isDay, "WED").length != 15))||
-			((filter(idDaysFall, 0, idDaysFall.length, isDay, "THU").length != 14)&&
-			(filter(idDaysFall, 0, idDaysFall.length, isDay, "THU").length != 15))||
-			((filter(idDaysFall, 0, idDaysFall.length, isDay, "FRI").length != 14)&&
-			(filter(idDaysFall, 0, idDaysFall.length, isDay, "FRI").length != 15))||
-			((filter(idDaysSpring, 0, idDaysSpring.length, isDay, "MON").length != 14)&&
-			(filter(idDaysSpring, 0, idDaysSpring.length, isDay, "MON").length != 15))||
-			((filter(idDaysSpring, 0, idDaysSpring.length, isDay, "TUE").length != 14)&&
-			(filter(idDaysSpring, 0, idDaysSpring.length, isDay, "TUE").length != 15))||
-			((filter(idDaysSpring, 0, idDaysSpring.length, isDay, "WED").length != 14)&&
-			(filter(idDaysSpring, 0, idDaysSpring.length, isDay, "WED").length != 15))||
-			((filter(idDaysSpring, 0, idDaysSpring.length, isDay, "THU").length != 14)&&
-			(filter(idDaysSpring, 0, idDaysSpring.length, isDay, "THU").length != 15))||
-			((filter(idDaysSpring, 0, idDaysSpring.length, isDay, "FRI").length != 14)&&
-			(filter(idDaysSpring, 0, idDaysSpring.length, isDay, "FRI").length != 15))){
+		var idDaysFall = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, "INST");
+		var idDaysSpring = filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, "INST");
+		if(((filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, "MON").length != 14)&&
+			(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, "MON").length != 15))||
+			((filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, "TUE").length != 14)&&
+			(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, "TUE").length != 15))||
+			((filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, "WED").length != 14)&&
+			(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, "WED").length != 15))||
+			((filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, "THU").length != 14)&&
+			(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, "THU").length != 15))||
+			((filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, "FRI").length != 14)&&
+			(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, "FRI").length != 15))||
+			((filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, "MON").length != 14)&&
+			(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, "MON").length != 15))||
+			((filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, "TUE").length != 14)&&
+			(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, "TUE").length != 15))||
+			((filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, "WED").length != 14)&&
+			(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, "WED").length != 15))||
+			((filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, "THU").length != 14)&&
+			(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, "THU").length != 15))||
+			((filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, "FRI").length != 14)&&
+			(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, "FRI").length != 15))){
 				errors.push("UNEVEN ID/WEEKDAY BALANCE");
 		}
 	}
@@ -1173,7 +945,10 @@ function checkRules(data){
 		}
 		*/
 	}
-	var totalID = idDaysFall.length + idDaysSpring.length;
+	var totalID = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["MON", "TUE", "WED", "THU", "FRI"]).length; 
+			totalID -= filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_START"], isType, ["HOLI", "ACAD"]).length ;
+			totalID += filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["MON", "TUE", "WED", "THU", "FRI"]).length;
+			totalID -= filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, ["HOLI", "ACAD"]).length ;
 	if(softRules[4] == 1){
 		var start = data.holidayMarkers["THANKSGIVING"] - 1;
 		if(totalID - 3 >= 145){
@@ -1190,11 +965,13 @@ function checkRules(data){
 		}
 	}
 	if(softRules[5] == 1){
-		var start = data.boundaries["SPRING_END"];		
+		var start = data.boundaries["SUMMER_START"];
+		
+		
 		while(data[start].type != "COMM"){
-			start++;
+			start--;
 		}
-		var chain = 0;
+		var chain = 1;
 		var commCount = 0;
 		while(commCount < 4){
 			
@@ -1202,9 +979,9 @@ function checkRules(data){
 				commCount++;
 			}
 			chain++;
-			start++;
+			start--;
 		}
-		if(!(data[start].dayOfWeek == "SAT" && chain == 4)){
+		if(data[start].dayOfWeek == "MON" && chain == 4){
 			errors.push("COMMENCEMENT NOT TUES TIL FRI");
 		}
 	}
@@ -1542,11 +1319,10 @@ function applyPossibilities(data, possibilites){
 												data.boundaries["SUMMER_START"] = 0 + possibilites[4][e];
 												data.boundaries["SUMMER_END"] = 0 + data.boundaries["SUMMER_START"] + (12 * 7);
 												
-												
 											SetTypes(data);
 											updateData(data);
 											errors = checkRules(data);
-											
+
 											if(errors.length != 0){
 												if((filterNewErrors(softErrors, errors).length == 0) && ((errors.length < conflicts.length) || (conflicts.length == 0))){
 													conflicts = errors;
@@ -1578,8 +1354,8 @@ function applyPossibilities(data, possibilites){
 												possibleCalendar.candidateEntryData.boundaries["SUMMER_START"] = 0 + possibilites[4][e];
 												possibleCalendar.candidateEntryData.boundaries["SUMMER_END"] = 
 													0 + possibleCalendar.candidateEntryData.boundaries["SUMMER_START"] + (12 * 7);
-												SetTypes(possibleCalendar.candidateEntryData);
-												updateData(possibleCalendar.candidateEntryData);
+												SetTypes(data);
+												updateData(data);
 												
 												options.push(possibleCalendar);
 											}
@@ -1693,5 +1469,3 @@ function filterNewErrors(oldErrors, newErrors){
 	}
 	return newErrorReturn;
 }
-    }
-}());
