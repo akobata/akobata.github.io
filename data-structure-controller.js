@@ -26,22 +26,20 @@
 		};
 
 		vm.hardRules = [
-//			"Fall semester is at least 15 weeks long",
-//			"Spring semester is at least 15 weeks long",
+			"Fall semester is at least 15 weeks long",
+			"Spring semester is at least 15 weeks long",
 			"Between 145 and 149 Instructional Days",
 			"Between 170 and 180 Academic Work Days",
 			"Fall and Spring semesters do not start on a Friday",
-			"Fall and Spring finals are 5 weekdays and one Saturday (either before, in the middle, or after)",
+			"Fall and Spring finals are a full week, not including Sunday",
 			"Fall semester must start between Aug 17 and Sep 1",
-			"Spring semester must start on or before Jan 15 (or Jan 16, if it is a leap year)",
-			"Spring semester must end on or before May 31",
-			"Summer session must start after May 31 and end before Aug 31",
+			"Spring semester must start before Jan 15",
+			"Summer session must start between May 31 and Aug 31",
 			"2-5 days between Convocation and the beginning of Fall semester",
-			"12-15 Winter session Instructional Days",
-			"Summer session is at least 12 calendar weeks",
-			"4 days reserved for Commencement, after Spring finals and before the start of Summer session",
-			"Spring Break is a calendar week",
-			"Fall Break is the Wednesday before Thanksgiving, Thursday, and Friday"
+			"12-15 Winter Instructional Days",
+			"Summer is at least 12 weeks",
+			"4 days reserved for Commencement",
+			"Fall and Spring Breaks are a calendar week"
 		];
 
 		vm.selections = {
@@ -67,74 +65,6 @@
             //setting the initials for the constructCalendarData
             var startDate = {};
 			startDate.month = "AUG";
-<<<<<<< HEAD
-			startDate.day = 22;
-
-
-
-			/*
-				THE FOLLOWING IS TEMPORARY TO DISPLAY A SINGLE DISPLAY
-				COMMENT FROM HERE
-			*/
-
-//			var conditions = [1,1,1,1,1,1,1]; // ?????
-//            vm.gui = constructCalendarData(parseInt(vm.year), startDate, conditions);
-//
-//            console.log(vm.gui);
-//
-//            // splitting the calendar for display
-//            vm.totalCalSplit = splitCalendar(vm.gui.guiTree);
-//
-//			// create a second "option" for display (the next year)
-//			var secondYear = constructCalendarData(parseInt(vm.year)+1,startDate,conditions);
-//			var secondSplit = splitCalendar(secondYear.guiTree);
-//
-//            vm.totalCalendarsArr = [];
-//
-//            // will somehow need to push each of the calendar sets onto the array
-//            vm.totalCalendarsArr.push({
-//            	'calendar': vm.totalCalSplit,
-//            	'candidateEntryData': vm.gui.candidateEntryData
-//            });
-//            vm.totalCalendarsArr.push({
-//            	'calendar': secondSplit,
-//            	'candidateEntryData': secondYear.candidateEntryData
-//            });
-            // TO HERE, until have the [[data],[errors]] with data containing multiple calendars
-
-
-
-			/*
-            	UNCOMMENT FROM HERE
-          	*/
-            var retData = constructCalendarData(parseInt(vm.year),startDate,vm.selections.rules,false);
-//            console.log(retData);
-
-            vm.gui = retData[0];
-            vm.errorList = retData[1];
-
-//            console.log(vm.gui);
-//            console.log('List of "errors": '+vm.errorList);
-
-			if(vm.gui.length > 0){
-				for(var calendar in vm.gui){
-//	            	console.log(vm.gui[calendar]);
-					var split = splitCalendar(vm.gui[calendar].guiTree);
-					vm.totalCalendarsArr.push({
-						'calendar': split,
-						'candidateEntryData': vm.gui[calendar].candidateEntryData
-					});
-				}
-            } else {
-            	console.log('No calendars due to these conflicts: '+vm.errorList);
-            }
-
-
-            // TO HERE, when have the [[data],[errors]]
-
-
-
-=======
 			startDate.dayNumber = 21;
 			var conditions = [1,1,1,1,1,1,1]; // ?????
             vm.gui = constructCalendarData(parseInt(vm.year), startDate, vm.selections.rules, false);
@@ -142,8 +72,6 @@
             console.log(vm.gui);
 //            console.log(vm.gui.candidateEntryData);
 
-            // splitting the calendar for display
-            vm.totalCalSplit = splitCalendar(vm.gui[0][0].guiTree);
 
 			// create a second "option" for display (the next year)
 			//var secondYear = vm.gui[0][1];
@@ -154,6 +82,9 @@
             // !!!!!!
             // will somehow need to push each of the calendar sets onto the array
 			if(vm.gui[0].length > 0){
+				// splitting the calendar for display
+
+				vm.totalCalSplit = splitCalendar(vm.gui[0][0].guiTree);
 				vm.totalCalendarsArr.push({
 					'calendar': vm.totalCalSplit,
 					'candidateEntryData': vm.gui[0][0].candidateEntryData
@@ -172,7 +103,6 @@
 				console.log("no calendars due to the following conflicts:");
 				console.log(vm.gui[1]);
 			}
->>>>>>> origin/master
             console.log('Putting the arrays in a list for the drop-downs:');
             console.log(vm.totalCalendarsArr);
         };
@@ -195,8 +125,8 @@
             	}
             }
             totalCalSplit.push(calRowSplit);
-//            console.log('Done with splitting:');
-//            console.log(totalCalSplit);
+            console.log('Done with splitting:');
+            console.log(totalCalSplit);
             return totalCalSplit;
         }
 
