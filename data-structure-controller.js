@@ -1133,7 +1133,7 @@ function checkRules(data){
 			chain++;
 			start++;
 		}
-		if(!(data[start].dayOfWeek == "MON" && chain == 4)){
+		if(!(data[start].dayOfWeek == "SAT" && chain == 4)){
 			errors.push("COMMENCEMENT NOT TUES TIL FRI");
 		}
 	}
