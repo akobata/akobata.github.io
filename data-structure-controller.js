@@ -4,7 +4,9 @@
     angular.module('calendar')
         .controller('dataCtrl',dataCtrl);
 
-    function dataCtrl (){
+   
+
+	function dataCtrl (){
         var vm = this;
 
         vm.gui = null;
@@ -448,7 +450,6 @@ function SetDataCounts(candidateEntry){
 
 function updateData(data){
 	
-	var acad = 
 	data.reportCounts["ACAD_FALL"] = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
 	data.reportCounts["ACAD_SPRING"] = filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
 	data.reportCounts["INST_FALL"] = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["INST"]).length;
@@ -1293,7 +1294,7 @@ function getPossibilities(data){
 	var summerStarts = []; // summer end = summer start + (12 * 7)
 	
 	//FALL_START
-	for(var i = data.previousYearEnd; i < GetDayIndex(data, data[data.monthMarkers["SEPTEMBER"] + 2]); i++){
+	for(var i = data.previousYearEnd ; i < GetDayIndex(data, data[data.monthMarkers["SEPTEMBER"] + 2]); i++){
 		while(data[i].dayOfWeek == "FRI" || data[i].dayOfWeek == "SAT" || data[i].dayOfWeek == "SUN" ||
 			data[i].type == "HOLI" || i < GetDayIndex(data, data[data.monthMarkers["AUGUST"] + 16])){
 			i++;
