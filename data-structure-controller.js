@@ -73,10 +73,10 @@
 //            console.log(vm.gui.candidateEntryData);
 
             // splitting the calendar for display
-            vm.totalCalSplit = splitCalendar(vm.gui.guiTree);
+            vm.totalCalSplit = splitCalendar(vm.gui[0][0].guiTree);
 
 			// create a second "option" for display (the next year)
-			var secondYear = constructCalendarData(parseInt(vm.year)+1,startDate,conditions);
+			var secondYear = vm.gui[0][1];
 			var secondSplit = splitCalendar(secondYear.guiTree);
 
             vm.totalCalendarsArr = [];
