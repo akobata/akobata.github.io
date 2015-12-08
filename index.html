@@ -12,18 +12,13 @@
     <link rel="stylesheet" href="style.css"/>
     <script src='libs/ui-bootstrap-tpls-0.9.0.min.js'></script>
     <script src="app.js"></script>
-    <!--The following two scripts are supposed to be equivalent to the initData.js-->
-    <!--Currently, data-structure-controller makes initData into an angular controller-->
-    <!--Probably should be changed into an angular service to be injected into the main controller-->
-    <script src="initData.js"></script>
+
+    <!-- LOOK HERE FOR TESTING PLEASE!! -->
+    <!-- Use the libs/ for the multiple calendars, use the regular one for the fake one -->
     <script src="data-structure-controller.js"></script>
+    <!--<script src="libs/data-structure-controller.js"></script>-->
 </head>
 <body ng-controller="dataCtrl as data">
-    <script type="text/javascript">
-        // uses initData.js
-
-    </script>
-
 
     <h1>Create an Academic Calendar</h1>
     <div>
@@ -48,9 +43,7 @@
     <br/>
     <button type="button" class="btn btn-default" ng-click="data.getCalendar()">Create Calendar</button><br/><br/>
 
-    <!--<div ng-controller="dataCtrl as data">-->
     <div>
-        <!-- This Calendar section uses data-structure-controller.js -->
         <div ng-show="data.gui != null">
             <table cellpadding="1" cellspacing="1" border="1" width="100%">
                 <thead>
