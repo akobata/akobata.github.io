@@ -390,7 +390,7 @@ function constructCalendarData(academicYear, startDate, conditions, innerCall){
 	}
 	console.log("BEST CALENDAR");
 	console.log(bestCalendar);
-	if(bestCalendar != "undefined")
+	if((typeof bestCalendar) != "undefined")
 		console.log(checkRules(bestCalendar.candidateEntryData));
 	console.log(data);
 	return data;
