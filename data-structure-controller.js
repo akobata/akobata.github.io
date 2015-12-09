@@ -636,9 +636,10 @@ function SetBoundaries(candidateEntry){
 
 	//WINTER
 	candidateEntry.boundaries["WINTER_START"] = candidateEntry.monthMarkers["JANUARY"];
+	candidateEntry.boundaries["WINTER_START"]++;
 	if(candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek == "SUN" || 
 		candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek == "SAT"){
-			while(candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek != "TUE"){
+			while(candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek != "MON"){
 						candidateEntry.boundaries["WINTER_START"]++;
 
 			}
