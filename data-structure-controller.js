@@ -639,11 +639,13 @@ function SetBoundaries(candidateEntry){
 	candidateEntry.boundaries["WINTER_START"]++;
 	if(candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek == "SUN" || 
 		candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek == "SAT"){
-			while(candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek != "MON"){
-						candidateEntry.boundaries["WINTER_START"]++;
+		while(candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek != "MON"){
+					candidateEntry.boundaries["WINTER_START"]++;
 
-			}
-		
+		}	
+	}
+	else if(candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek == "MON"){
+		candidateEntry.boundaries["WINTER_START"]++;
 	}
 	for(var i = 0, fridays = 0; fridays <= 3; i++){
 		if(candidateEntry[candidateEntry.boundaries["WINTER_START"] + i].dayOfWeek == "FRI"){
