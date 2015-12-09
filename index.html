@@ -31,13 +31,14 @@
         <ul>
             <li ng-repeat="rule in data.hardRules">{{rule}}</li>
         </ul><br/>
-        <label>Select the checkboxes of the soft rules to guarantee:</label>
+        <label>Select the checkboxes of the soft rules to guarantee (Please select at least one):</label>
         <label class="checkbox-list" ng-repeat="(key,value) in data.softRules">
             <input type="checkbox" checklist-model="data.selections.rules" checklist-value="key"> {{value}}
         </label>
     </div>
     <br/>
-    <button type="button" class="btn btn-default" ng-click="data.getCalendar()">Create Calendar</button><br/><br/>
+    <button type="button" class="btn btn-default" ng-click="data.getCalendar()">Create Calendar</button><br/>
+    (This may take a minute to create)<br/>
 
     <div>
         <div ng-show="data.gui[0].length > 0">
@@ -51,45 +52,6 @@
                 </tr>
                 </tbody>
             </table><br/>
-
-            <!-- The following is to display what the ng-repeats will be getting -->
-            <!--<div ng-repeat="month in data.gui.guiTree">-->
-                <!--1 - {{month}}-->
-                <!--<div ng-repeat="week in month.weekSet">-->
-                    <!--<b>2</b> - {{week}}-->
-                    <!--<div ng-repeat="day in week.daySet">-->
-                        <!--<b>3</b> - {{day}}-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<br/><br/><br/>-->
-            <!--</div>-->
-
-            <!--<div class="row" ng-repeat="row in data.totalCalSplit">-->
-                <!--<div class="col-sm-3" ng-repeat="month in row">-->
-                    <!--<table cellpadding="1" cellspacing="1" border="1" width="250">-->
-                        <!--<thead>-->
-                        <!--<th colspan="7">{{month.monthName}} {{month.yearNumber}}</th>-->
-                        <!--&lt;!&ndash;{{month.weekSet.daySet.year}}&ndash;&gt;-->
-                        <!--</thead>-->
-                        <!--<tbody>-->
-                        <!--<tr>-->
-                            <!--<th>Sun</th>-->
-                            <!--<th>Mon</th>-->
-                            <!--<th>Tue</th>-->
-                            <!--<th>Wed</th>-->
-                            <!--<th>Thu</th>-->
-                            <!--<th>Fri</th>-->
-                            <!--<th>Sat</th>-->
-                        <!--</tr>-->
-                        <!--<tr ng-repeat="week in month.weekSet">-->
-                            <!--<td ng-repeat="day in week.daySet" ng-class="day.type"><label ng-show="day.dayNumber != 0">{{day.dayNumber}}</label></td>-->
-                        <!--</tr>-->
-                        <!--</tbody>-->
-                        <!--<tfooter></tfooter>-->
-                    <!--</table><br/>-->
-                <!--</div>-->
-            <!--</div>-->
-
 
             <!-- The following is to get the collapsible panels working -->
             <accordion close-others="false">
@@ -112,7 +74,7 @@
                                     <th>Sat</th>
                                 </tr>
                                 <tr ng-repeat="week in month.weekSet">
-                                    <td ng-repeat="day in week.daySet" ng-class="day.type"><label ng-show="day.dayNumber != 0">{{day.dayNumber}}</label></td>
+                                    <td ng-repeat="day in week.daySet" ng-class="data.dayStyle(option,day.type,day.month,day.dayNumber,day.year)"><label ng-show="day.dayNumber != 0">{{day.dayNumber}}</label></td>
                                 </tr>
                                 </tbody>
                                 <tfooter></tfooter>

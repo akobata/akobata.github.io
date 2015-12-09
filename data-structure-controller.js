@@ -14,6 +14,10 @@
         vm.totalCalSplit = [];
         vm.totalCalendarsArr = [];
         vm.year = new Date().getFullYear();
+        var fallStartDate;
+        var springStartDate;
+        var winterStartDate;
+        var summerStartDate;
 		vm.dayTypes = {
 			ACAD: 'Academic Work Day',
 			INST: 'Instructional Day',
@@ -21,7 +25,8 @@
 			COMM: 'Commencement',
 			FINL: 'Finals',
 			HOLI: 'Holiday',
-			WKND: 'Weekend'
+			WKND: 'Weekend',
+			FALLSTART: 'Semester Start'
 //			FILL: 'Fill',
 //			OPEN: 'Open',
 //			UNK: 'Unknown'
@@ -76,32 +81,28 @@
             console.log(vm.gui);
 //            console.log(vm.gui.candidateEntryData);
 
-
-			// create a second "option" for display (the next year)
-			//var secondYear = vm.gui[0][1];
-			//var secondSplit = splitCalendar(secondYear.guiTree);
-
             vm.totalCalendarsArr = [];
 
-            // !!!!!!
-            // will somehow need to push each of the calendar sets onto the array
 			if(vm.gui[0].length > 0){
 				// splitting the calendar for display
-
-				vm.totalCalSplit = splitCalendar(vm.gui[0][0].guiTree);
-				vm.totalCalendarsArr.push({
-					'calendar': vm.totalCalSplit,
-					'candidateEntryData': vm.gui[0][0].candidateEntryData
-				});
-				
-				for(var i = 1; i < vm.gui[0].length; i++){
-						vm.totalCalendarsArr.push({
-						'calendar': splitCalendar(vm.gui[0][1].guiTree),
-						'candidateEntryData': vm.gui[0][1].candidateEntryData
+				for(var calendar in vm.gui[0]){
+					var split = splitCalendar(vm.gui[0][calendar].guiTree)
+					vm.totalCalendarsArr.push({
+						'calendar': split,
+						'candidateEntryData': vm.gui[0][calendar].candidateEntryData
 					});
-					
 				}
 
+//				console.log('First day of Fall:');
+//				console.log(vm.gui[0][0].candidateEntryData.boundaries['FALL_START']);
+//				fallStartDate = vm.gui[0][0].candidateEntryData[vm.gui[0][0].candidateEntryData.boundaries['FALL_START']];
+//				console.log(fallStartDate);
+//				springStartDate = vm.gui[0][0].candidateEntryData[vm.gui[0][0].candidateEntryData.boundaries['SPRING_START']];
+//				console.log(springStartDate);
+//				winterStartDate = vm.gui[0][0].candidateEntryData[vm.gui[0][0].candidateEntryData.boundaries['WINTER_START']];
+//				console.log(winterStartDate);
+//				summerStartDate = vm.gui[0][0].candidateEntryData[vm.gui[0][0].candidateEntryData.boundaries['SUMMER_START']];
+//				console.log(summerStartDate);
 			}
 			else{
 				console.log("no calendars due to the following conflicts:");
@@ -109,6 +110,8 @@
 			}
             console.log('Putting the arrays in a list for the drop-downs:');
             console.log(vm.totalCalendarsArr);
+
+
         };
 
 		// splitting the calendar for display
@@ -133,6 +136,25 @@
 //            console.log(totalCalSplit);
             return totalCalSplit;
         }
+
+        // for the special styling of the first days of the semesters
+        vm.dayStyle = function(option,type,month,day,year){
+        	// THIS IS VERY INEFFICIENT. FIGURE OUT A WAY TO REDO.
+				fallStartDate = option.candidateEntryData[option.candidateEntryData.boundaries['FALL_START']];
+				springStartDate = option.candidateEntryData[option.candidateEntryData.boundaries['SPRING_START']];
+				winterStartDate = option.candidateEntryData[option.candidateEntryData.boundaries['WINTER_START']];
+				summerStartDate = option.candidateEntryData[option.candidateEntryData.boundaries['SUMMER_START']];
+        	if(day == fallStartDate.dayNumber && month == fallStartDate.month && year == fallStartDate.year)
+        		return "FALLSTART"
+        	else if(day == springStartDate.dayNumber && month == springStartDate.month && year == springStartDate.year)
+				return "SPRINGSTART"
+        	else if(day == winterStartDate.dayNumber && month == winterStartDate.month && year == winterStartDate.year)
+				return "WINTERSTART"
+        	else if(day == summerStartDate.dayNumber && month == summerStartDate.month && year == summerStartDate.year)
+				return "SUMMERSTART"
+			else
+        		return type
+        };
 
 //        var fallStart = vm.gui.candidateEntryData.previousYearEnd;
 //        fallStart.month;
