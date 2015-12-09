@@ -609,6 +609,13 @@ function GetDayIndex(data, date, secondOccurrence){
 }
 
 function SetBoundaries(candidateEntry){
+	if(candidateEntry[candidateEntry.previousYearEnd].dayOfWeek == "SAT" ||
+		candidateEntry[candidateEntry.previousYearEnd].dayOfWeek == "SUN"){
+		while(candidateEntry[candidateEntry.previousYearEnd].dayOfWeek != "MON"){
+			candidateEntry.previousYearEnd++;
+		}		
+	}
+	
 	candidateEntry.boundaries = {"FALL_START" : 0, "FALL_END" : 0, "WINTER_START" : 0, "WINTER_END" : 0, 
 		"SPRING_START" : 0, "SPRING_END" : 0, "SUMMER_START" : 0, "SUMMER_END" : 0};
 	var boundaries = candidateEntry.boundaries;
@@ -629,10 +636,13 @@ function SetBoundaries(candidateEntry){
 
 	//WINTER
 	candidateEntry.boundaries["WINTER_START"] = candidateEntry.monthMarkers["JANUARY"];
-	while(candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek == "SUN" || 
-		candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek == "SAT" ||
-		candidateEntry[candidateEntry.boundaries["WINTER_START"]].type == "HOLI"){
-		candidateEntry.boundaries["WINTER_START"]++;
+	if(candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek == "SUN" || 
+		candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek == "SAT"){
+			while(candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek != "TUE"){
+						candidateEntry.boundaries["WINTER_START"]++;
+
+			}
+		
 	}
 	for(var i = 0, fridays = 0; fridays <= 3; i++){
 		if(candidateEntry[candidateEntry.boundaries["WINTER_START"] + i].dayOfWeek == "FRI"){
@@ -1295,7 +1305,7 @@ function getPossibilities(data){
 	var earliestSummerStart = indexByStartAndCount(springEnds[0], 10, 1, true, true);
 	var augustStart = data.monthMarkers["JULY"] + 31;
 	for(var i = earliestSummerStart; ((i < data.monthMarkers["JUNE"]) && ( i < augustStart + 30 - (12 * 7))); i++){
-		while(data[i].dayOfWeek == "SAT" || data[i].dayOfWeek == "SUN"){
+		while(data[i].dayOfWeek == "SAT" || data[i].dayOfWeek == "SUN" || data[i].type == "HOLI"){
 			i++;
 		}
 		if(((i < data.monthMarkers["JUNE"]) && ( i < augustStart + 30 - (12 * 7)))){
