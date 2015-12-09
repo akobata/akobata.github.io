@@ -629,6 +629,10 @@ function SetBoundaries(candidateEntry){
 
 	//WINTER
 	candidateEntry.boundaries["WINTER_START"] = candidateEntry.monthMarkers["JANUARY"];
+	while(candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek == "SUN" || 
+		candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek == "SAT"){
+		candidateEntry.boundaries["WINTER_START"]++;
+	}
 	for(var i = 0, fridays = 0; fridays <= 3; i++){
 		if(candidateEntry[candidateEntry.boundaries["WINTER_START"] + i].dayOfWeek == "FRI"){
 			fridays++;
@@ -780,8 +784,10 @@ function assignCOMM(data, start){
 }
 	
 function assignCONV(data){
-	
-	for(var i = data.boundaries["FALL_START"] - 5; i < data.boundaries["FALL_START"] - 1; i++){
+	while(data[data.previousYearEnd].dayOfWeek == "SAT" || data[data.previousYearEnd].dayOfWeek == "SUN"){
+		data.previousYearEnd++;
+	}
+	for(var i = data.previousYearEnd; i < data.boundaries["FALL_START"] - 1; i++){
 		if(data[i].dayOfWeek == "FRI"){
 			data[i].type = "CONV";
 			data.convocation = 0 + i;
@@ -1211,7 +1217,11 @@ function getPossibilities(data){
 	var summerStarts = []; // summer end = summer start + (12 * 7)
 	
 	//FALL_START
-	for(var i = data.previousYearEnd ; i < GetDayIndex(data, data[data.monthMarkers["SEPTEMBER"] + 2]); i++){
+	while(data[data.previousYearEnd].dayOfWeek == "SAT" || data[data.previousYearEnd].dayOfWeek == "SUN"){
+		data.previousYearEnd++;
+	}
+	var earliestFallStart = indexByStartAndCount(data.previousYearEnd, 2, 1, false, true);assignCOMM
+	for(var i = data.previousYearEnd + 2; i < GetDayIndex(data, data[data.monthMarkers["SEPTEMBER"] + 2]); i++){
 		while(data[i].dayOfWeek == "FRI" || data[i].dayOfWeek == "SAT" || data[i].dayOfWeek == "SUN" ||
 			data[i].type == "HOLI" || i < GetDayIndex(data, data[data.monthMarkers["AUGUST"] + 16])){
 			i++;
@@ -1349,97 +1359,98 @@ function applyPossibilities(data, possibilites){
 		var cd;//
 		var de;
 		var ce;//
+		
+		
+		
+		
+		
+		
 		for(var a = 0; a < possibilites[0].length; a++){
 			for(var b = 0; b < possibilites[1].length; b++){
 				var ab = filter(data, possibilites[0][a], possibilites[1][b], isDay, ["MON", "TUE", "WED", "THU", "FRI"]).length -
-					filter(data, possibilites[0][a], possibilites[1][b], isType, ["HOLI"]).length;
+					filter(data, possibilites[0][a], possibilites[1][b], isType, ["HOLI"]).length;						
+				for(var c = 0; c < possibilites[2].length; c++){
+					wc = filter(data, data.boundaries["WINTER_START"],  possibilites[2][c], isDay, ["MON", "TUE", "WED", "THU", "FRI"]).length -
+						filter(data, data.boundaries["WINTER_START"],  possibilites[2][c], isType, ["HOLI"]).length; 
+					for(var d = 0; d < possibilites[3].length; d++){
+						var cd = filter(data, possibilites[2][c], possibilites[3][d], isDay,["MON", "TUE", "WED", "THU", "FRI"]).length - 
+							filter(data, possibilites[2][c], possibilites[3][d], isType, ["HOLI"]).length;		
+						if(!(
+							((ab) + (cd) - 5 < 145) || 
+							((ab) + (cd) - 8 > 149) ||
+							(cd/5 < 14) || (cd/5 > 16))){																
+							for(var e = 0; e < possibilites[4].length; e++){	
+								var de = filter(data, possibilites[3][d], possibilites[4][e], isDay, ["MON", "TUE", "WED", "THU", "FRI"]).length - 
+										filter(data, possibilites[3][d], possibilites[4][e], isType, ["HOLI"]).length;
+								var ce = cd + de;
+								if(!(
+									((px + ce) + 2 < 170) ||
+									((px + ce) + 2 > 180) ||
+									(de < 9) ||(ab/5 < 14) || (ab/5 > 16) ||(wc < 12) || (wc > 15))){
 								
-				if(!((ab/5 < 14) || (ab/5 > 16))){
-					
-					for(var c = 0; c < possibilites[2].length; c++){
-						wc = filter(data, data.boundaries["WINTER_START"],  possibilites[2][c], isDay, ["MON", "TUE", "WED", "THU", "FRI"]).length -
-							filter(data, data.boundaries["WINTER_START"],  possibilites[2][c], isType, ["HOLI"]).length; 
-						
-						if(!((wc.length < 12) || (wc.length > 15))){
-
-							for(var d = 0; d < possibilites[3].length; d++){
-								var cd = filter(data, possibilites[2][c], possibilites[3][d], isDay,["MON", "TUE", "WED", "THU", "FRI"]).length - 
-									filter(data, possibilites[2][c], possibilites[3][d], isType, ["HOLI"]).length;
-
-											
-								if(!((cd/5 < 14) || (cd/5 > 16) || ((ab) + (cd) - 4 < 145) || ((ab) + (cd) - 8 > 149))){
-																									
-									for(var e = 0; e < possibilites[4].length; e++){	
-										var de = filter(data, possibilites[3][d], possibilites[4][e], isDay, ["MON", "TUE", "WED", "THU", "FRI"]).length - 
-												filter(data, possibilites[3][d], possibilites[4][e], isType, ["HOLI"]).length;
+																	
+									/* testCount++;
+									if(testCount % 100 == 0)
+										console.log(testCount);
+									 */
 									
-										var ce = cd + de;
+									data.boundaries["FALL_START"] = 0 + possibilites[0][a];						
+									data.boundaries["FALL_END"] = 0 + possibilites[1][b];
+									data.boundaries["WINTER_END"] = 0 + possibilites[2][c];
+									data.boundaries["SPRING_START"] = 0 + possibilites[2][c];
+									data.boundaries["SPRING_END"] = 0 + possibilites[3][d];
+									data.boundaries["SUMMER_START"] = 0 + possibilites[4][e];
+									data.boundaries["SUMMER_END"] = 0 + data.boundaries["SUMMER_START"] + (12 * 7);
 										
-										if(!((de < 9) || ((px + ce) < 170) || (px + ce) > 180)){
-																
-											testCount++;
-											if(testCount % 100 == 0)
-												console.log(testCount);
-											
-											
-											data.boundaries["FALL_START"] = 0 + possibilites[0][a];						
-												data.boundaries["FALL_END"] = 0 + possibilites[1][b];
-												data.boundaries["WINTER_END"] = 0 + possibilites[2][c];
-												data.boundaries["SPRING_START"] = 0 + possibilites[2][c];
-												data.boundaries["SPRING_END"] = 0 + possibilites[3][d];
-												data.boundaries["SUMMER_START"] = 0 + possibilites[4][e];
-												data.boundaries["SUMMER_END"] = 0 + data.boundaries["SUMMER_START"] + (12 * 7);
-												
-												
-											SetTypes(data);
-											//updateData(data);
-											errors = checkRules(data);
-											
-											if(errors.length != 0){
-												if((filterNewErrors(softErrors, errors).length == 0) && ((errors.length < conflicts.length) || (conflicts.length == 0))){
-													conflicts = errors;
-												}	
-												else{
-													if(smallestHardError.length == 0 || filterNewErrors(softErrors, errors).length < smallestHardError.length){
-														smallestHardError =(errors);	
-														if(smallestHardError.indexOf("") > 0){
-															console.log("hard error violation")
-															console.log();
-														}
-													}
+										
+									SetTypes(data);
+									//updateData(data);
+									errors = checkRules(data);
+									
+									if(errors.length != 0){
+										if((filterNewErrors(softErrors, errors).length == 0) && ((errors.length < conflicts.length) || (conflicts.length == 0))){
+											conflicts = errors;
+										}	
+										else{
+											if(smallestHardError.length == 0 || filterNewErrors(softErrors, errors).length < smallestHardError.length){
+												smallestHardError =(errors);	
+												if(smallestHardError.indexOf("") > 0){
+													console.log("hard error violation")
+													console.log();
 												}
-												
 											}
-											else{
-												
-												
-												var possibleCalendar = constructCalendarData(
-													data[0].year, 
-													data[data.previousYearEnd],
-													intToAnne(data.conditions), true);
-													
-												possibleCalendar.candidateEntryData.boundaries["FALL_START"] = 0 + possibilites[0][a];						
-												possibleCalendar.candidateEntryData.boundaries["FALL_END"] = 0 + possibilites[1][b];
-												possibleCalendar.candidateEntryData.boundaries["WINTER_END"] = 0 + possibilites[2][c];
-												possibleCalendar.candidateEntryData.boundaries["SPRING_START"] = 0 + possibilites[2][c];
-												possibleCalendar.candidateEntryData.boundaries["SPRING_END"] = 0 + possibilites[3][d];
-												possibleCalendar.candidateEntryData.boundaries["SUMMER_START"] = 0 + possibilites[4][e];
-												possibleCalendar.candidateEntryData.boundaries["SUMMER_END"] = 
-													0 + possibleCalendar.candidateEntryData.boundaries["SUMMER_START"] + (12 * 7);
-												SetTypes(possibleCalendar.candidateEntryData);
-												updateData(possibleCalendar.candidateEntryData);
-												
-												options.push(possibleCalendar);
-											}
-											
-											// if(options.length > 0){
-												// console.log(testCount);
-												// return [options, conflicts];
-											// }
-
-											
 										}
+										
 									}
+									else{
+										
+										
+										var possibleCalendar = constructCalendarData(
+											data[0].year, 
+											data[data.previousYearEnd],
+											intToAnne(data.conditions), true);
+											
+										possibleCalendar.candidateEntryData.boundaries["FALL_START"] = 0 + possibilites[0][a];						
+										possibleCalendar.candidateEntryData.boundaries["FALL_END"] = 0 + possibilites[1][b];
+										possibleCalendar.candidateEntryData.boundaries["WINTER_END"] = 0 + possibilites[2][c];
+										possibleCalendar.candidateEntryData.boundaries["SPRING_START"] = 0 + possibilites[2][c];
+										possibleCalendar.candidateEntryData.boundaries["SPRING_END"] = 0 + possibilites[3][d];
+										possibleCalendar.candidateEntryData.boundaries["SUMMER_START"] = 0 + possibilites[4][e];
+										possibleCalendar.candidateEntryData.boundaries["SUMMER_END"] = 
+											0 + possibleCalendar.candidateEntryData.boundaries["SUMMER_START"] + (12 * 7);
+										SetTypes(possibleCalendar.candidateEntryData);
+										updateData(possibleCalendar.candidateEntryData);
+										
+										options.push(possibleCalendar);
+									}
+									
+									// if(options.length > 0){
+										// console.log(testCount);
+										// return [options, conflicts];
+									// }
+
+												
+						
 								}
 							}
 						}
@@ -1501,36 +1512,6 @@ function countPossibilities(possibilities){
 	return possibilities[0].length*possibilities[1].length*possibilities[2].length*possibilities[3].length*possibilities[4].length;
 }
 
-function boundByIndex(data, index){
-	switch(index){
-		case 0:
-			return data.boundaries["FALL_START"];
-			break;
-		case 1:
-			return data.boundaries["FALL_END"];
-			break;
-		case 2:
-			return data.boundaries["WINTER_START"];
-			break;
-		case 3:
-			return data.boundaries["WINTER_END"];
-		break;
-		case 4:
-			return data.boundaries["SPRING_START"];
-		break;
-		case 5:
-			return data.boundaries["SPRING_END"];
-			break;
-		case 6:
-			return data.boundaries["SUMMER_START"];
-			break;
-		case 7:
-			return data.boundaries["SUMMER_END"];
-			break;
-		default:
-			break;
-	}
-}
 
 function filterNewErrors(oldErrors, newErrors){
 	var newErrorReturn = [];
