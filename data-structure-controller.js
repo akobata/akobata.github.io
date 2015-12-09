@@ -165,7 +165,7 @@
 
 
 
-		/*
+			/*
 *	Constructs data for the gui and analyzer
 *
 *	@param academicYear The starting year to be worked on
@@ -472,152 +472,7 @@ function SetDataCounts(candidateEntry){
 		"ACAD_FALL" : 0, "ACAD_SPRING" : 0, "INST_FALL" : 0, "INST_SPRING" : 0};
 }
 
-function updateData(data){
-	
-	data.reportCounts["ACAD_FALL"] = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SPRING"] = filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["INST_FALL"] = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["INST"]).length;
-	data.reportCounts["INST_SPRING"] = filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, ["INST"]).length;
-	
-	data.reportCounts["ACAD_FALL_AND_SPRING"] = 
-		filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length + 
-		filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["INST_FALL_AND_SPRING"] = 
-		filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["INST"]).length + 
-		filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, ["INST"]).length;;
-	data.reportCounts["ACAD_FALL_AND_SUN"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["SUN"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["SUN"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_FALL_AND_MON"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["MON"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["MON"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_FALL_AND_TUE"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["TUE"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["TUE"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_FALL_AND_WED"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["WED"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["WED"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_FALL_AND_THU"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["THU"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["THU"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_FALL_AND_FRI"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["FRI"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["FRI"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_FALL_AND_SAT"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["SAT"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["SAT"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SPRING_AND_SUN"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["SUN"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["SUN"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SPRING_AND_MON"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["MON"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["MON"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SPRING_AND_TUE"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["TUE"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["TUE"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SPRING_AND_WED"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["WED"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["WED"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SPRING_AND_THU"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["THU"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["THU"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SPRING_AND_FRI"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["FRI"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["FRI"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SPRING_AND_SAT"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["SAT"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["SAT"]).length, isType, ["ACAD", "FINL", "COMM", "CONV"]).length;
-	data.reportCounts["ACAD_AUG"] = filter(data, data.monthMarkers["AUGUST"], data.monthMarkers["SEPTEMBER"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SEP"] = filter(data, data.monthMarkers["SEPTEMBER"], data.monthMarkers["OCTOBER"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_OCT"] = filter(data, data.monthMarkers["OCTOBER"], data.monthMarkers["NOVEMBER"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_NOV"] = filter(data, data.monthMarkers["NOVEMBER"], data.monthMarkers["DECEMBER"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_DEC"] = filter(data, data.monthMarkers["DECEMBER"], data.monthMarkers["JANUARY"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_JAN"] = filter(data, data.monthMarkers["JANUARY"], data.monthMarkers["FEBRUARY"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_FEB"] = filter(data, data.monthMarkers["FEBRUARY"], data.monthMarkers["MARCH"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_MAR"] = filter(data, data.monthMarkers["MARCH"], data.monthMarkers["APRIL"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_APR"] = filter(data, data.monthMarkers["APRIL"], data.monthMarkers["MAY"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_MAY"] = filter(data, data.monthMarkers["MAY"], data.monthMarkers["JUNE"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["INST_FALL_AND_SUN"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["SUN"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["SUN"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_FALL_AND_MON"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["MON"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["MON"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_FALL_AND_TUE"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["TUE"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["TUE"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_FALL_AND_WED"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["WED"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["WED"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_FALL_AND_THU"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["THU"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["THU"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_FALL_AND_FRI"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["FRI"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["FRI"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_FALL_AND_SAT"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["SAT"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["SAT"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_SPRING_AND_SUN"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["SUN"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["SUN"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_SPRING_AND_MON"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["MON"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["MON"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_SPRING_AND_TUE"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["TUE"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["TUE"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_SPRING_AND_WED"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["WED"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["WED"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_SPRING_AND_THU"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["THU"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["THU"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_SPRING_AND_FRI"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["FRI"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["FRI"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_SPRING_AND_SAT"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["SAT"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["SAT"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_AUG"] = filter(data, data.monthMarkers["AUGUST"], data.monthMarkers["SEPTEMBER"], isType, ["INST"]).length;
-	data.reportCounts["INST_SEP"] = filter(data, data.monthMarkers["SEPTEMBER"], data.monthMarkers["OCTOBER"], isType, ["INST"]).length;
-	data.reportCounts["INST_OCT"] = filter(data, data.monthMarkers["OCTOBER"], data.monthMarkers["NOVEMBER"], isType, ["INST"]).length;
-	data.reportCounts["INST_NOV"] = filter(data, data.monthMarkers["NOVEMBER"], data.monthMarkers["DECEMBER"], isType, ["INST"]).length;
-	data.reportCounts["INST_DEC"] = filter(data, data.monthMarkers["DECEMBER"], data.monthMarkers["JANUARY"], isType, ["INST"]).length;
-	data.reportCounts["INST_JAN"] = filter(data, data.monthMarkers["JANUARY"], data.monthMarkers["FEBRUARY"], isType, ["INST"]).length;
-	data.reportCounts["INST_FEB"] = filter(data, data.monthMarkers["FEBRUARY"], data.monthMarkers["MARCH"], isType, ["INST"]).length;
-	data.reportCounts["INST_MAR"] = filter(data, data.monthMarkers["MARCH"], data.monthMarkers["APRIL"], isType, ["INST"]).length;
-	data.reportCounts["INST_APR"] = filter(data, data.monthMarkers["APRIL"], data.monthMarkers["MAY"], isType, ["INST"]).length;
-	data.reportCounts["INST_MAY"] = filter(data, data.monthMarkers["MAY"], data.monthMarkers["JUNE"], isType, ["INST"]).length;
-	data.reportCounts["INST_SUMMER"] = filter(data, data.boundaries["SUMMER_START"], data.boundaries["SUMMER_END"], isType, ["INST"]).length;
-	data.reportCounts["INST_WINTER"] = filter(data, data.boundaries["WINTER_START"], data.boundaries["WINTER_END"], isType, ["INST"]).length;
-	data.summary.fall["START_MON"] = (data.boundaries["FALL_START"].dayOfWeek == "MON");
-	data.summary.fall["START_DATE"] = data[data.boundaries["FALL_START"]];
-	data.summary.fall["PAYS_45_OR_LESS"] = 0;
-	
-	data.summary.fall["VETERANS_SWITCH"] = function(){
-		var veterans = data[data.holidayMarkers["VETERANS"]];
-		if(veterans.dayNumber == 11 || veterans.dayOfWeek == "FRI" || vaterans.dayOfWeek == "MON"){
-			return false;
-		}
-	};
-	data.summary.fall["FALL_BREAK_DAYS"] = function(){
-		var index = data.holidayMarkers["THANKSGIVING"];
-		var numberDays = 0;
-		while(data[index].dayOfWeek != "SUN"){
-			if(data[index].type != "INST"){
-				numberDays++;
-			}
-			index--;
-		}
-		return numberDays;
-	};
-	data.summary.fall["FINALS_WEEK"] = function(){
-		var finals = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, "FINL");
-		if(finals[0].dayOfWeek == "TUE"){
-			return true;
-		}
-	};
-	data.summary.fall["PRO_FINAL_GAP"] = function(){
-		var sample = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, "ACAD");
-		return (sample.length >= 3);
-	};
-	data.summary.fall["WINTER_GRADES"] = function(){
-		var sample = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, "ACAD");
-		return (sample.length >= 3);
-	};;
-	//winter
-	data.summary.winter["INST_WINTER"] = filter(data, data.boundaries["WINTER_START"], data.boundaries["WINTER_END"], isType, "INST").length;
-	//spring
-	data.summary.spring["PROCESS_TIME"];
-	data.summary.spring["SPRING_START"] = data[data.boundaries["SPRING_START"]];
-	data.summary.spring["PAYS_45_OR_LESS"];
-	data.summary.spring["CESAR_IN_SPRING"] = function(){
-		var cesar = data.holidayMarkers["CESARCHAVEZ"];				
-		if(data[cesar].dayOfWeek == "FRI"){
-			return (data[cesar - 1].type == "ACAD");
-		}
-		else{
-			return (data[cesar + 1].type == "ACAD");
-		}
-	};
-	data.summary.spring["SAME_SPRING"];
-	//summer
-	data.summary.summer["INST_SUMMER"] = filter(data, data.boundaries["SUMMER_START"], data.boundaries["SUMMER_END"], isType, "INST").length;
 
-}
 
 function InitializeHandles(candidateEntry){
 	SetMonthHandles(candidateEntry);
@@ -977,99 +832,137 @@ function isType(day, searchValues){
 	return (searchValues.indexOf(day.type) > -1);
 }
 
-function updateData(data){
-	data.reportCounts["ACAD_FALL"] = filter(data, data.previousYearEnd, data.holidayMarkers["CHRISTMAS"], isDay, ["MON", "TUE", "WED", "THU", "FRI"]).length -
-		filter(data, data.previousYearEnd, data.holidayMarkers["CHRISTMAS"], isType, ["HOLI"]).length;
-	data.reportCounts["ACAD_SPRING"] = filter(data, data.boundaries["WINTER_START"], data.boundaries["SUMMER_START"], isDay, ["MON", "TUE", "WED", "THU", "FRI"]).length -
-		filter(data, data.boundaries["WINTER_START"], data.boundaries["SUMMER_START"], isType, ["HOLI"]).length;
-	data.reportCounts["INST_FALL"] = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["INST"]).length;
-	data.reportCounts["INST_SPRING"] = filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, ["INST"]).length;
-	
-	data.reportCounts["ACAD_FALL_AND_SPRING"] = 
-		data.reportCounts["ACAD_FALL"] + data.reportCounts["ACAD_SPRING"];
-	data.reportCounts["ID_FALL_AND_SPRING"] = 
-		filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["INST"]).length + 
-		filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, ["INST"]).length;;
-	data.reportCounts["ACAD_FALL_AND_SUN"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["SUN"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["SUN"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_FALL_AND_MON"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["MON"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["MON"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_FALL_AND_TUE"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["TUE"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["TUE"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_FALL_AND_WED"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["WED"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["WED"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_FALL_AND_THU"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["THU"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["THU"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_FALL_AND_FRI"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["FRI"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["FRI"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_FALL_AND_SAT"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["SAT"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["SAT"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SPRING_AND_SUN"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["SUN"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["SUN"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SPRING_AND_MON"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["MON"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["MON"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SPRING_AND_TUE"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["TUE"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["TUE"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SPRING_AND_WED"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["WED"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["WED"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SPRING_AND_THU"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["THU"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["THU"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SPRING_AND_FRI"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["FRI"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["FRI"]).length, isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SPRING_AND_SAT"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["SAT"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["SAT"]).length, isType, ["ACAD", "FINL", "COMM", "CONV"]).length;
-	data.reportCounts["ACAD_AUG"] = filter(data, data.monthMarkers["AUGUST"], data.monthMarkers["SEPTEMBER"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_SEP"] = filter(data, data.monthMarkers["SEPTEMBER"], data.monthMarkers["OCTOBER"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_OCT"] = filter(data, data.monthMarkers["OCTOBER"], data.monthMarkers["NOVEMBER"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_NOV"] = filter(data, data.monthMarkers["NOVEMBER"], data.monthMarkers["DECEMBER"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_DEC"] = filter(data, data.monthMarkers["DECEMBER"], data.monthMarkers["JANUARY"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_JAN"] = filter(data, data.monthMarkers["JANUARY"], data.monthMarkers["FEBRUARY"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_FEB"] = filter(data, data.monthMarkers["FEBRUARY"], data.monthMarkers["MARCH"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_MAR"] = filter(data, data.monthMarkers["MARCH"], data.monthMarkers["APRIL"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_APR"] = filter(data, data.monthMarkers["APRIL"], data.monthMarkers["MAY"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["ACAD_MAY"] = filter(data, data.monthMarkers["MAY"], data.monthMarkers["JUNE"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
-	data.reportCounts["INST_FALL_AND_SUN"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["SUN"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["SUN"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_FALL_AND_MON"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["MON"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["MON"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_FALL_AND_TUE"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["TUE"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["TUE"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_FALL_AND_WED"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["WED"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["WED"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_FALL_AND_THU"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["THU"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["THU"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_FALL_AND_FRI"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["FRI"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["FRI"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_FALL_AND_SAT"] = filter(filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["SAT"]),
-		0, filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isDay, ["SAT"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_SPRING_AND_SUN"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["SUN"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["SUN"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_SPRING_AND_MON"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["MON"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["MON"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_SPRING_AND_TUE"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["TUE"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["TUE"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_SPRING_AND_WED"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["WED"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["WED"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_SPRING_AND_THU"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["THU"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["THU"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_SPRING_AND_FRI"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["FRI"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["FRI"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_SPRING_AND_SAT"] = filter(filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["SAT"]),
-		0, filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isDay, ["SAT"]).length, isType, ["INST"]).length;
-	data.reportCounts["INST_AUG"] = filter(data, data.monthMarkers["AUGUST"], data.monthMarkers["SEPTEMBER"], isType, ["INST"]).length;
-	data.reportCounts["INST_SEP"] = filter(data, data.monthMarkers["SEPTEMBER"], data.monthMarkers["OCTOBER"], isType, ["INST"]).length;
-	data.reportCounts["INST_OCT"] = filter(data, data.monthMarkers["OCTOBER"], data.monthMarkers["NOVEMBER"], isType, ["INST"]).length;
-	data.reportCounts["INST_NOV"] = filter(data, data.monthMarkers["NOVEMBER"], data.monthMarkers["DECEMBER"], isType, ["INST"]).length;
-	data.reportCounts["INST_DEC"] = filter(data, data.monthMarkers["DECEMBER"], data.monthMarkers["JANUARY"], isType, ["INST"]).length;
-	data.reportCounts["INST_JAN"] = filter(data, data.monthMarkers["JANUARY"], data.monthMarkers["FEBRUARY"], isType, ["INST"]).length;
-	data.reportCounts["INST_FEB"] = filter(data, data.monthMarkers["FEBRUARY"], data.monthMarkers["MARCH"], isType, ["INST"]).length;
-	data.reportCounts["INST_MAR"] = filter(data, data.monthMarkers["MARCH"], data.monthMarkers["APRIL"], isType, ["INST"]).length;
-	data.reportCounts["INST_APR"] = filter(data, data.monthMarkers["APRIL"], data.monthMarkers["MAY"], isType, ["INST"]).length;
-	data.reportCounts["INST_MAY"] = filter(data, data.monthMarkers["MAY"], data.monthMarkers["JUNE"], isType, ["INST"]).length;
-	data.reportCounts["INST_SUMMER"] = filter(data, data.boundaries["SUMMER_START"], data.boundaries["SUMMER_END"], isType, ["INST"]).length;
-	data.reportCounts["INST_WINTER"] = filter(data, data.boundaries["WINTER_START"], data.boundaries["WINTER_END"], isType, ["INST"]).length;
-	data.reportCounts["VETERANS_SWITCH"] = false;
+function isMonth(day, searchValues){
+	return (searchValues.indexOf(day.month) > -1);
 }
+
+function updateData(data){
+	
+	// data.reportCounts["ACAD_FALL"] = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
+	// data.reportCounts["ACAD_SPRING"] = filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, ["ACAD", "FINL", "COMM", "CONV", "INST"]).length;
+	// data.reportCounts["INST_FALL"] = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, ["INST"]).length;
+	// data.reportCounts["INST_SPRING"] = filter(data, data.boundaries["SPRING_START"], data.boundaries["SPRING_END"], isType, ["INST"]).length;
+	
+	
+	var f = filter(data, data.previousYearEnd, data.holidayMarkers["CHRISTMAS"], isDay, ["MON", "TUE", "WED", "THU", "FRI"]);
+	f = filter(f, 0, f.length, isType, ["ACAD", "INST", "CONV", "COMM", "FINL", "WKND", "FILL", "UNK"]);
+	
+	var s = filter(data, data.boundaries["SPRING_START"], data.boundaries["SUMMER_START"], isDay, ["MON", "TUE", "WED", "THU", "FRI"]);
+	var s = filter(s, 0, s.length, isType, ["ACAD", "INST", "CONV", "COMM", "FINL", "WKND", "FILL", "UNK"]);
+	
+
+	
+	 data.reportCounts["ACAD_FALL"] = f.length;
+	 data.reportCounts["ACAD_SPRING"] = s.length;
+	 data.reportCounts["ACAD_FALL_AND_SPRING"] = data.reportCounts["ACAD_FALL"] + data.reportCounts["ACAD_SPRING"];
+	
+	data.reportCounts["ACAD_FALL_AND_SUN"] = 0;
+	data.reportCounts["ACAD_FALL_AND_MON"] = filter(f, 0, f.length, isDay, "MON").length;
+	data.reportCounts["ACAD_FALL_AND_TUE"] = filter(f, 0, f.length, isDay, "TUE").length;
+	data.reportCounts["ACAD_FALL_AND_WED"] = filter(f, 0, f.length, isDay, "WED").length;
+	data.reportCounts["ACAD_FALL_AND_THU"] = filter(f, 0, f.length, isDay, "THU").length;
+	data.reportCounts["ACAD_FALL_AND_FRI"] = filter(f, 0, f.length, isDay, "FRI").length;
+	data.reportCounts["ACAD_FALL_AND_SAT"] = 0;
+	data.reportCounts["ACAD_SPRING_AND_SUN"] = 0;
+	data.reportCounts["ACAD_SPRING_AND_MON"] = filter(s, 0, s.length, isDay, "MON").length;
+	data.reportCounts["ACAD_SPRING_AND_TUE"] = filter(s, 0, s.length, isDay, "TUE").length;;
+	data.reportCounts["ACAD_SPRING_AND_WED"] = filter(s, 0, s.length, isDay, "WED").length;
+	data.reportCounts["ACAD_SPRING_AND_THU"] = filter(s, 0, s.length, isDay, "THU").length;
+	data.reportCounts["ACAD_SPRING_AND_FRI"] = filter(s, 0, s.length, isDay, "FRI").length;
+	data.reportCounts["ACAD_SPRING_AND_SAT"] = 0;
+	data.reportCounts["ACAD_AUG"] = filter(f, 0, f.length, isMonth, "AUG").length;
+	data.reportCounts["ACAD_SEP"] = filter(f, 0, f.length, isMonth, "SEP").length;
+	data.reportCounts["ACAD_OCT"] = filter(f, 0, f.length, isMonth, "OCT").length;
+	data.reportCounts["ACAD_NOV"] = filter(f, 0, f.length, isMonth, "NOV").length;
+	data.reportCounts["ACAD_DEC"] = filter(f, 0, f.length, isMonth, "DEC").length;
+	data.reportCounts["ACAD_JAN"] = filter(s, 0, s.length, isMonth, "JAN").length;
+	data.reportCounts["ACAD_FEB"] = filter(s, 0, s.length, isMonth, "FEB").length;
+	data.reportCounts["ACAD_MAR"] = filter(s, 0, s.length, isMonth, "MAR").length;
+	data.reportCounts["ACAD_APR"] = filter(s, 0, s.length, isMonth, "APR").length;
+	data.reportCounts["ACAD_MAY"] = filter(s, 0, s.length, isMonth, "MAY").length;
+	 
+	 f = filter(f, 0, f.length, isType, "INST");
+	 s = filter(s, 0, s.length, isType, "INST");
+	 
+	 data.reportCounts["INST_FALL"] = f.length;
+	 data.reportCounts["INST_SPRING"] = s.length;
+	data.reportCounts["ID_FALL_AND_SPRING"] =  data.reportCounts["INST_FALL"] +  data.reportCounts["INST_SPRING"];
+	
+	data.reportCounts["INST_FALL_AND_SUN"] = 0;
+	data.reportCounts["INST_FALL_AND_MON"] = filter(f, 0, f.length, isDay, "MON").length;
+	data.reportCounts["INST_FALL_AND_TUE"] = filter(f, 0, f.length, isDay, "TUE").length;
+	data.reportCounts["INST_FALL_AND_WED"] = filter(f, 0, f.length, isDay, "WED").length;
+	data.reportCounts["INST_FALL_AND_THU"] = filter(f, 0, f.length, isDay, "THU").length;
+	data.reportCounts["INST_FALL_AND_FRI"] = filter(f, 0, f.length, isDay, "FRI").length;
+	data.reportCounts["INST_FALL_AND_SAT"] = 0;
+	data.reportCounts["INST_SPRING_AND_SUN"] = 0;
+	data.reportCounts["INST_SPRING_AND_MON"] = filter(s, 0, s.length, isDay, "MON").length;
+	data.reportCounts["INST_SPRING_AND_TUE"] = filter(s, 0, s.length, isDay, "TUE").length;;
+	data.reportCounts["INST_SPRING_AND_WED"] = filter(s, 0, s.length, isDay, "WED").length;
+	data.reportCounts["INST_SPRING_AND_THU"] = filter(s, 0, s.length, isDay, "THU").length;
+	data.reportCounts["INST_SPRING_AND_FRI"] = filter(s, 0, s.length, isDay, "FRI").length;
+	data.reportCounts["INST_SPRING_AND_SAT"] = 0;
+	data.reportCounts["INST_AUG"] = filter(f, 0, f.length, isMonth, "AUG").length;
+	data.reportCounts["INST_SEP"] = filter(f, 0, f.length, isMonth, "SEP").length;
+	data.reportCounts["INST_OCT"] = filter(f, 0, f.length, isMonth, "OCT").length;
+	data.reportCounts["INST_NOV"] = filter(f, 0, f.length, isMonth, "NOV").length;
+	data.reportCounts["INST_DEC"] = filter(f, 0, f.length, isMonth, "DEC").length;
+	data.reportCounts["INST_JAN"] = filter(s, 0, s.length, isMonth, "JAN").length;
+	data.reportCounts["INST_FEB"] = filter(s, 0, s.length, isMonth, "FEB").length;
+	data.reportCounts["INST_MAR"] = filter(s, 0, s.length, isMonth, "MAR").length;
+	data.reportCounts["INST_APR"] = filter(s, 0, s.length, isMonth, "APR").length;
+	data.reportCounts["INST_MAY"] = filter(s, 0, s.length, isMonth, "MAY").length;
+	
+	
+
+}
+	/*
+	data.summary.fall["FALL_BREAK_DAYS"] = function(){
+		var index = data.holidayMarkers["THANKSGIVING"];
+		var numberDays = 0;
+		while(data[index].dayOfWeek != "SUN"){
+			if(data[index].type != "INST"){
+				numberDays++;
+			}
+			index--;
+		}
+		return numberDays;
+	};
+	data.summary.fall["FINALS_WEEK"] = function(){
+		var finals = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, "FINL");
+		if(finals[0].dayOfWeek == "TUE"){
+			return true;
+		}
+	};
+	data.summary.fall["PRO_FINAL_GAP"] = function(){
+		var sample = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, "ACAD");
+		return (sample.length >= 3);
+	};
+	data.summary.fall["WINTER_GRADES"] = function(){
+		var sample = filter(data, data.boundaries["FALL_START"], data.boundaries["FALL_END"], isType, "ACAD");
+		return (sample.length >= 3);
+	};;
+	//winter
+	data.summary.winter["INST_WINTER"] = filter(data, data.boundaries["WINTER_START"], data.boundaries["WINTER_END"], isType, "INST").length;
+	//spring
+	data.summary.spring["PROCESS_TIME"];
+	data.summary.spring["SPRING_START"] = data[data.boundaries["SPRING_START"]];
+	data.summary.spring["PAYS_45_OR_LESS"];
+	data.summary.spring["CESAR_IN_SPRING"] = function(){
+		var cesar = data.holidayMarkers["CESARCHAVEZ"];				
+		if(data[cesar].dayOfWeek == "FRI"){
+			return (data[cesar - 1].type == "ACAD");
+		}
+		else{
+			return (data[cesar + 1].type == "ACAD");
+		}
+	};
+	data.summary.spring["SAME_SPRING"];
+	//summer
+	data.summary.summer["INST_SUMMER"] = filter(data, data.boundaries["SUMMER_START"], data.boundaries["SUMMER_END"], isType, "INST").length;
+	*/
+
+
 
 function checkRules(data){
 	var errors = [];
@@ -1499,7 +1392,7 @@ function applyPossibilities(data, possibilites){
 												
 												
 											SetTypes(data);
-											updateData(data);
+											//updateData(data);
 											errors = checkRules(data);
 											
 											if(errors.length != 0){
