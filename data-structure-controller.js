@@ -630,7 +630,8 @@ function SetBoundaries(candidateEntry){
 	//WINTER
 	candidateEntry.boundaries["WINTER_START"] = candidateEntry.monthMarkers["JANUARY"];
 	while(candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek == "SUN" || 
-		candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek == "SAT"){
+		candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek == "SAT" ||
+		candidateEntry[candidateEntry.boundaries["WINTER_START"]].type == "HOLI"){
 		candidateEntry.boundaries["WINTER_START"]++;
 	}
 	for(var i = 0, fridays = 0; fridays <= 3; i++){
