@@ -33,10 +33,10 @@
 		};
 
 		vm.hardRules = [
-			"Fall semester is at least 15 weeks long",
-			"Spring semester is at least 15 weeks long",
-			"Between 145 and 149 Instructional Days",
-			"Between 170 and 180 Academic Work Days",
+//			"Fall semester is at least 15 weeks long",
+//			"Spring semester is at least 15 weeks long",
+			"Instructional Days is 147 \xB1 2 days",
+			"Academic Work Days is 147 \xB1 2 days",
 			"Fall and Spring semesters do not start on a Friday",
 			"Fall and Spring finals are 5 weekdays and one Saturday (either before, in the middle, or after)",
 			"Fall semester must start between Aug 17 and Sep 1",
@@ -48,7 +48,8 @@
 			"Summer session is at least 12 calendar weeks",
 			"4 days between the end of Spring finals and before Summer start date are reserved for Commencement",
 			"Spring Break is a calendar week",
-			"Fall Break is the Wednesday before Thanksgiving, Thursday, and Friday"
+			"Fall Break is the Wednesday before Thanksgiving, Thursday, and Friday",
+			"Holidays are always considered to be of day type Holiday"
 
 		];
 
@@ -61,12 +62,12 @@
 			convocationFriBeforeFirstID: 'Convocation is a Friday before the first Instructional Day (ID) of Fall semester',
 			fallStartMon: 'Fall semester starts on a Monday',
 			extendedFallBreak: 'Extended Fall break (take off Monday-Wednesday before Thanksgiving)',
-			fallFinalsMonday: 'Fall semester finals start on a Monday - NEW',
+			fallFinalsMonday: 'Fall semester finals start on a Monday',
 			summerToFallMoreThanWeek: 'Difference between the end of Summer and start of Fall semester is more than 7 calendar days',
 			CesarChavezInSpringBreak: 'Attempt to put Cesar Chavez Day in Spring Break',
-			springFinalsMonday: 'Spring semester finals start on a Monday - NEW',
+			springFinalsMonday: 'Spring semester finals start on a Monday',
 			commencementTueFri: 'Commencement is Tuesday - Friday',
-			commencementBeforeMemorial: 'Commencement is before Memorial Day - NEW'
+			commencementBeforeMemorial: 'Commencement is before Memorial Day'
 		};
 
         vm.getCalendar = function(){
@@ -165,7 +166,7 @@
 
 
 
-			/*
+		/*
 *	Constructs data for the gui and analyzer
 *
 *	@param academicYear The starting year to be worked on
