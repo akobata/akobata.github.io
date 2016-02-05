@@ -18,6 +18,9 @@
 
     <h1>Create an Academic Calendar</h1>
     <div>
+        <label>The previous summer session ended on AUG </label>
+        <!-- still needs validation -->
+        <input type="number" size="3" ng-model="data.endDay" min="1" max="31"/><br/>
         <label>Select the calendar year to create a calendar in:</label>
         <select ng-model="data.year">
             <option value="2015">2015-2016</option>
@@ -39,6 +42,7 @@
     <br/>
     <button type="button" class="btn btn-default" ng-click="data.getCalendar()">Create Calendar</button><br/>
     (This may take a minute to create)<br/>
+    <!--<label ng-show="data.working">LOADING...</label><br/>-->
 
     <div>
         <div ng-show="data.gui[0].length > 0">
@@ -56,9 +60,10 @@
             <!-- The following is to get the collapsible panels working -->
             <accordion close-others="false">
 
-                <accordion-group is-open="$first" ng-repeat="option in data.totalCalendarsArr" heading="OPTION {{$index + 1}}">
-                    <div class="row" ng-repeat="row in option.calendar">
-                        <div class="col-sm-3" ng-repeat="month in row">
+                <accordion-group is-open="$first" ng-repeat="option in data.gui[0]" heading="OPTION {{$index + 1}}">
+                    <div class="row">
+                        <div class="col-sm-3 month" ng-repeat="month in option.guiTree">
+                        <!--<div class="col-sm-3 month" ng-repeat="month in month">-->
                             <table cellpadding="1" cellspacing="1" border="1" width="250">
                                 <thead>
                                 <th colspan="7">{{month.monthName}} {{month.yearNumber}}</th>
@@ -238,9 +243,6 @@
                             <td>Instructional Days:</td>
                             <td>147 (+/- 2 days)</td>
                             <td>{{option.candidateEntryData.reportCounts.ID_FALL_AND_SPRING}}</td>
-                        </tr>
-                        <tr>
-                            <td></td>
                         </tr>
                         <tr>
                             <td>Summer 2017</td>

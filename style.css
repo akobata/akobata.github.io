@@ -22,6 +22,10 @@ table tr td {
   cursor: pointer;
 }
 
+div.month {
+  min-width: 255px;
+}
+
 table {
   table-layout: fixed;
   padding: 2px;
@@ -30,6 +34,7 @@ table {
 table th,td {
   text-align: center;
   vertical-align: middle;
+  height: 22px;
 }
 
 th.right,td.right {
@@ -59,6 +64,7 @@ td.FINL {
 td.HOLI {
   background-color: transparent;
   color: blue;
+  font-weight: bold;
 }
 td.WKND {
   background-color: transparent;
@@ -68,20 +74,17 @@ td.FILL {
   background-color: transparent;
 }
 td.OPEN {
-  background-color: mediumorchid;
+  background-color: #d580ff;
 }
 td.UNK {
   background-color: lightgrey;
 }
-td.FALLSTART {
-  background-color: #00ff00;
+td.START {
+  background-color: #33ff33;
 }
-td.SPRINGSTART {
-  background-color: #00ff00;
+td.WINT {
+  background-color: #a6a6a6;
 }
-td.WINTERSTART {
-  background-color: #00ff00;
-}
-td.SUMMERSTART {
-  background-color: #00ff00;
+td.SUMM {
+  background-color: #ffa64d;
 }

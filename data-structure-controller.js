@@ -4,20 +4,21 @@
     angular.module('calendar')
         .controller('dataCtrl',dataCtrl);
 
-   
+
 
 	function dataCtrl (){
         var vm = this;
 
         vm.gui = null;
-        vm.calRowSplit = [];
-        vm.totalCalSplit = [];
-        vm.totalCalendarsArr = [];
+        vm.working = false;
+        vm.endDay = 1;
         vm.year = new Date().getFullYear();
         var fallStartDate;
         var springStartDate;
         var winterStartDate;
+        var winterEndDate;
         var summerStartDate;
+        var summerEndDate;
 		vm.dayTypes = {
 			ACAD: 'Academic Work Day',
 			INST: 'Instructional Day',
@@ -25,10 +26,12 @@
 			COMM: 'Commencement',
 			FINL: 'Finals',
 			HOLI: 'Holiday',
-			WKND: 'Weekend',
-			FALLSTART: 'Semester Start'
+//			WKND: 'Weekend',
+			START: 'Semester Start',
 //			FILL: 'Fill',
-//			OPEN: 'Open',
+			OPEN: 'No classes, campus open',
+			SUMM: 'Summer Sessions',
+			WINT: 'Winter Session'
 //			UNK: 'Unknown'
 		};
 
@@ -77,66 +80,19 @@
             var startDate = {};
 			startDate.month = "AUG";
 			startDate.dayNumber = 21;
+			// here is where I change the input to a string
+			vm.endDay = vm.endDay.toString();
             vm.gui = constructCalendarData(parseInt(vm.year), startDate, vm.selections.rules, false);
 
-            console.log(vm.gui);
-//            console.log(vm.gui.candidateEntryData);
+            console.log(vm.gui[0]);
 
-            vm.totalCalendarsArr = [];
-
-			if(vm.gui[0].length > 0){
-				// splitting the calendar for display
-				for(var calendar in vm.gui[0]){
-					var split = splitCalendar(vm.gui[0][calendar].guiTree)
-					vm.totalCalendarsArr.push({
-						'calendar': split,
-						'candidateEntryData': vm.gui[0][calendar].candidateEntryData
-					});
-				}
-
-//				console.log('First day of Fall:');
-//				console.log(vm.gui[0][0].candidateEntryData.boundaries['FALL_START']);
-//				fallStartDate = vm.gui[0][0].candidateEntryData[vm.gui[0][0].candidateEntryData.boundaries['FALL_START']];
-//				console.log(fallStartDate);
-//				springStartDate = vm.gui[0][0].candidateEntryData[vm.gui[0][0].candidateEntryData.boundaries['SPRING_START']];
-//				console.log(springStartDate);
-//				winterStartDate = vm.gui[0][0].candidateEntryData[vm.gui[0][0].candidateEntryData.boundaries['WINTER_START']];
-//				console.log(winterStartDate);
-//				summerStartDate = vm.gui[0][0].candidateEntryData[vm.gui[0][0].candidateEntryData.boundaries['SUMMER_START']];
-//				console.log(summerStartDate);
-			}
-			else{
+			if(vm.gui[0].length == 0){
 				console.log("no calendars due to the following conflicts:");
 				console.log(vm.gui[1]);
 			}
-            console.log('Putting the arrays in a list for the drop-downs:');
-            console.log(vm.totalCalendarsArr);
 
 
         };
-
-		// splitting the calendar for display
-        function splitCalendar(calendar){
-            var counter = 0;
-            var calRowSplit = [];
-            var totalCalSplit = [];
-            for(var month in calendar){
-				counter++;
-            	if(counter <= 4){
-            		calRowSplit.push(calendar[month]);
-            	} else {
-            		counter = 1;
-//            		console.log(calRowSplit);
-            		totalCalSplit.push(calRowSplit);
-            		calRowSplit = [];
-            		calRowSplit.push(calendar[month]);
-            	}
-            }
-            totalCalSplit.push(calRowSplit);
-//            console.log('Done with splitting:');
-//            console.log(totalCalSplit);
-            return totalCalSplit;
-        }
 
         // for the special styling of the first days of the semesters
         vm.dayStyle = function(option,type,month,day,year){
@@ -144,15 +100,20 @@
 				fallStartDate = option.candidateEntryData[option.candidateEntryData.boundaries['FALL_START']];
 				springStartDate = option.candidateEntryData[option.candidateEntryData.boundaries['SPRING_START']];
 				winterStartDate = option.candidateEntryData[option.candidateEntryData.boundaries['WINTER_START']];
+				winterEndDate = option.candidateEntryData[option.candidateEntryData.boundaries['WINTER_END']];
 				summerStartDate = option.candidateEntryData[option.candidateEntryData.boundaries['SUMMER_START']];
+				summerEndDate = option.candidateEntryData[option.candidateEntryData.boundaries['SUMMER_END']];
         	if(day == fallStartDate.dayNumber && month == fallStartDate.month && year == fallStartDate.year)
-        		return "FALLSTART"
+        		return "START"
         	else if(day == springStartDate.dayNumber && month == springStartDate.month && year == springStartDate.year)
-				return "SPRINGSTART"
-        	else if(day == winterStartDate.dayNumber && month == winterStartDate.month && year == winterStartDate.year)
-				return "WINTERSTART"
-        	else if(day == summerStartDate.dayNumber && month == summerStartDate.month && year == summerStartDate.year)
-				return "SUMMERSTART"
+				return "START"
+        	else if(month == winterStartDate.month && year == winterStartDate.year)
+        		if(day >= winterStartDate.dayNumber && day <= winterEndDate.dayNumber && type != 'UNK' && type != 'WKND')
+					return "WINT"
+				else
+					return type
+        	else if(day >= summerStartDate.dayNumber && day <= summerEndDate.dayNumber && type != 'UNK' && type != 'WKND')
+        		return "SUMM"
 			else
         		return type
         };
