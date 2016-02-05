@@ -279,11 +279,11 @@ function constructCalendarData(academicYear, startDate, conditions, innerCall){
 	//data to return 
 	var data = new ReturnData([], []);
 	//always points to next calendar week day
-	var startDay = getFirstWeekday(academicYear, 4);
+	var startDay = getFirstWeekday(academicYear, 7);
 	//gui displays from May of academic year to August of the next
 	var yearCounter = academicYear;
 	//starting in May
-	var monthCounter = 4; 
+	var monthCounter = 7; 
 	
 	//YEARS**/
 	while(yearCounter <= academicYear + 1){
@@ -446,22 +446,20 @@ function SetMonthHandles(candidateEntry){
 	for(var i = 0; i < candidateEntry.length - 1; i++){
 		if(candidateEntry[i].month != candidateEntry[i + 1].month){
 			monthCounter ++;
-			if(monthCounter > 2){
-				switch(monthCounter - 3){
-					case 0:	candidateEntry.monthMarkers["AUGUST"] = i + 1; break;
-					case 1:	candidateEntry.monthMarkers["SEPTEMBER"] = i + 1; break;
-					case 2:	candidateEntry.monthMarkers["OCTOBER"] = i + 1; break;
-					case 3:	candidateEntry.monthMarkers["NOVEMBER"] = i + 1; break;
-					case 4:	candidateEntry.monthMarkers["DECEMBER"] = i + 1; break;
-					case 5:	candidateEntry.monthMarkers["JANUARY"] = i + 1;	break;
-					case 6:	candidateEntry.monthMarkers["FEBRUARY"] = i + 1; break;
-					case 7:	candidateEntry.monthMarkers["MARCH"] = i + 1; break;
-					case 8:	candidateEntry.monthMarkers["APRIL"] = i + 1; break;
-					case 9:	candidateEntry.monthMarkers["MAY"] = i + 1; break;
-					case 10: candidateEntry.monthMarkers["JUNE"] = i + 1; break;
-					case 11: candidateEntry.monthMarkers["JULY"] = i + 1; break;
-					default: 
-				}
+			switch(monthCounter){
+				case 0:	candidateEntry.monthMarkers["AUGUST"] = i + 1; break;
+				case 1:	candidateEntry.monthMarkers["SEPTEMBER"] = i + 1; break;
+				case 2:	candidateEntry.monthMarkers["OCTOBER"] = i + 1; break;
+				case 3:	candidateEntry.monthMarkers["NOVEMBER"] = i + 1; break;
+				case 4:	candidateEntry.monthMarkers["DECEMBER"] = i + 1; break;
+				case 5:	candidateEntry.monthMarkers["JANUARY"] = i + 1;	break;
+				case 6:	candidateEntry.monthMarkers["FEBRUARY"] = i + 1; break;
+				case 7:	candidateEntry.monthMarkers["MARCH"] = i + 1; break;
+				case 8:	candidateEntry.monthMarkers["APRIL"] = i + 1; break;
+				case 9:	candidateEntry.monthMarkers["MAY"] = i + 1; break;
+				case 10: candidateEntry.monthMarkers["JUNE"] = i + 1; break;
+				case 11: candidateEntry.monthMarkers["JULY"] = i + 1; break;
+				default: 
 			}
 		}
 	}
@@ -574,6 +572,7 @@ function GetDayIndex(data, date, secondOccurrence){
 }
 
 function SetBoundaries(candidateEntry){
+	
 	if(candidateEntry[candidateEntry.previousYearEnd].dayOfWeek == "SAT" ||
 		candidateEntry[candidateEntry.previousYearEnd].dayOfWeek == "SUN"){
 		while(candidateEntry[candidateEntry.previousYearEnd].dayOfWeek != "MON"){
@@ -1341,9 +1340,6 @@ function getPossibilities(data){
 			indexByStartAndCount(data.monthMarkers["JANUARY"], 16, 1, false, false):
 			indexByStartAndCount(data.monthMarkers["JANUARY"], 11, 1, false, false);
 			
-			
-			console.log(data[earliestWinterEnd]);
-			console.log(data[lastWinterEnd]);
 	for(var i = earliestWinterEnd; i <= lastWinterEnd; i++){
 		var leap = (data[data.monthMarkers["JANUARY"]].year % 4 == 0)?1:0;
 		while(data[i].dayOfWeek == "SAT" || 
@@ -1420,12 +1416,7 @@ function getPossibilities(data){
 }
 
 function applyPossibilities(data, possibilites){
-	
-	
-	console.log(possibilites);
-	console.log(data);
-	
-	
+		
 	//most important thing is holidays are set
 	if(countPossibilities(possibilites) != 0){
 		var softErrors = ["UNEVEN ID/WEEKDAY BALANCE", "FALL DOESN'T START ON MONDAY", "UNDER 1 WEEK SUMMER TO FALL", "CONV NOT FRIDAY BEFORE FALL START",
@@ -1556,8 +1547,7 @@ function applyPossibilities(data, possibilites){
 			}
 		}
 
-		console.log(smallestHardError);
-		console.log(testCount);
+		//console.log(smallestHardError);
 		return [options, conflicts];
 	}
 	else{
