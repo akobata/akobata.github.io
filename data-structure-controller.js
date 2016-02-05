@@ -954,7 +954,8 @@ function updateData(data){
 	data.reportCounts["INST_APR"] = filter(s, 0, s.length, isMonth, "APR").length;
 	data.reportCounts["INST_MAY"] = filter(s, 0, s.length, isMonth, "MAY").length;
 	
-	
+	data.reportCounts["INST_WINTER"] = filter(data, data.boundaries["WINTER_START"], data.boundaries["SPRING_START"], isType, "INST").length;
+	data.reportCounts["INST_SUMMER"] = filter(data, data.boundaries["SUMMER_START"], data.boundaries["SUMMER_END"], isType, "INST").length;
 
 }
 	/*
