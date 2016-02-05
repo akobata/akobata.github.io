@@ -893,8 +893,8 @@ function updateData(data){
 	
 
 	
-	 data.reportCounts["ACAD_FALL"] = f.length;
-	 data.reportCounts["ACAD_SPRING"] = s.length;
+	 data.reportCounts["ACAD_FALL"] = f.length + 1;
+	 data.reportCounts["ACAD_SPRING"] = s.length + 1;
 	 data.reportCounts["ACAD_FALL_AND_SPRING"] = data.reportCounts["ACAD_FALL"] + data.reportCounts["ACAD_SPRING"];
 	
 	data.reportCounts["ACAD_FALL_AND_SUN"] = 0;
@@ -903,24 +903,24 @@ function updateData(data){
 	data.reportCounts["ACAD_FALL_AND_WED"] = filter(f, 0, f.length, isDay, "WED").length;
 	data.reportCounts["ACAD_FALL_AND_THU"] = filter(f, 0, f.length, isDay, "THU").length;
 	data.reportCounts["ACAD_FALL_AND_FRI"] = filter(f, 0, f.length, isDay, "FRI").length;
-	data.reportCounts["ACAD_FALL_AND_SAT"] = 0;
+	data.reportCounts["ACAD_FALL_AND_SAT"] = 1;
 	data.reportCounts["ACAD_SPRING_AND_SUN"] = 0;
 	data.reportCounts["ACAD_SPRING_AND_MON"] = filter(s, 0, s.length, isDay, "MON").length;
 	data.reportCounts["ACAD_SPRING_AND_TUE"] = filter(s, 0, s.length, isDay, "TUE").length;;
 	data.reportCounts["ACAD_SPRING_AND_WED"] = filter(s, 0, s.length, isDay, "WED").length;
 	data.reportCounts["ACAD_SPRING_AND_THU"] = filter(s, 0, s.length, isDay, "THU").length;
 	data.reportCounts["ACAD_SPRING_AND_FRI"] = filter(s, 0, s.length, isDay, "FRI").length;
-	data.reportCounts["ACAD_SPRING_AND_SAT"] = 0;
+	data.reportCounts["ACAD_SPRING_AND_SAT"] = 1;
 	data.reportCounts["ACAD_AUG"] = filter(f, 0, f.length, isMonth, "AUG").length;
 	data.reportCounts["ACAD_SEP"] = filter(f, 0, f.length, isMonth, "SEP").length;
 	data.reportCounts["ACAD_OCT"] = filter(f, 0, f.length, isMonth, "OCT").length;
 	data.reportCounts["ACAD_NOV"] = filter(f, 0, f.length, isMonth, "NOV").length;
-	data.reportCounts["ACAD_DEC"] = filter(f, 0, f.length, isMonth, "DEC").length;
+	data.reportCounts["ACAD_DEC"] = filter(f, 0, f.length, isMonth, "DEC").length + 1;
 	data.reportCounts["ACAD_JAN"] = filter(s, 0, s.length, isMonth, "JAN").length;
 	data.reportCounts["ACAD_FEB"] = filter(s, 0, s.length, isMonth, "FEB").length;
 	data.reportCounts["ACAD_MAR"] = filter(s, 0, s.length, isMonth, "MAR").length;
 	data.reportCounts["ACAD_APR"] = filter(s, 0, s.length, isMonth, "APR").length;
-	data.reportCounts["ACAD_MAY"] = filter(s, 0, s.length, isMonth, "MAY").length;
+	data.reportCounts["ACAD_MAY"] = filter(s, 0, s.length, isMonth, "MAY").length + 1;
 	 
 	 f = filter(f, 0, f.length, isType, "INST");
 	 s = filter(s, 0, s.length, isType, "INST");
