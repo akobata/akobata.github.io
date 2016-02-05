@@ -109,12 +109,12 @@
         	else if(day == springStartDate.dayNumber && month == springStartDate.month && year == springStartDate.year)
 				return "START"
         	else if(month == winterStartDate.month && year == winterStartDate.year)
-        		if(day >= winterStartDate.dayNumber && day <= winterEndDate.dayNumber && type != 'UNK' && type != 'WKND')
+        		if(day >= winterStartDate.dayNumber && day <= winterEndDate.dayNumber && type == 'INST')
 					return "WINT"
 				else
 					return type
-        	else if(day >= summerStartDate.dayNumber && day <= summerEndDate.dayNumber && type != 'UNK' && type != 'WKND')
-        		return "SUMM"
+			else if(type== 'INST' && ((month == summerStartDate.month && day >= summerStartDate.dayNumber) || month == 'JUN' || month == 'JUL' || (month == summerEndDate.month && day <= summerEndDate.dayNumber)))
+	        	return "SUMM"
 			else
         		return type
         };
