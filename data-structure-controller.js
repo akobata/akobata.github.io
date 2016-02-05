@@ -47,7 +47,7 @@
 			"Spring semester must end on or before May 31",
 			"Summer session must start after May 31 and end before Aug 31",
 			"2-5 days between Convocation and the beginning of Fall semester",
-			"12-15 Winter session Instructional Days",
+			"10-15 Winter session Instructional Days",
 			"Summer session is at least 12 calendar weeks",
 			"4 days between the end of Spring finals and before Summer start date are reserved for Commencement",
 			"Spring Break is a calendar week",
@@ -67,10 +67,12 @@
 			extendedFallBreak: 'Extended Fall break (take off Monday-Wednesday before Thanksgiving)',
 			fallFinalsMonday: 'Fall semester finals start on a Monday',
 			summerToFallMoreThanWeek: 'Difference between the end of Summer and start of Fall semester is more than 7 calendar days',
-			CesarChavezInSpringBreak: 'Attempt to put Cesar Chavez Day in Spring Break',
+			CesarChavezInSpringBreak: 'Put Cesar Chavez Day in Spring Break (after if not selected)',
 			springFinalsMonday: 'Spring semester finals start on a Monday',
 			commencementTueFri: 'Commencement is Tuesday - Friday',
-			commencementBeforeMemorial: 'Commencement is before Memorial Day'
+			commencementBeforeMemorial: 'Commencement is before Memorial Day',
+			limitWinterTenDays: "Limit winter session to 10 days long",
+			springAfterMLK: "Spring start after MLK"
 		};
 
         vm.getCalendar = function(){
@@ -142,7 +144,7 @@ function constructCalendarData(academicYear, startDate, conditions, innerCall){
 		
 	var DaysOfWeek = new Enum(['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'UNK']);
 	
-	var DayTypes = new Enum(["ACAD", "INST", "CONV", "COMM", "FINL", "HOLI", "WKND", "FILL", "UNK"]);
+	var DayTypes = new Enum(["ACAD", "INST", "CONV", "COMM", "FINL", "HOLI", "WKND", "FILL", "UNK", "OPEN"]);
 		
 	var Terms = new Enum(["FALL", "WINT", "SPRI", "SUMM", "UNK"]);
 		
@@ -253,7 +255,7 @@ function constructCalendarData(academicYear, startDate, conditions, innerCall){
 	}
 	
 	function TranslateConditions(strings){
-		var booleans = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+		var booleans = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 		booleans[0] = (strings.indexOf("weekdayIdNum") < 0)?0:1;
 		booleans[1] = (strings.indexOf("fallStartMon") < 0)?0:1;
 		booleans[2] = (strings.indexOf("summerToFallMoreThanWeek") < 0)?0:1;
@@ -264,6 +266,12 @@ function constructCalendarData(academicYear, startDate, conditions, innerCall){
 		booleans[7] = (strings.indexOf("fallFinalsMonday") < 0)?0:1;
 		booleans[8] = (strings.indexOf("springFinalsMonday") < 0)?0:1;
 		booleans[9] = (strings.indexOf("commencementBeforeMemorial") < 0)?0:1;
+		
+		
+		booleans[10] = (strings.indexOf("limitWinterTenDays") < 0)?0:1;
+		booleans[11] = (strings.indexOf("springAfterMLK") < 0)?0:1;
+		
+		
 		return booleans;
 	}
 	
@@ -340,7 +348,7 @@ function constructCalendarData(academicYear, startDate, conditions, innerCall){
 	var setConditions = [];
 	if((typeof startDate == "undefined")||(typeof conditions == "undefined")){
 		var spareConditions = ["fallStartMon", "summerToFallMoreThanWeek", "convocationFriBeforeFirstID", 
-			"extendedFallBreak", "commencementTueFri", "CesarChavezInSpringBreak"];
+			"extendedFallBreak", "commencementTueFri", "CesarChavezInSpringBreak", "limitWinterTenDays", "springAfterMLK"];
 		setConditions = spareConditions;
 		//spareConditions = TranslateConditions(spareConditions);
 		var spareStartDate = [];
@@ -351,12 +359,9 @@ function constructCalendarData(academicYear, startDate, conditions, innerCall){
 		//test.conditions = spareConditions;
 		//ExecuteProgram(data.candidateEntryData, spareStartDate, spareConditions);
 	}
-
 	else{
 		data.candidateEntryData.startDate = startDate;
 		data.candidateEntryData.conditions = conditions;
-		//conditions = TranslateConditions(conditions);
-		//ExecuteProgram(data.candidateEntryData, startDate, conditions);
 	}
 	data.candidateEntryData.conditions = TranslateConditions(data.candidateEntryData.conditions);
 	ExecuteProgram(data.candidateEntryData, startDate, data.candidateEntryData.conditions);
@@ -365,10 +370,8 @@ function constructCalendarData(academicYear, startDate, conditions, innerCall){
 	if(!((typeof innerCall == "undefined")|| innerCall == true)){
 						
 		var testPoss = getPossibilities(data.candidateEntryData);
-		console.log(testPoss);
 		
 		var success = applyPossibilities(data.candidateEntryData, testPoss);
-		console.log(success);
 		/*
 		if (success[0].length > 0){
 			var bestCalendar = [];
@@ -406,11 +409,6 @@ function constructCalendarData(academicYear, startDate, conditions, innerCall){
 		return data;
 
 	}
-	
-	
-	// data = constructCalendarData(startYear + yay, earliestStart, ["weekdayIdNum", "fallStartMon", "summerToFallMoreThanWeek", 
-		// "convocationFriBeforeFirstID", "extendedFallBreak", "commencementTueFri", "CesarChavezInSpringBreak", "fallFinalsMonday", 
-		// "springFinalsMonday", "commencementBeforeMemorial"]);
 
 }//end creation of data
 
@@ -433,8 +431,6 @@ function SetDataCounts(candidateEntry){
 		"INST_JAN" : 0, "INST_FEB" : 0, "INST_MAR" : 0, "INST_APR": 0, "INST_MAY" : 0, "INST_SUMMER" : 0, "INST_WINTER" : 0,
 		"ACAD_FALL" : 0, "ACAD_SPRING" : 0, "INST_FALL" : 0, "INST_SPRING" : 0};
 }
-
-
 
 function InitializeHandles(candidateEntry){
 	SetMonthHandles(candidateEntry);
@@ -473,12 +469,16 @@ function SetMonthHandles(candidateEntry){
 }
 
 function SetHolidays(candidateEntry){
-	candidateEntry.holidayMarkers = {"THANKSGIVING" : 0, "CESARCHAVEZ" : 0, "VETERANS" : 0, "CHRISTMAS" : 0};
+	candidateEntry.holidayMarkers = {"THANKSGIVING" : 0, "CESARCHAVEZ" : 0, "VETERANS" : 0, "CHRISTMAS" : 0, "MLK" : 0};
 	//JANUARY
-	SetHoliday(candidateEntry, candidateEntry.monthMarkers["JANUARY"], null); 
+	SetHoliday(candidateEntry, candidateEntry.monthMarkers["JANUARY"], "MLK"); 
 	SetDayHoliday(candidateEntry, candidateEntry.monthMarkers["JANUARY"], "MON", 3, null);
 	//MARCH
+	
+	
 	SetHoliday(candidateEntry, candidateEntry.monthMarkers["MARCH"] + 30, "CESARCHAVEZ");
+	
+	
 	//MAY
 	SetDayHoliday(candidateEntry, candidateEntry.monthMarkers["MAY"], "MON", 
 		(filter(candidateEntry, candidateEntry.monthMarkers["MAY"], candidateEntry.monthMarkers["JUNE"], isDay, "MON").length), null);			
@@ -488,7 +488,11 @@ function SetHolidays(candidateEntry){
 	SetDayHoliday(candidateEntry, candidateEntry.monthMarkers["SEPTEMBER"], "MON", 1, null);
 	//NOVEMBER
 	SetHoliday(candidateEntry, candidateEntry.monthMarkers["NOVEMBER"] + 10, "VETERANS");
+	
+	
 	SetDayHoliday(candidateEntry, candidateEntry.monthMarkers["NOVEMBER"], "THU",4, "THANKSGIVING", null);
+	
+	
 	SetHoliday(candidateEntry, candidateEntry.holidayMarkers["THANKSGIVING"] + 1, null);
 
 	//DECEMBER
@@ -609,23 +613,46 @@ function SetBoundaries(candidateEntry){
 	else if(candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek == "MON"){
 		candidateEntry.boundaries["WINTER_START"]++;
 	}
-	for(var i = 0, fridays = 0; fridays <= 3; i++){
-		if(candidateEntry[candidateEntry.boundaries["WINTER_START"] + i].dayOfWeek == "FRI"){
-			fridays++;
-			if(fridays == 3){
-				candidateEntry.boundaries["WINTER_END"] = candidateEntry.boundaries["WINTER_START"] + i + 1;
+	
+	
+	if(candidateEntry.conditions[10] == 0){
+		for(var i = 0, fridays = 0; fridays <= 3; i++){
+			if(candidateEntry[candidateEntry.boundaries["WINTER_START"] + i].dayOfWeek == "FRI"){
+				fridays++;
+				if(fridays == 3){
+					candidateEntry.boundaries["WINTER_END"] = candidateEntry.boundaries["WINTER_START"] + i + 1;
+				}
 			}
 		}
+		switch(candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek){
+			case "WED": candidateEntry.boundaries["WINTER_END"] = candidateEntry.boundaries["WINTER_END"] + 4;
+			break;
+			case "THU": candidateEntry.boundaries["WINTER_END"] = candidateEntry.boundaries["WINTER_END"] + 6;
+			break;
+			case "FRI": candidateEntry.boundaries["WINTER_END"] = candidateEntry.boundaries["WINTER_END"] + 9;
+			break;
+			default:
+		}
 	}
-	switch(candidateEntry[candidateEntry.boundaries["WINTER_START"]].dayOfWeek){
-		case "WED": candidateEntry.boundaries["WINTER_END"] = candidateEntry.boundaries["WINTER_END"] + 4;
-		break;
-		case "THU": candidateEntry.boundaries["WINTER_END"] = candidateEntry.boundaries["WINTER_END"] + 6;
-		break;
-		case "FRI": candidateEntry.boundaries["WINTER_END"] = candidateEntry.boundaries["WINTER_END"] + 9;
-		break;
-		default:
+	else{
+		
+		var days = 0;
+		var index = 0;
+		while(days < 10){
+			while(candidateEntry[candidateEntry.boundaries["WINTER_START"] + index].dayOfWeek == "SAT" ||
+					candidateEntry[candidateEntry.boundaries["WINTER_START"] + index].dayOfWeek == "SUN"){
+				index++;
+			}
+			candidateEntry[candidateEntry.boundaries["WINTER_END"] + index].type = "OPEN";
+			days++;
+			index++;
+		}
+		candidateEntry.boundaries["WINTER_END"] = candidateEntry.boundaries["WINTER_START"] + index;
+
+		
 	}
+	
+	
 	//SPRING
 	candidateEntry.boundaries["SPRING_START"] = candidateEntry.boundaries["WINTER_END"];
 	while(candidateEntry[candidateEntry.boundaries["SPRING_START"]].dayOfWeek == "FRI"){
@@ -655,12 +682,43 @@ function SetTypes(data){
 		}
 	}
 	
+
 	index += data.holidayMarkers["THANKSGIVING"];
-	assignSpecialHolidays(data, index);
+	while(data[index].dayOfWeek != "MON"){
+		index--;
+	}
+	while(data[index].dayOfWeek != "SAT"){
+		if(data[index].dayOfWeek == "THU" || data[index].dayOfWeek == "FRI"){
+			data[index].type = "HOLI";
+		}
+		else{
+			data[index].type = (data.conditions[4] == 1 )?"OPEN":"INST";
+		}
+		index++;
+	}
 	
 	index = 0;
 	index += data.holidayMarkers["CESARCHAVEZ"];
-	assignSpecialHolidays(data, index);
+	if(data.conditions[6] == 1){
+		while(data[index].dayOfWeek != "MON"){
+			index --;
+		}
+	}
+	else{
+		if(data[index].dayOfWeek == "MON"){
+			index++;
+		}
+		while(data[index].dayOfWeek != "MON"){
+			index++;
+		}
+	}
+	while(data[index].dayOfWeek != "SAT"){
+		if(data[index].type != "HOLI"){
+			data[index].type = "OPEN";
+		}
+		index++;
+	}
+		
 	
 	index = data.boundaries["FALL_END"];
 	assignFinals(data, index);
@@ -702,6 +760,7 @@ function SetTypes(data){
 	assignCONV(data);
 }
 
+/*
 function assignSpecialHolidays(data, index){
 	while(data[index].dayOfWeek != "MON"){
 		index--;
@@ -713,6 +772,7 @@ function assignSpecialHolidays(data, index){
 		index++;
 	}
 }
+*/
 
 function assignFinals(data, index){
 	var numberOfFinals = 0;
@@ -730,7 +790,7 @@ function assignFinals(data, index){
 
 function assignAWD(data, start, end){
 	while(start < end){
-		if(data[start].type != "FINL" && data[start].type != "HOLI" &&
+		if(data[start].type != "FINL" && data[start].type != "HOLI" && data[start].type != "OPEN" &&
 			data[start].dayOfWeek != "SAT" && data[start].dayOfWeek != "SUN"){
 			data[start].type = "ACAD";
 		}
@@ -740,8 +800,8 @@ function assignAWD(data, start, end){
 
 function assignID(data, start, end){
 	while(start < end){
-		if(data[start].type != "FINL" && data[start].type != "HOLI" && data[start].type != "ACAD"&&
-			data[start].dayOfWeek != "SAT" && data[start].dayOfWeek != "SUN"){
+		if(data[start].type != "FINL" && data[start].type != "HOLI" && data[start].type != "ACAD" &&
+			data[start].type != "OPEN" && data[start].dayOfWeek != "SAT" && data[start].dayOfWeek != "SUN"){
 			data[start].type = "INST";
 		}
 		start++;
@@ -827,10 +887,10 @@ function updateData(data){
 	
 	
 	var f = filter(data, data.previousYearEnd, data.holidayMarkers["CHRISTMAS"], isDay, ["MON", "TUE", "WED", "THU", "FRI"]);
-	f = filter(f, 0, f.length, isType, ["ACAD", "INST", "CONV", "COMM", "FINL", "WKND", "FILL", "UNK"]);
+	f = filter(f, 0, f.length, isType, ["ACAD", "INST", "CONV", "COMM", "FINL"]);
 	
 	var s = filter(data, data.boundaries["SPRING_START"], data.boundaries["SUMMER_START"], isDay, ["MON", "TUE", "WED", "THU", "FRI"]);
-	var s = filter(s, 0, s.length, isType, ["ACAD", "INST", "CONV", "COMM", "FINL", "WKND", "FILL", "UNK"]);
+	var s = filter(s, 0, s.length, isType, ["ACAD", "INST", "CONV", "COMM", "FINL"]);
 	
 
 	
@@ -990,6 +1050,8 @@ function checkRules(data){
 	if(softRules[3] == 1){
 		
 		if(data[data.convocation].dayOfWeek != "FRI"){
+			
+			
 			errors.push("CONV NOT FRIDAY BEFORE FALL START");
 		}
 		
@@ -1003,22 +1065,25 @@ function checkRules(data){
 		}
 		*/
 	}
+	
+	
 	var totalID = idDaysFall.length + idDaysSpring.length;
 	if(softRules[4] == 1){
 		var start = data.holidayMarkers["THANKSGIVING"] - 1;
-		if(totalID - 3 >= 145){
-			for(var i = 0; i < 3; i++){
-				data[start - i].type = "ACAD";
-			}
-			totalID -= 3;
-		}	
-		else{
-			for(var i = 0; i < 3; i++){
-				data[start - i].type = "INST";
-			}
-			errors.push("NOT 3 AWD BEFORE THANKSGIVING");
+		
+		if(filter(data, data.holidayMarkers["THANKSGIVING"] - 3, data.holidayMarkers["THANKSGIVING"] + 2, isType, "OPEN").length != 3){
+			errors.push("NOT EXTENDED THANKSGIVING");
+		}
+
+	}
+	else{
+		var start = data.holidayMarkers["THANKSGIVING"] - 1;
+		if(filter(data, data.holidayMarkers["THANKSGIVING"] - 3, data.holidayMarkers["THANKSGIVING"] + 2, isType, "OPEN").length != 0){
+			errors.push("EXTENDED THANKSGIVING");
 		}
 	}
+	
+	
 	if(softRules[5] == 1){
 		var start = data.boundaries["SPRING_END"];		
 		while(data[start].type != "COMM"){
@@ -1028,7 +1093,7 @@ function checkRules(data){
 		var commCount = 0;
 		while(commCount < 4){
 			
-			if(data[start].type == "COMM"){
+			if(data[start].type == "COMM"){				
 				commCount++;
 			}
 			chain++;
@@ -1038,19 +1103,34 @@ function checkRules(data){
 			errors.push("COMMENCEMENT NOT TUES TIL FRI");
 		}
 	}
+	
 	if(softRules[6] == 1){
 		var start = data.holidayMarkers["CESARCHAVEZ"];
 		if(data[start].dayOfWeek == "FRI"){
-			if(data[start - 1].type != "ACAD"){
+			if(data[start - 1].type != "OPEN"){
 				errors.push("CESAR CHAVEZ NOT IN SPRING BREAK");
 			}
 		}
 		else{
-			if(data[start + 1].type != "ACAD"){
+			if(data[start + 1].type != "OPEN"){
 				errors.push("CESAR CHAVEZ NOT IN SPRING BREAK");
 			}
 		}
 	}
+	else{
+		var start = data.holidayMarkers["CESARCHAVEZ"];
+		if(data[start].dayOfWeek == "FRI"){
+			if(data[start - 1].type == "OPEN"){
+				errors.push("CESAR CHAVEZ IN SPRING BREAK");
+			}
+		}
+		else{
+			if(data[start + 1].type == "OPEN"){
+				errors.push("CESAR CHAVEZ IN SPRING BREAK");
+			}
+		}
+	}
+	
 	if(softRules[7] == 1){
 		var start = 0 + data.boundaries["FALL_END"];
 		while(data[start].dayOfWeek == "SUN"){
@@ -1078,6 +1158,21 @@ function checkRules(data){
 			errors.push("COMMENCEMENT ENDS AFTER MEMORIAL DAY");
 		}
 	}
+	
+	
+	if(softRules[10] == 1){
+		if(filter(data, data.boundaries["WINTER_START"], data.boundaries["SPRING_START"], isType, "INST").length != 10){
+			errors.push("WINTER BREAK NOT TEN DAYS");
+		}
+		//filter(start, end, function, args);
+	}
+	if(softRules[11] == 1){
+		if(data.boundaries["SPRING_START"] <= data.holidayMarkers["MLK"]){
+			errors.push("SPRING DOESNT START AFTER MLK");
+		}
+	}
+	
+	
 	if(data.previousYearEnd > data.boundaries["FALL_START"]){
 		errors.push("YEAR-FALL OVERLAP");
 	}
@@ -1161,9 +1256,13 @@ function checkRules(data){
 	if(data.boundaries["FALL_START"] - data.convocation > 5){
 		errors.push("MORE THAN 5 DAYS CONV TO FALL");
 	}
-	if(filter(data, data.boundaries["WINTER_START"], data.boundaries["WINTER_END"], isType, "INST").length < 12){
-		errors.push("LESS THAN 12 WINTER INST DAYS");
+	
+	
+	if(filter(data, data.boundaries["WINTER_START"], data.boundaries["WINTER_END"], isType, "INST").length < 10){
+		errors.push("LESS THAN 10 WINTER INST DAYS");
 	}
+	
+	
 	if(filter(data, data.boundaries["WINTER_START"], data.boundaries["WINTER_END"], isType, "INST").length > 15){
 		errors.push("MORE THAN 15 WINTER INST DAYS");
 	}
@@ -1174,13 +1273,15 @@ function checkRules(data){
 		errors.push("NOT 4 COMMENCEMEMT DAYS");
 	}
 	var springVacation = filter(data, data.monthMarkers["MARCH"], data.monthMarkers["MAY"], isType, ["HOLI", "ACAD"]);			
+	/*
 	if(springVacation.length != 5 && springVacation[0].dayOfWeek != "MON"){
 		errors.push("SPRING VACATION NOT CALENDAR WEEK");
 	}			
 	var fallVacation = filter(data, data.holidayMarkers["THANKSGIVING"] - 3, data.holidayMarkers["THANKSGIVING"] + 2, isType, ["HOLI", "ACAD"]);
 	if(fallVacation.length != 5 && fallVacation[0].dayOfWeek != "MON"){
 		errors.push("FALL VACATION NOT CALENDAR WEEK");
-	}			
+	}		
+*/	
 	return errors;
 }
 
@@ -1196,7 +1297,7 @@ function getPossibilities(data){
 	while(data[data.previousYearEnd].dayOfWeek == "SAT" || data[data.previousYearEnd].dayOfWeek == "SUN"){
 		data.previousYearEnd++;
 	}
-	var earliestFallStart = indexByStartAndCount(data.previousYearEnd, 2, 1, false, true);assignCOMM
+	var earliestFallStart = indexByStartAndCount(data.previousYearEnd, 2, 1, false, true);
 	for(var i = data.previousYearEnd + 2; i < GetDayIndex(data, data[data.monthMarkers["SEPTEMBER"] + 2]); i++){
 		while(data[i].dayOfWeek == "FRI" || data[i].dayOfWeek == "SAT" || data[i].dayOfWeek == "SUN" ||
 			data[i].type == "HOLI" || i < GetDayIndex(data, data[data.monthMarkers["AUGUST"] + 16])){
@@ -1231,40 +1332,45 @@ function getPossibilities(data){
 	}
 	
 	//WINTER_END&SPRING_START
-	var earliestWinterEnd = indexByStartAndCount(data.monthMarkers["JANUARY"], 13, 1, false, true);
-	var lastWinterEnd = indexByStartAndCount(data.monthMarkers["JANUARY"], 16, 1, false, false);
-	for(var i = earliestWinterEnd; i < lastWinterEnd; i++){
+	
+	
+	var earliestWinterEnd = (data.conditions[10] == 0) ? 
+			indexByStartAndCount(data.monthMarkers["JANUARY"], 13, 1, false, true):
+			indexByStartAndCount(data.monthMarkers["JANUARY"], 11, 1, false, true);
+	var lastWinterEnd = (data.conditions[10] == 0) ?
+			indexByStartAndCount(data.monthMarkers["JANUARY"], 16, 1, false, false):
+			indexByStartAndCount(data.monthMarkers["JANUARY"], 11, 1, false, false);
+			
+			
+			console.log(data[earliestWinterEnd]);
+			console.log(data[lastWinterEnd]);
+	for(var i = earliestWinterEnd; i <= lastWinterEnd; i++){
 		var leap = (data[data.monthMarkers["JANUARY"]].year % 4 == 0)?1:0;
-		while(i < data.monthMarkers["JANUARY"] + 14 + leap || data[i].dayOfWeek == "SAT" || 
+		while(data[i].dayOfWeek == "SAT" || 
 			data[i].dayOfWeek == "SUN" || data[i].type == "HOLI"){
 			i++;
 		}
-		if((i < lastWinterEnd) && (data[i].dayOfWeek != "FRI")) 
+		if((i <= lastWinterEnd) && (data[i].dayOfWeek != "FRI")){ 
 			winterEnds.push(0 + i);
-		//not friday
-		//not holiday
-		//not weekend
-		//end - start >= 12 ID(start condition)
-		//end - start <= 15 ID(termination condition)
-		//after jan 14 + leep	
+		}
 	}
+	
 	
 	//SPRING_END
 	var earliestSpringEnd = winterEnds[0] + 7 * 15;
 	while(data[earliestSpringEnd].dayOfWeek != "TUE"){
 		earliestSpringEnd++;
 	}
-	for(var i = earliestSpringEnd; i < data.monthMarkers["JUNE"] - 10; i ++){
+	
+	
+	for(var i = earliestSpringEnd; i < data.monthMarkers["JUNE"] - 3; i ++){
 		while(data[i].dayOfWeek == "SAT" || data[i].dayOfWeek == "SUN" || data[i].type == "HOLI"){
 			i++;
 		}
-		//not holiday
-		//not weekend
-		//before jun 1 (termination condition) (subtract 6 for finals to exclude a saturday) (subtract 4 for convocation) 
-		//smallest 15 weeks possible (start condition)
-		if(i < data.monthMarkers["JUNE"] - 10)
+		if(i < data.monthMarkers["JUNE"] - 3)
 			springEnds.push(0 + i);
 	}
+	
 	
 	//SUMMER_START
 	var earliestSummerStart = indexByStartAndCount(springEnds[0], 10, 1, true, true);
@@ -1285,7 +1391,7 @@ function getPossibilities(data){
 		
 	//direction = -1 or +1
 	//countFridays is true or false (false for fall start and spring start (winter end))
-	//earliest = flase means latest
+	//earliest = false means latest
 	function indexByStartAndCount(initialIndex, daysRequired, directionVector, countFridays, earliest){
 		if(directionVector == 1){
 			daysRequired --;
@@ -1310,17 +1416,22 @@ function getPossibilities(data){
 		return initialIndex;
 	}
 		
-	console.log(countPossibilities([fallStarts, fallEnds, winterEnds, springEnds, summerStarts]));
 	return [fallStarts, fallEnds, winterEnds, springEnds, summerStarts];
 }
 
 function applyPossibilities(data, possibilites){
 	
+	
+	console.log(possibilites);
+	console.log(data);
+	
+	
 	//most important thing is holidays are set
 	if(countPossibilities(possibilites) != 0){
 		var softErrors = ["UNEVEN ID/WEEKDAY BALANCE", "FALL DOESN'T START ON MONDAY", "UNDER 1 WEEK SUMMER TO FALL", "CONV NOT FRIDAY BEFORE FALL START",
 			"NOT 3 AWD BEFORE THANKSGIVING", "COMMENCEMENT NOT TUES TIL FRI", "CESAR CHAVEZ NOT IN SPRING BREAK", "FALL FINALS DON'T START MONDAY", 
-			"SPRING FINALS DON'T START MONDAY", "COMMENCEMENT ENDS AFTER MEMORIAL DAY"];
+			"SPRING FINALS DON'T START MONDAY", "COMMENCEMENT ENDS AFTER MEMORIAL DAY", "WINTER BREAK NOT TEN DAYS", "SPRING STARTS BEFORE MLK"];
+	
 		var options = [];
 		var conflicts = [];	
 		var errors = [];		
@@ -1359,12 +1470,20 @@ function applyPossibilities(data, possibilites){
 								var de = filter(data, possibilites[3][d], possibilites[4][e], isDay, ["MON", "TUE", "WED", "THU", "FRI"]).length - 
 										filter(data, possibilites[3][d], possibilites[4][e], isType, ["HOLI"]).length;
 								var ce = cd + de;
+								
+								
+								
+								
+								
 								if(!(
 									((px + ce) + 2 < 170) ||
 									((px + ce) + 2 > 180) ||
-									(de < 9) ||(ab/5 < 14) || (ab/5 > 16) ||(wc < 12) || (wc > 15))){
+									(de < 9) ||(ab/5 < 14) || (ab/5 > 16) ||(wc < 10) || (wc > 15))){
 								
-																	
+										
+
+
+										
 									/* testCount++;
 									if(testCount % 100 == 0)
 										console.log(testCount);
@@ -1384,6 +1503,8 @@ function applyPossibilities(data, possibilites){
 									errors = checkRules(data);
 									
 									if(errors.length != 0){
+																				
+										
 										if((filterNewErrors(softErrors, errors).length == 0) && ((errors.length < conflicts.length) || (conflicts.length == 0))){
 											conflicts = errors;
 										}	
@@ -1391,7 +1512,7 @@ function applyPossibilities(data, possibilites){
 											if(smallestHardError.length == 0 || filterNewErrors(softErrors, errors).length < smallestHardError.length){
 												smallestHardError =(errors);	
 												if(smallestHardError.indexOf("") > 0){
-													console.log("hard error violation")
+													console.log("hard error violation");
 													console.log();
 												}
 											}
@@ -1476,6 +1597,12 @@ function intToAnne(softErrors){
 				case 7:annes.push("fallFinalsMonday");break;
 				case 8:annes.push("springFinalsMonday");break;
 				case 9:annes.push("commencementBeforeMemorial");break;
+				
+				
+				case 10:annes.push("limitWinterTenDays");break;
+				case 11:annes.push("springAfterMLK");break;
+				
+				
 				default:
 			}	
 		}
