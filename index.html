@@ -62,7 +62,7 @@
 
                 <accordion-group is-open="$first" ng-repeat="option in data.gui[0]" heading="OPTION {{$index + 1}}">
                     <div class="row">
-                        <div class="col-sm-3 month" ng-repeat="month in option.guiTree">
+                        <div class="col-sm-3 month" ng-repeat="month in option.guiTree" ng-if="$index >= 3">
                         <!--<div class="col-sm-3 month" ng-repeat="month in month">-->
                             <table cellpadding="1" cellspacing="1" border="1" width="250">
                                 <thead>
