@@ -80,10 +80,9 @@
 			console.log(vm.selections.rules);
             //setting the initials for the constructCalendarData
             var startDate = {};
+			// here is where I change the input to a string //i changed it back to an int :p
 			startDate.month = "AUG";
-			startDate.dayNumber = 21;
-			// here is where I change the input to a string
-			vm.endDay = vm.endDay.toString();
+			startDate.dayNumber = vm.endDay;
             vm.gui = constructCalendarData(parseInt(vm.year), startDate, vm.selections.rules, false);
 
             console.log(vm.gui[0]);
@@ -471,8 +470,8 @@ function SetMonthHandles(candidateEntry){
 function SetHolidays(candidateEntry){
 	candidateEntry.holidayMarkers = {"THANKSGIVING" : 0, "CESARCHAVEZ" : 0, "VETERANS" : 0, "CHRISTMAS" : 0, "MLK" : 0};
 	//JANUARY
-	SetHoliday(candidateEntry, candidateEntry.monthMarkers["JANUARY"], "MLK"); 
-	SetDayHoliday(candidateEntry, candidateEntry.monthMarkers["JANUARY"], "MON", 3, null);
+	SetHoliday(candidateEntry, candidateEntry.monthMarkers["JANUARY"], null); 
+	SetDayHoliday(candidateEntry, candidateEntry.monthMarkers["JANUARY"], "MON", 3, "MLK");
 	//MARCH
 	
 	
