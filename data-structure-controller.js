@@ -52,7 +52,10 @@
 			"4 days between the end of Spring finals and before Summer start date are reserved for Commencement",
 			"Spring Break is a calendar week",
 			"Fall Break is the Wednesday before Thanksgiving, Thursday, and Friday",
-			"Holidays are always considered to be of day type Holiday"
+			"Holidays are always considered to be of day type Holiday",
+			"Holidays that fall on weekends are observed on the nearest workdays",
+			"Academic Work Days include Instructional, Final and Commencement days but exclude 'Campus Open-No Classes' days (Fall/Spring breaks)",
+			"Convocation is held on an Academic Work Day between the first day of Fall and the first day of Fall classes."
 
 		];
 

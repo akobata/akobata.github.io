@@ -18,9 +18,6 @@
 
     <h1>Create an Academic Calendar</h1>
     <div>
-        <label>The previous summer session ended on AUG </label>
-        <!-- still needs validation -->
-        <input type="number" size="3" ng-model="data.endDay" min="1" max="31"/><br/>
         <label>Select the calendar year to create a calendar in:</label>
         <select ng-model="data.year">
             <option value="2015">2015-2016</option>
@@ -29,7 +26,10 @@
             <option value="2018">2018-2019</option>
             <option value="2019">2019-2020</option>
             <option value="2020">2020-2021</option>
-        </select><br/><br/>
+        </select><br/>
+        <label>The first day of Fall semester in Aug </label>
+        <!-- still needs validation -->
+        <input type="number" size="3" ng-model="data.endDay" min="1" max="31"/><br/><br/>
         <label>Guaranteed hard rules:</label>
         <ul>
             <li ng-repeat="rule in data.hardRules">{{rule}}</li>
