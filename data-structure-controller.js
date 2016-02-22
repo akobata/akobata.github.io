@@ -45,7 +45,6 @@
 			"Fall semester must start between Aug 17 and Sep 1",
 			"Spring semester must start on or after Jan 15 (or Jan 16, if it is a leap year)",
 			"Spring semester must end on or before May 31",
-			"Summer session must start after May 31 and end before Aug 31",
 			"2-5 days between Convocation and the beginning of Fall semester",
 			"10-15 Winter session Instructional Days",
 			"Summer session is at least 12 calendar weeks",
