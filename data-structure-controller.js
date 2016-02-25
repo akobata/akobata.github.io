@@ -82,7 +82,6 @@
 			console.log(vm.selections.rules);
             //setting the initials for the constructCalendarData
             var startDate = {};
-			// here is where I change the input to a string //i changed it back to an int :p
 			startDate.month = "AUG";
 			startDate.dayNumber = vm.endDay;
             vm.gui = constructCalendarData(parseInt(vm.year), startDate, vm.selections.rules, false);
@@ -1336,13 +1335,13 @@ function getPossibilities(data){
 	
 	
 	var earliestWinterEnd = (data.conditions[10] == 0) ? 
-			indexByStartAndCount(data.monthMarkers["JANUARY"], 13, 1, false, true):
+			indexByStartAndCount(data.monthMarkers["JANUARY"], 11, 1, false, true):
 			indexByStartAndCount(data.monthMarkers["JANUARY"], 11, 1, false, true);
 	var lastWinterEnd = (data.conditions[10] == 0) ?
 			indexByStartAndCount(data.monthMarkers["JANUARY"], 16, 1, false, false):
 			indexByStartAndCount(data.monthMarkers["JANUARY"], 11, 1, false, false);
 			
-	for(var i = earliestWinterEnd; i <= lastWinterEnd; i++){
+	for(var i = earliestWinterEnd; i < lastWinterEnd; i++){
 		var leap = (data[data.monthMarkers["JANUARY"]].year % 4 == 0)?1:0;
 		while(data[i].dayOfWeek == "SAT" || 
 			data[i].dayOfWeek == "SUN" || data[i].type == "HOLI"){
