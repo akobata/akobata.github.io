@@ -413,7 +413,7 @@ function constructCalendarData(academicYear, startDate, conditions, innerCall){
 }//end creation of data
 
 function SetConditions(candidateEntry, previousYearEnd, softRules){
-	candidateEntry.conditions = softRules;
+	candidateEntry.conditions = softRules;	
 	candidateEntry.previousYearEnd = GetDayIndex(candidateEntry, previousYearEnd);
 }
 
@@ -1298,12 +1298,13 @@ function getPossibilities(data){
 		data.previousYearEnd++;
 	}
 	var earliestFallStart = indexByStartAndCount(data.previousYearEnd, 2, 1, false, true);
-	for(var i = data.previousYearEnd + 2; i < GetDayIndex(data, data[data.monthMarkers["SEPTEMBER"] + 2]); i++){
+	//for(var i = earliestFallStart; i < GetDayIndex(data, data[data.monthMarkers["SEPTEMBER"] + 2]); i++){
+	for(var i = earliestFallStart; i < indexByStartAndCount(data.monthMarkers["SEPTEMBER"] + 4, 1, 1, false, true); i++){
 		while(data[i].dayOfWeek == "FRI" || data[i].dayOfWeek == "SAT" || data[i].dayOfWeek == "SUN" ||
 			data[i].type == "HOLI" || i < GetDayIndex(data, data[data.monthMarkers["AUGUST"] + 16])){
 			i++;
 		}
-		if(i < GetDayIndex(data, data[data.monthMarkers["SEPTEMBER"] + 2]))
+		if(i < indexByStartAndCount(data.monthMarkers["SEPTEMBER"] + 4, 1, 1, false, true))
 			fallStarts.push(0 + i);
 		//*not friday
 		//*not weekend
@@ -1316,6 +1317,7 @@ function getPossibilities(data){
 	//FALL_END
 	var lastFallEnd = indexByStartAndCount(data.holidayMarkers["CHRISTMAS"], 5, -1, true, false);
 	var earliestFallEnd = fallStarts[0] + (7 * 15) + 1;
+		
 	while(data[earliestFallEnd].dayOfWeek != "TUE"){
 		earliestFallEnd++;
 	}
