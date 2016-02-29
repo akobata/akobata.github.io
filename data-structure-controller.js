@@ -11,14 +11,25 @@
 
         vm.gui = null;
         vm.working = false;
-        vm.endDay = 1;
+        vm.endDay = 17;
         vm.year = new Date().getFullYear();
+        var year = new Date().getFullYear();
         var fallStartDate;
         var springStartDate;
         var winterStartDate;
         var winterEndDate;
         var summerStartDate;
         var summerEndDate;
+
+        vm.yearList = [];
+        for(var i = 4; i > 0; i--){
+			vm.yearList.push(year - i);
+        }
+        for(i = 0; i < 10; i++){
+			vm.yearList.push(year + i);
+        }
+        console.log('Years List: '+vm.yearList);
+
 		vm.dayTypes = {
 			ACAD: 'Academic Work Day',
 			INST: 'Instructional Day',

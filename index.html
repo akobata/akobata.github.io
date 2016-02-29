@@ -17,19 +17,18 @@
 <body ng-controller="dataCtrl as data">
 
     <h1>Create an Academic Calendar</h1>
-    <div>
+    <form name="inputForm" class="form-horizontal" novalidate>
         <label>Select the calendar year to create a calendar in:</label>
         <select ng-model="data.year">
-            <option value="2015">2015-2016</option>
-            <option value="2016">2016-2017</option>
-            <option value="2017">2017-2018</option>
-            <option value="2018">2018-2019</option>
-            <option value="2019">2019-2020</option>
-            <option value="2020">2020-2021</option>
+            <option ng-repeat="option in data.yearList" value="{{option}}">{{option}}-{{option + 1}}</option>
         </select><br/>
+
         <label>The first day of Fall semester in Aug </label>
         <!-- still needs validation -->
-        <input type="number" size="3" ng-model="data.endDay" min="1" max="31"/><br/><br/>
+        <input type="number" name="firstDay" size="3" ng-model="data.endDay" min="17" max="31"/> <!-- required -->
+        <label class="error" ng-show="inputForm.firstDay.$dirty && inputForm.firstDay.$error.max || inputForm.firstDay.$error.min">Input needs to be between 17-31</label>
+        <br/><br/>
+
         <label>Guaranteed hard rules:</label>
         <ul>
             <li ng-repeat="rule in data.hardRules">{{rule}}</li>
@@ -38,11 +37,11 @@
         <label class="checkbox-list" ng-repeat="(key,value) in data.softRules">
             <input type="checkbox" checklist-model="data.selections.rules" checklist-value="key"> {{value}}
         </label>
-    </div>
-    <br/>
-    <button type="button" class="btn btn-default" ng-click="data.getCalendar()">Create Calendar</button><br/>
-    (This may take a minute to create)<br/>
-    <!--<label ng-show="data.working">LOADING...</label><br/>-->
+        <br/>
+        <button class="btn btn-default" ng-click="data.getCalendar()" ng-disabled="alertForm.$invalid">Create Calendar</button><br/>
+        (This may take a minute to create)<br/>
+        <label ng-show="data.working">LOADING...</label><br/>
+    </form>
 
     <div>
         <div ng-show="data.gui[0].length > 0">
@@ -245,13 +244,13 @@
                         </tr>
                         <tr>
                             <td>Winter {{option.year+1}}</td>
-                            <td>{{option.candidateEntryData.reportCounts.INST_WINTER}}</td>
                             <td></td>
+                            <td>{{option.candidateEntryData.reportCounts.INST_WINTER}}</td>
                         </tr>
                         <tr>
                             <td>Summer {{option.year+1}}</td>
-                            <td>{{option.candidateEntryData.reportCounts.INST_SUMMER}}</td>
                             <td>(excl. May Intersession)</td>
+                            <td>{{option.candidateEntryData.reportCounts.INST_SUMMER}}</td>
                         </tr>
                         </tbody>
                     </table>

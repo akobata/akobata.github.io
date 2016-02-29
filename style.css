@@ -10,6 +10,9 @@ a {
 label.checkbox-list {
   display: block;
 }
+label.error {
+  color: red;
+}
 
 /*
 table tr td {
