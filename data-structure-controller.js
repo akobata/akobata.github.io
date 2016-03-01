@@ -624,7 +624,7 @@ function SetBoundaries(candidateEntry){
 	}
 	
 	
-	if(candidateEntry.conditions[10] == 0){
+	if(candidateEntry.conditions[11] == 0){
 		for(var i = 0, fridays = 0; fridays <= 3; i++){
 			if(candidateEntry[candidateEntry.boundaries["WINTER_START"] + i].dayOfWeek == "FRI"){
 				fridays++;
@@ -762,7 +762,7 @@ function SetTypes(data){
 	if(data.conditions[10] == 1){
 		index = data.boundaries["SPRING_START"] - 1;
 		//console.log(filter(data, data.boundaries["WINTER_START"], index, isType, "INST").length);
-		while(filter(data, data.boundaries["WINTER_START"], index + 1, isType, "INST").length != 10){
+		while(filter(data, data.boundaries["WINTER_START"], index + 1, isType, "INST").length > 10){
 			if(data[index].type != "HOLI" && data[index].dayOfWeek != "SAT" && data[index].dayOfWeek != "SUN"){
 				data[index].type = "OPEN";
 			}
@@ -1572,8 +1572,8 @@ function applyPossibilities(data, possibilites){
 		console.log(smallestHardError);
 		
 		//console.log(options.length);
-		
-		return [options, (conflicts.length == 0)?smallestHardError:conflicts];
+
+		return [options, (conflicts.length == 0)?checkRules(data):conflicts];
 	}
 	else{
 		//console.log("NO OPTIONS WITH THE GIVEN PARAMETERS");
