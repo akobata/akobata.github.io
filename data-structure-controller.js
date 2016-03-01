@@ -1569,11 +1569,10 @@ function applyPossibilities(data, possibilites){
 			}
 		}
 
-		console.log(smallestHardError);
 		
 		//console.log(options.length);
 
-		return [options, (conflicts.length == 0)?checkRules(data):conflicts];
+		return [options, (conflicts.length == 0)?filterNewErrors(softErrors, checkRules(data)):conflicts];
 	}
 	else{
 		//console.log("NO OPTIONS WITH THE GIVEN PARAMETERS");
