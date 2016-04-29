@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="calendar">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src='libs/jquery-1.11.3.min.js'></script>
+    <script src='libs/angular.js'></script>
+    <script src='bootstrap/js/bootstrap.min.js'></script>
+    <script src='libs/lodash.min.js'></script>
+    <script src='libs/checklist-model.js'></script>
+    <script src='libs/ngLoading.js'></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="style.css"/>
+    <script src='libs/ui-bootstrap-tpls-0.9.0.min.js'></script>
+    <script src='libs/html2canvas.js'></script>
+    <script src='libs/pdfmake.min.js'></script>
+    <script src='libs/vfs_fonts.js'></script>
+    <script src="app.js"></script>
+    <script src="data-structure-controller.js"></script>
+</head>
+<body ng-controller="dataCtrl as data">
+    <form name="hiddenForm">
+        <input type="hidden" name="hiddenName">
+    </form>
+    <div id="printThis">
+        <table cellpadding="1" cellspacing="1" border="1" width="100%">
+            <thead>
+            <th colspan="10"><strong>Color Legend</strong></th>
+            </thead>
+            <tbody>
+            <tr>
+                <td ng-repeat="(key,value) in data.dayTypes" ng-class="key">{{value}}</td>
+            </tr>
+            </tbody>
+        </table><br/>
+        <div class="row" ng-init="data.initializeNewData()">
+
+            <div class="col-sm-3 month" ng-repeat="month in data.gui.guiTree">
+                <table cellpadding="1" cellspacing="1" border="1" width="250">
+                    <thead>
+                    <th colspan="7">{{month.monthName}} {{month.yearNumber}}</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>Sun</th>
+                        <th>Mon</th>
+                        <th>Tue</th>
+                        <th>Wed</th>
+                        <th>Thu</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                    </tr>
+                    <tr ng-repeat="week in month.weekSet">
+                        <td ng-repeat="day in week.daySet" ng-class="data.dayStyle(data.gui,day.type,day.month,day.dayNumber,day.year)"><label ng-show="day.dayNumber != 0">{{day.dayNumber}}</label></td>
+                    </tr>
+                    </tbody>
+                    <tfooter></tfooter>
+                </table><br/>
+            </div>
+        </div>
+        <!--{{data.gui}}-->
+        <div class="row">
+            <div class="col-sm-6">
+                <table cellpadding="1" cellspacing="1" border="1" width="400">
+                    <thead>
+                    <th colspan="6">Count by month</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>Fall</th>
+                        <th>AWD</th>
+                        <th>ID</th>
+                        <th>Spring</th>
+                        <th>AWD</th>
+                        <th>ID</th>
+                    </tr>
+                    <tr>
+                        <td>Aug</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_AUG}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_AUG}}</td>
+                        <td>Jan</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_JAN}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_JAN}}</td>
+                    </tr>
+                    <tr>
+                        <td>Sep</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SEP}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_SEP}}</td>
+                        <td>Feb</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FEB}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_FEB}}</td>
+                    </tr>
+                    <tr>
+                        <td>Oct</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_OCT}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_OCT}}</td>
+                        <td>Mar</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_MAR}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_MAR}}</td>
+                    </tr>
+                    <tr>
+                        <td>Nov</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_NOV}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_NOV}}</td>
+                        <td>Apr</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_APR}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_APR}}</td>
+                    </tr>
+                    <tr>
+                        <td>Dec</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_DEC}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_DEC}}</td>
+                        <td>May</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_MAY}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_MAY}}</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL}}</td>
+                        <td>Total</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING}}</td>
+                    </tr>
+                    </tbody>
+                </table><br/><br/>
+            </div>
+
+            <div class="col-sm-6">
+                <table cellpadding="1" cellspacing="1" border="1" width="400">
+                    <thead>
+                    <th colspan="6">Count by day</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>Fall</th>
+                        <th>AWD</th>
+                        <th>ID</th>
+                        <th>Spring</th>
+                        <th>AWD</th>
+                        <th>ID</th>
+                    </tr>
+                    <tr>
+                        <td>M</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_MON}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_MON}}</td>
+                        <td>M</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_MON}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_MON}}</td>
+                    </tr>
+                    <tr>
+                        <td>T</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_TUE}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_TUE}}</td>
+                        <td>T</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_TUE}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_TUE}}</td>
+                    </tr>
+                    <tr>
+                        <td>W</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_WED}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_WED}}</td>
+                        <td>W</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_WED}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_WED}}</td>
+                    </tr>
+                    <tr>
+                        <td>R</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_THU}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_THU}}</td>
+                        <td>R</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_THU}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_THU}}</td>
+                    </tr>
+                    <tr>
+                        <td>F</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_FRI}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_FRI}}</td>
+                        <td>F</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_FRI}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_FRI}}</td>
+                    </tr>
+                    <tr>
+                        <td>Sa</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_SAT}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL_AND_SAT}}</td>
+                        <td>Sa</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING_AND_SAT}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING_AND_SAT}}</td>
+                    </tr>
+                    <tr>
+                        <td>Total</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_FALL}}</td>
+                        <td>Total</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.ACAD_SPRING}}</td>
+                        <td>{{data.gui.candidateEntryData.reportCounts.INST_SPRING}}</td>
+                    </tr>
+                    </tbody>
+                </table><br/>
+            </div>
+        </div>
+
+        <table cellpadding="1" cellspacing="1" border="1" width="500">
+            <thead>
+            <th colspan="3">Fall/Spring Semester Rules:</th>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Academic Work Days:</td>
+                <td>170 min - 180 max</td>
+                <td>{{data.gui.candidateEntryData.reportCounts.ACAD_FALL_AND_SPRING}}</td>
+            </tr>
+            <tr>
+                <td>Instructional Days:</td>
+                <td>147 (+/- 2 days)</td>
+                <td>{{data.gui.candidateEntryData.reportCounts.ID_FALL_AND_SPRING}}</td>
+            </tr>
+            <tr>
+                <td>Winter {{data.gui.year+1}}</td>
+                <td></td>
+                <td>{{data.gui.candidateEntryData.reportCounts.INST_WINTER}}</td>
+            </tr>
+            <tr>
+                <td>Summer {{data.gui.year+1}}</td>
+                <td>(excl. May Intersession)</td>
+                <td>{{data.gui.candidateEntryData.reportCounts.INST_SUMMER}}</td>
+            </tr>
+            </tbody>
+        </table>
+        <label ng-if="data.gui.candidateEntryData.reportCounts.VETERANS_SWITCH == true">Note: Veteran's Day is switched</label>
+        <label ng-if="data.gui.candidateEntryData.reportCounts.VETERANS_SWITCH == false">Note: Veteran's Day is not switched</label>
+    </div>
+    <button class="btn btn-default" ng-click="data.printPage()">Print this page!</button>
+</body>
+</html>

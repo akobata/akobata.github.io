@@ -7,7 +7,9 @@
     <script src='libs/angular.js'></script>
     <!--<script src='/libs/angular-ui-router.min.js'></script>-->
     <script src='bootstrap/js/bootstrap.min.js'></script>
+    <script src='libs/lodash.min.js'></script>
     <script src='libs/checklist-model.js'></script>
+    <script src='libs/ngLoading.js'></script>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css"/>
     <link rel="stylesheet" href="style.css"/>
     <script src='libs/ui-bootstrap-tpls-0.9.0.min.js'></script>
@@ -15,7 +17,7 @@
     <script src="data-structure-controller.js"></script>
 </head>
 <body ng-controller="dataCtrl as data">
-
+    <p><b>**Note:</b> The application has been changed slightly. When opening the list of calendars and clicking on the button, the selected calendar will open in a new tab.</p>
     <h1>Create an Academic Calendar</h1>
     <form name="inputForm" class="form-horizontal" novalidate>
         <label>Select the calendar year to create a calendar in:</label>
@@ -38,234 +40,29 @@
             <input type="checkbox" checklist-model="data.selections.rules" checklist-value="key"> {{value}}
         </label>
         <br/>
-        <button class="btn btn-default" ng-click="data.getCalendar()" ng-disabled="alertForm.$invalid">Create Calendar</button><br/>
+        <button class="btn btn-default" ng-click="data.getIndexCount()" ng-disabled="alertForm.$invalid">Create Calendar</button><br/>
         (This may take a minute to create)<br/>
         <label ng-show="data.working">LOADING...</label><br/>
     </form>
 
+
+
+
     <div>
-        <div ng-show="data.gui[0].length > 0">
-            <table cellpadding="1" cellspacing="1" border="1" width="100%">
-                <thead>
-                <th colspan="2"><strong>Color Legend</strong></th>
-                </thead>
-                <tbody>
-                <tr>
-                    <td ng-repeat="(key,value) in data.dayTypes" ng-class="key">{{value}}</td>
-                </tr>
-                </tbody>
-            </table><br/>
-
-            <!-- The following is to get the collapsible panels working -->
-            <accordion close-others="false">
-
-                <accordion-group is-open="$first" ng-repeat="option in data.gui[0]" heading="OPTION {{$index + 1}}">
-                    <div class="row">
-                        <div class="col-sm-3 month" ng-repeat="month in option.guiTree">
-                            <table cellpadding="1" cellspacing="1" border="1" width="250">
-                                <thead>
-                                <th colspan="7">{{month.monthName}} {{month.yearNumber}}</th>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th>Sun</th>
-                                    <th>Mon</th>
-                                    <th>Tue</th>
-                                    <th>Wed</th>
-                                    <th>Thu</th>
-                                    <th>Fri</th>
-                                    <th>Sat</th>
-                                </tr>
-                                <tr ng-repeat="week in month.weekSet">
-                                    <td ng-repeat="day in week.daySet" ng-class="data.dayStyle(option,day.type,day.month,day.dayNumber,day.year)"><label ng-show="day.dayNumber != 0">{{day.dayNumber}}</label></td>
-                                </tr>
-                                </tbody>
-                                <tfooter></tfooter>
-                            </table><br/>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <table cellpadding="1" cellspacing="1" border="1" width="400">
-                                <thead>
-                                <th colspan="6">Count by month</th>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th>Fall</th>
-                                    <th>AWD</th>
-                                    <th>ID</th>
-                                    <th>Spring</th>
-                                    <th>AWD</th>
-                                    <th>ID</th>
-                                </tr>
-                                <tr>
-                                    <td>Aug</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_AUG}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_AUG}}</td>
-                                    <td>Jan</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_JAN}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_JAN}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Sep</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_SEP}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_SEP}}</td>
-                                    <td>Feb</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_FEB}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_FEB}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Oct</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_OCT}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_OCT}}</td>
-                                    <td>Mar</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_MAR}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_MAR}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Nov</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_NOV}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_NOV}}</td>
-                                    <td>Apr</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_APR}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_APR}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Dec</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_DEC}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_DEC}}</td>
-                                    <td>May</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_MAY}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_MAY}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Total</td> <!-- ACAD_FALL, INST_SPRING -->
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_FALL}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_FALL}}</td>
-                                    <td>Total</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_SPRING}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_SPRING}}</td>
-                                </tr>
-                                </tbody>
-                            </table><br/><br/>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <table cellpadding="1" cellspacing="1" border="1" width="400">
-                                <thead>
-                                <th colspan="6">Count by day</th>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <th>Fall</th>
-                                    <th>AWD</th>
-                                    <th>ID</th>
-                                    <th>Spring</th>
-                                    <th>AWD</th>
-                                    <th>ID</th>
-                                </tr>
-                                <tr>
-                                    <td>M</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_FALL_AND_MON}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_FALL_AND_MON}}</td>
-                                    <td>M</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_SPRING_AND_MON}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_SPRING_AND_MON}}</td>
-                                </tr>
-                                <tr>
-                                    <td>T</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_FALL_AND_TUE}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_FALL_AND_TUE}}</td>
-                                    <td>T</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_SPRING_AND_TUE}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_SPRING_AND_TUE}}</td>
-                                </tr>
-                                <tr>
-                                    <td>W</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_FALL_AND_WED}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_FALL_AND_WED}}</td>
-                                    <td>W</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_SPRING_AND_WED}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_SPRING_AND_WED}}</td>
-                                </tr>
-                                <tr>
-                                    <td>R</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_FALL_AND_THU}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_FALL_AND_THU}}</td>
-                                    <td>R</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_SPRING_AND_THU}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_SPRING_AND_THU}}</td>
-                                </tr>
-                                <tr>
-                                    <td>F</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_FALL_AND_FRI}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_FALL_AND_FRI}}</td>
-                                    <td>F</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_SPRING_AND_FRI}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_SPRING_AND_FRI}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Sa</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_FALL_AND_SAT}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_FALL_AND_SAT}}</td>
-                                    <td>Sa</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_SPRING_AND_SAT}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_SPRING_AND_SAT}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Total</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_FALL}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_FALL}}</td>
-                                    <td>Total</td>
-                                    <td>{{option.candidateEntryData.reportCounts.ACAD_SPRING}}</td>
-                                    <td>{{option.candidateEntryData.reportCounts.INST_SPRING}}</td>
-                                </tr>
-                                </tbody>
-                            </table><br/>
-                        </div>
-                    </div>
-
-                    <table cellpadding="1" cellspacing="1" border="1" width="500">
-                        <thead>
-                        <th colspan="3">Fall/Spring Semester Rules:</th>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Academic Work Days:</td>
-                            <td>170 min - 180 max</td>
-                            <td>{{option.candidateEntryData.reportCounts.ACAD_FALL_AND_SPRING}}</td>
-                        </tr>
-                        <tr>
-                            <td>Instructional Days:</td>
-                            <td>147 (+/- 2 days)</td>
-                            <td>{{option.candidateEntryData.reportCounts.ID_FALL_AND_SPRING}}</td>
-                        </tr>
-                        <tr>
-                            <td>Winter {{option.year+1}}</td>
-                            <td></td>
-                            <td>{{option.candidateEntryData.reportCounts.INST_WINTER}}</td>
-                        </tr>
-                        <tr>
-                            <td>Summer {{option.year+1}}</td>
-                            <td>(excl. May Intersession)</td>
-                            <td>{{option.candidateEntryData.reportCounts.INST_SUMMER}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <label ng-if="option.candidateEntryData.reportCounts.VETERANS_SWITCH == true">Note: Veteran's Day is switched</label>
-                    <label ng-if="option.candidateEntryData.reportCounts.VETERANS_SWITCH == false">Note: Veteran's Day is not switched</label>
+        <div ng-show="data.showResults">
+            <accordion>
+                <accordion-group ng-repeat="option in [] | range:data.count[0]" heading="OPTION {{$index + 1}}">
+                    <button class="btn btn-default" ng-click="data.getCalendar($index)">Click me to see calendar #{{$index + 1}}!</button>
+                    <!--<iframe ng-src="{{data.link}}"></iframe>-->
                 </accordion-group>
-
             </accordion>
 
         </div>
 
-        <div ng-show="data.gui[0].length == 0">
+        <div ng-show="data.count[0] == 0">
             <label>There are no calendars due to the following conflicts:</label>
             <ul>
-                <li ng-repeat="error in data.gui[1]">{{error}}</li>
+                <li ng-repeat="error in data.count[1]">{{error}}</li>
             </ul>
         </div>
 
