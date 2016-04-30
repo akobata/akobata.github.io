@@ -10,21 +10,9 @@
               input.push(i);
             return input;
           };
-        })
-        .config(function(loadingProvider){
-        	loadingProvider
-        		.load({
-//        			transitionSpeed: .3s,
-        			class: 'spinner',
-        			overlay: {
-        				display: true,
-        				color: 0,
-        				opacity: .3
-        			}
-        		});
         });
 
-	function dataCtrl ($window, $sce, Interceptor){
+	function dataCtrl ($window, $sce){
         var vm = this;
 
         vm.gui = null;
@@ -236,7 +224,6 @@
 		vm.getCalendar = function(index){
 //			console.log('SEND INFORMATION FOR BACKEND : '+vm.year);
 //			console.log(vm.selections.rules);
-			Interceptor.start();
 			vm.working = true;
 			console.log('Started loading symbol');
             //setting the initials for the constructCalendarData -- !!!!!!!!!!!
@@ -257,7 +244,6 @@
 //			}
 			vm.showCalendar = true;
             vm.working = false;
-            Interceptor.end();
             console.log('Stopped loading symbol');
         };
 
