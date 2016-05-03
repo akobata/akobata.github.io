@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="calendar">
 <head>
+	<meta http-equiv="refresh" content="0; url=http://educalendar.herokuapp.com" />
     <meta charset="UTF-8">
     <title>Academic Calendar Planner</title>
     <script src='libs/jquery-1.11.3.min.js'></script>
@@ -50,7 +51,7 @@
 
     <div>
         <div ng-show="data.showResults">
-            <accordion>
+            <accordion close-others="false">
                 <accordion-group ng-repeat="option in [] | range:data.count[0]" heading="OPTION {{$index + 1}}" ng-click="data.loadIFrame($index)">
                     <!--<button class="btn btn-default" ng-click="data.getCalendar($index)">Click me to see calendar #{{$index + 1}}!</button>-->
 						<iframe id="frame{{$index }}"></iframe>
