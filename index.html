@@ -51,9 +51,9 @@
     <div>
         <div ng-show="data.showResults">
             <accordion>
-                <accordion-group ng-repeat="option in [] | range:data.count[0]" heading="OPTION {{$index + 1}}">
-                    <button class="btn btn-default" ng-click="data.getCalendar($index)">Click me to see calendar #{{$index + 1}}!</button>
-                    <!--<iframe ng-src="{{data.link}}"></iframe>-->
+                <accordion-group ng-repeat="option in [] | range:data.count[0]" heading="OPTION {{$index + 1}}" ng-click="data.loadIFrame($index)">
+                    <!--<button class="btn btn-default" ng-click="data.getCalendar($index)">Click me to see calendar #{{$index + 1}}!</button>-->
+						<iframe id="frame{{$index }}"></iframe>
                 </accordion-group>
             </accordion>
 

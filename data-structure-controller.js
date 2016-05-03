@@ -221,6 +221,24 @@
 			return selections;
         }
 
+		vm.test = function(index){
+			console.log(index);
+		}
+		
+		vm.targetToString = function(year, endDay, index){
+			return "calendar.html?year="+year+"&date="+endDay+"&sel="+selectionsToBinString(vm.selections.rules)+"&num="+index;
+		}
+		
+		vm.loadIFrame = function(index){
+			var iFrame = document.getElementById("frame" + index);
+			console.log(iFrame);
+			iFrame.src = vm.targetToString(vm.year, vm.endDay, index);
+		}
+		
+		function targetToString(year, endDay, index){
+			return "calendar.html?year="+year+"&date="+endDay+"&sel="+selectionsToBinString(vm.selections.rules)+"&num="+index;
+		}
+		
 		vm.getCalendar = function(index){
 //			console.log('SEND INFORMATION FOR BACKEND : '+vm.year);
 //			console.log(vm.selections.rules);
