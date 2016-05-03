@@ -270,7 +270,6 @@
         	//pdfMake.createPdf(name).open();
         	html2canvas(document.getElementById('printThis'), {
         		onrendered: function(canvas){
-        			document.body.appendChild(canvas);
         			//canvas.print();
         			var data = canvas.toDataURL();
         			//window.open(data);
