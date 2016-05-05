@@ -17,11 +17,9 @@
 
         vm.gui = null;
         var count = [];
-        vm.link = "";
-        vm.working = false;
-        vm.showResults = false;
-        vm.showCalendar = false;
-        vm.oneCalendar = [];
+        vm.index = null;
+        vm.showResults = false; //show accordion
+        vm.showCalendar = false;//show print calendar
         vm.endDay = 17;
         vm.year = new Date().getFullYear();
         var year = new Date().getFullYear();
@@ -98,7 +96,7 @@
 			springAfterMLK: "Spring start after MLK"
 		};
 
-        vm.getCount = function(){
+        function getCount(){
 			var startDate = {};
 			startDate.month = "AUG";
 			startDate.dayNumber = vm.endDay;
@@ -111,18 +109,12 @@
 		}
 
 		vm.getIndexCount = function(){
-					console.log('SEND INFORMATION FOR BACKEND : '+vm.year);
-        			console.log(vm.selections.rules);
-
-//		            var startDate = {};
-//        			startDate.month = "AUG";
-//        			startDate.dayNumber = vm.endDay;
-
-			console.log(count);
-			vm.getCount();
+			console.log('SEND INFORMATION FOR BACKEND : '+vm.year);
+			console.log(vm.selections.rules);
+			getCount();
 			vm.count = count;
 			console.log(count);
-					vm.showResults = true;
+			vm.showResults = true;
 		}
 
 		vm.initializeNewData = function(){
@@ -165,14 +157,24 @@
 				var point = str.lastIndexOf("=");
 				return(str.substring(point+1,str.length));
 			}
-			var index = delineateLast(text);
+			vm.index = delineateLast(text);
 
 			var startDate = {};
 			startDate.month = "AUG";
 			startDate.dayNumber = date;
 
-			vm.gui = constructCalendarData(parseInt(year), startDate, list, false, index);
+			vm.gui = constructCalendarData(parseInt(year), startDate, list, false, vm.index);
 			console.log(vm.gui);
+			console.log(inIFrame())
+			vm.showCalendar = !inIFrame();
+		}
+
+		function inIFrame(){
+		    try {
+		        return window.self !== window.top;
+		    } catch (e){
+		        return true;
+		    }
 		}
 
 		function selectionsToBinString(softErrors){
@@ -224,15 +226,11 @@
 		vm.test = function(index){
 			console.log(index);
 		}
-		
-		vm.targetToString = function(year, endDay, index){
-			return "calendar.html?year="+year+"&date="+endDay+"&sel="+selectionsToBinString(vm.selections.rules)+"&num="+index;
-		}
-		
+
 		vm.loadIFrame = function(index){
 			var iFrame = document.getElementById("frame" + index);
 			console.log(iFrame);
-			iFrame.src = vm.targetToString(vm.year, vm.endDay, index);
+			iFrame.src = targetToString(vm.year, vm.endDay, index);
 		}
 		
 		function targetToString(year, endDay, index){
@@ -240,47 +238,35 @@
 		}
 		
 		vm.getCalendar = function(index){
-//			console.log('SEND INFORMATION FOR BACKEND : '+vm.year);
-//			console.log(vm.selections.rules);
-			vm.working = true;
-			console.log('Started loading symbol');
             //setting the initials for the constructCalendarData -- !!!!!!!!!!!
-            var startDate = {};
-			startDate.month = "AUG";
-			startDate.dayNumber = vm.endDay;
 			var binSelections = selectionsToBinString(vm.selections.rules);
-			console.log(binSelections)
 			$window.open("calendar.html?year="+vm.year+"&date="+vm.endDay+"&sel="+binSelections+"&num="+index);
-			//vm.link = $sce.trustAsResourceUrl("calendar.html?year="+vm.year+"&date="+vm.endDay+"&sel="+binSelections+"&num="+index);
-            //vm.gui = constructCalendarData(parseInt(vm.year), startDate, vm.selections.rules, false, index);
 
-            //console.log(vm.gui);
-//
 //			if(vm.gui[0].length == 0){
 //				console.log("no calendars due to the following conflicts:");
 //				console.log(vm.gui[1]);
 //			}
-			vm.showCalendar = true;
-            vm.working = false;
-            console.log('Stopped loading symbol');
         };
 
-        vm.printPage = function(){
-        	//window.print();
-        	//pdfMake.createPdf(name).open();
-        	html2canvas(document.getElementById('printThis'), {
+        vm.printPage = function(index){
+//        	console.log(index)
+//        	console.log('printThis'+index)
+//        	console.log(document.getElementById('printThis'+index))
+//        	console.log(document.getElementById('printThis'+index).innerHTML)
+
+        	html2canvas(document.getElementById('printThis'+index), {
         		onrendered: function(canvas){
-        			//canvas.print();
         			var data = canvas.toDataURL();
         			//window.open(data);
-        			var img = window.open(data);
-        			data.print();
         			var docDefinition = {
         				content: [{
-        					image: data
+        					image: data,
+        					fit: [595 , 700 ]
+//        					width: 500
         				}]
         			};
-        			//pdfMake.createPdf(docDefinition).open();
+        			pdfMake.createPdf(docDefinition).open();
+//        			pdfMake.createPdf(docDefinition).print();
         		}
         	});
         }

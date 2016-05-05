@@ -6,11 +6,8 @@
     <title>Academic Calendar Planner</title>
     <script src='libs/jquery-1.11.3.min.js'></script>
     <script src='libs/angular.js'></script>
-    <!--<script src='/libs/angular-ui-router.min.js'></script>-->
     <script src='bootstrap/js/bootstrap.min.js'></script>
-    <script src='libs/lodash.min.js'></script>
     <script src='libs/checklist-model.js'></script>
-    <script src='libs/ngLoading.js'></script>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css"/>
     <link rel="stylesheet" href="style.css"/>
     <script src='libs/ui-bootstrap-tpls-0.9.0.min.js'></script>
@@ -42,8 +39,7 @@
         </label>
         <br/>
         <button class="btn btn-default" ng-click="data.getIndexCount()" ng-disabled="alertForm.$invalid">Create Calendar</button><br/>
-        (This may take a minute to create)<br/>
-        <label ng-show="data.working">LOADING...</label><br/>
+        (This may take a minute to create)<br/><br/>
     </form>
 
 
@@ -53,8 +49,8 @@
         <div ng-show="data.showResults">
             <accordion close-others="false">
                 <accordion-group ng-repeat="option in [] | range:data.count[0]" heading="OPTION {{$index + 1}}" ng-click="data.loadIFrame($index)">
-                    <!--<button class="btn btn-default" ng-click="data.getCalendar($index)">Click me to see calendar #{{$index + 1}}!</button>-->
-						<iframe id="frame{{$index }}"></iframe>
+                    <iframe id="frame{{$index}}"></iframe>
+                    <button class="btn btn-default" ng-click="data.getCalendar($index)">Open in a new tab to print!</button>
                 </accordion-group>
             </accordion>
 

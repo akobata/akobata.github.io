@@ -6,23 +6,20 @@
     <script src='libs/jquery-1.11.3.min.js'></script>
     <script src='libs/angular.js'></script>
     <script src='bootstrap/js/bootstrap.min.js'></script>
-    <script src='libs/lodash.min.js'></script>
     <script src='libs/checklist-model.js'></script>
-    <script src='libs/ngLoading.js'></script>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css"/>
     <link rel="stylesheet" href="style.css"/>
     <script src='libs/ui-bootstrap-tpls-0.9.0.min.js'></script>
     <script src='libs/html2canvas.js'></script>
     <script src='libs/pdfmake.min.js'></script>
-    <script src='libs/vfs_fonts.js'></script>
     <script src="app.js"></script>
     <script src="data-structure-controller.js"></script>
 </head>
-<body ng-controller="dataCtrl as data">
+<body ng-controller="dataCtrl as data" ng-init="data.initializeNewData()">
     <form name="hiddenForm">
         <input type="hidden" name="hiddenName">
     </form>
-    <div id="printThis">
+    <div id="printThis{{data.index}}">
         <table cellpadding="1" cellspacing="1" border="1" width="100%">
             <thead>
             <th colspan="10"><strong>Color Legend</strong></th>
@@ -33,8 +30,8 @@
             </tr>
             </tbody>
         </table><br/>
-        <div class="row" ng-init="data.initializeNewData()">
 
+        <div class="row">
             <div class="col-sm-3 month" ng-repeat="month in data.gui.guiTree">
                 <table cellpadding="1" cellspacing="1" border="1" width="250">
                     <thead>
@@ -58,7 +55,7 @@
                 </table><br/>
             </div>
         </div>
-        <!--{{data.gui}}-->
+
         <div class="row">
             <div class="col-sm-6">
                 <table cellpadding="1" cellspacing="1" border="1" width="400">
@@ -230,7 +227,10 @@
         </table>
         <label ng-if="data.gui.candidateEntryData.reportCounts.VETERANS_SWITCH == true">Note: Veteran's Day is switched</label>
         <label ng-if="data.gui.candidateEntryData.reportCounts.VETERANS_SWITCH == false">Note: Veteran's Day is not switched</label>
+    </div><br/>
+    <div ng-show="data.showCalendar">
+        <button class="btn btn-default" ng-click="data.printPage(data.index)">Open this page as PDF!</button>
+        <p>(Works best when screen size allows 3 calendars next to each other)</p>
     </div>
-    <button class="btn btn-default" ng-click="data.printPage()">Print this page!</button>
 </body>
 </html>
